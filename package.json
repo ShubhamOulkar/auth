@@ -1,0 +1,30 @@
+{
+  "name": "auth",
+  "version": "1.0.0",
+  "description": "authentication server",
+  "main": "index.js",
+  "type": "commonjs",
+  "scripts": {
+    "built": "node --watch src/index.js",
+    "createdb": "node modelDb.js"
+  },
+  "keywords": [
+    "jwt",
+    "authentication",
+    "login",
+    "express",
+    "mongodb"
+  ],
+  "author": "shubham oulkar",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.1",
+    "jsonwebtoken": "^9.0.2",
+    "mongodb": "^6.10.0",
+    "morgan": "^1.10.0",
+    "serverless-http": "^3.2.0"
+  }
+}
