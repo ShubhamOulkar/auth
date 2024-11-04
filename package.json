@@ -5,7 +5,7 @@
   "main": "index.js",
   "type": "commonjs",
   "scripts": {
-    "built": "node index.js",
+    "build": "node index.js",
     "createdb": "node modelDb.js"
   },
   "keywords": [
