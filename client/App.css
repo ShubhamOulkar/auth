@@ -1,0 +1,86 @@
+.home {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+ul {
+  width: 100%;
+  list-style-type: none;
+  margin-block: 0;
+  padding-inline-start: 0;
+  display: flex;
+
+  li:nth-child(2) {
+    margin-left: auto;
+  }
+}
+
+.topnav {
+  width: 100%;
+  background-color: #555;
+  height: 3.5rem;
+  transition: all 0.8s;
+}
+
+.topnav a {
+  float: left;
+  display: block;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 1rem;
+  text-decoration: none;
+  font-size: 1rem;
+  width: 5rem;
+}
+
+.topnav a:is(:active, :hover, :focus) {
+  background-color: #04aa6d;
+  color: black;
+  transition: all 0.5s;
+}
+
+.topnav .icon {
+  display: none;
+}
+
+@media screen and (max-width: 600px) {
+  .topnav .uList :not(:first-child, :last-child) {
+    display: none;
+  }
+  .topnav a.icon {
+    float: right;
+    display: block;
+    background-color: #04aa6d;
+  }
+
+  .topnav.responsive {
+    position: relative;
+    height: calc(3 * 3.5rem);
+  }
+  .topnav.responsive .icon {
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+
+  .uList {
+    display: block;
+  }
+
+  .topnav.responsive .uList {
+    li {
+      display: flex;
+      margin: 0;
+    }
+  }
+  .topnav.responsive .uList * {
+    display: block;
+    text-align: left;
+  }
+
+  .topnav a {
+    flex: 1 1 200px;
+    padding-inline: 2rem;
+  }
+}

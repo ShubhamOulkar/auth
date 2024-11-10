@@ -1,5 +1,6 @@
-const db = require("./dbUtils.js");
-require("dotenv").config();
+import db from "./dbUtils.js";
+import { config } from "dotenv";
+config();
 
 const dbName = process.env.DB_NAME;
 const collName = process.env.COLL_NAME;

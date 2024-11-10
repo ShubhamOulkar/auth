@@ -1,6 +1,7 @@
-const { MongoClient } = require("mongodb");
-const ErrorResponse = require("../errorObj/errorClass");
-require("dotenv").config();
+import { MongoClient } from "mongodb";
+import ErrorResponse from "../errorObj/errorClass.js";
+import { config } from "dotenv";
+config();
 
 const dbName = process.env.DB_NAME;
 const collName = process.env.COLL_NAME;
@@ -71,10 +72,4 @@ async function findUser(username) {
   }
 }
 
-module.exports = {
-  connectMongo,
-  closeMongo,
-  createCollection,
-  saveUser,
-  findUser,
-};
+export { connectMongo, closeMongo, createCollection, saveUser, findUser };
