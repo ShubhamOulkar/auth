@@ -1,5 +1,5 @@
-const jwt = require("jsonwebtoken");
-const ErrorResponse = require("../errorObj/errorClass");
+import jwt from "jsonwebtoken";
+import { ErrorResponse } from "../errorObj/errorClass";
 
 function verifyToken(req, res, next) {
   const token = req.header("Authorization");
@@ -19,4 +19,4 @@ function verifyToken(req, res, next) {
   }
 }
 
-module.exports = verifyToken;
+export { verifyToken };

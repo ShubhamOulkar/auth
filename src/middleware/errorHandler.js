@@ -1,4 +1,4 @@
-const ErrorResponse = require("../errorObj/errorClass");
+import { ErrorResponse } from "../errorObj/errorClass";
 
 function errorHandler(err, req, res, next) {
   let error = err;
@@ -14,4 +14,4 @@ function errorHandler(err, req, res, next) {
   });
 }
 
-module.exports = errorHandler;
+export { errorHandler };
