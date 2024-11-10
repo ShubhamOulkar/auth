@@ -12,7 +12,7 @@ import sirv from "sirv";
 import { serverClient, vite } from "./src/middleware/serveReactClient.js";
 
 const isProduction = process.env.NODE_ENV === "production";
-const port = process.env.PORT || 5173;
+const port = process.env.PORT || 0;
 
 // http server applicaton
 const app = express();
