@@ -1,13 +1,12 @@
-const express = require("express");
+import express from "express";
 const router = express.Router();
-const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
-const { saveUser, findUser } = require("../db/dbUtils");
-const verifyToken = require("../middleware/verifySession");
-const ErrorResponse = require("../errorObj/errorClass");
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
+import { saveUser, findUser } from "../db/dbUtils.js";
+import ErrorResponse from "../errorObj/errorClass.js";
 
 // protected route
-router.get("/protected", verifyToken, (req, res) => {
+router.get("/protected", (req, res) => {
   res
     .status(302)
     .json({ message: `protected route is accessed by user ${req.user}` });
@@ -75,4 +74,4 @@ router.post("/login", async (req, res, next) => {
   }
 });
 
-module.exports = router;
+export default router;
