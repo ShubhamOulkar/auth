@@ -93,7 +93,7 @@ app.use("*", async (req, res) => {
       template = await vite.transformIndexHtml(url, template);
       render = (
         await vite.ssrLoadModule(
-          path.join(__dirname, "./client/entry-server.jsx")
+          path.join(__dirname, "./client/entry-server.tsx")
         )
       ).render;
     } else {

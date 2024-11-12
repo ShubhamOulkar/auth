@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { VscThreeBars } from "react-icons/vsc";
+import React from "react";
 
 export default function NavBar() {
   return (
