@@ -13,7 +13,6 @@ export function Router() {
         <Route path="login" element={<LoginForm />} />
         <Route path="logout" element={<LogoutForm />} />
       </Route>
-
       <Route path="*" element={<InvalidReq />} />
     </Routes>
   );

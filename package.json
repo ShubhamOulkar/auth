@@ -4,11 +4,11 @@
   "description": "authentication server",
   "type": "module",
   "scripts": {
-    "development": "cross-env NODE_ENV=development node server",
-    "build": "pnpm run build:client && pnpm run build:server",
+    "development": "cross-env NODE_ENV=development node server.js",
+    "build": "pnpm run build:client && pnpm run build:server ",
     "build:client": "vite build --ssrManifest --outDir dist/client",
     "build:server": "vite build --ssr client/entry-server.jsx --outDir dist/server",
-    "production": "cross-env NODE_ENV=production node server"
+    "production": "cross-env NODE_ENV=production node server.js"
   },
   "keywords": [
     "jwt",
