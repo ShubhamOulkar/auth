@@ -48,6 +48,13 @@ ul {
   .topnav .uList :not(:first-child, :last-child) {
     display: none;
   }
+  .topnav {
+    height: 2.5rem;
+  }
+  .topnav a {
+    padding: 0.5rem;
+    width: 2rem;
+  }
   .topnav a.icon {
     float: right;
     display: block;

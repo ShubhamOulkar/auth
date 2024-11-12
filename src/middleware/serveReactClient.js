@@ -5,6 +5,7 @@ import fs from "node:fs/promises";
 import { config } from "dotenv";
 config();
 import { createServer as createDevServer } from "vite";
+import app from "../../server.js";
 
 const isProduction = process.env.NODE_ENV === "production";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -25,11 +26,44 @@ const ssrManifest = isProduction
 
 // vite build production bundle and store in dist folder and
 //for development we have to configure vite server
-export let vite;
+let vite;
+// vite = await createDevServer({
+//   server: { middlewareMode: true },
+//   appType: "custom",
+// });
+
 vite = await createDevServer({
-  server: { middlewareMode: true },
+  server: {
+    middlewareMode: true,
+  },
   appType: "custom",
 });
+
+/*
+import http from 'http'
+import { createServer } from 'vite'
+
+const parentServer = http.createServer() // or express, koa, etc.
+
+const vite = await createServer({
+  server: {
+    // Enable middleware mode
+    middlewareMode: {
+      // Provide the parent http server for proxy WebSocket
+      server: parentServer,
+    },
+    proxy: {
+      '/ws': {
+        target: 'ws://localhost:3000',
+        // Proxying WebSocket
+        ws: true,
+      },
+    },
+  },
+})
+
+parentServer.use(vite.middlewares)
+ */
 
 export async function serverClient(req, res) {
   try {
