@@ -1,3 +1,4 @@
+import React from "react";
 import { Router } from "./routes/browserRoutes";
 
 // Works also with SSR as expected

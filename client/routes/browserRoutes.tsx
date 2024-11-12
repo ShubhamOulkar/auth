@@ -1,9 +1,10 @@
 import { Routes, Route } from "react-router-dom";
-import Home from "../components/Home.";
+import Home from "../components/Home";
 import LoginForm from "../components/LoginForm";
 import LogoutForm from "../components/LogoutForm";
 import InvalidReq from "../components/InvalidReq";
 import ProjectInfo from "../components/ProjectInfo";
+import React from "react";
 
 export function Router() {
   return (
