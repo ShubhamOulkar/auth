@@ -2,6 +2,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  gap: 1.8rem;
 }
 
 ul {
@@ -18,9 +19,10 @@ ul {
 
 .topnav {
   width: 100%;
-  background-color: #555;
-  height: 3.5rem;
-  transition: all 0.8s;
+  background-color: var(--top-nav-background-color);
+  height: var(--nav-bar-height);
+  border-radius: var(--border-radius);
+  transition: var(--transition-effect);
 }
 
 .topnav a {
@@ -28,23 +30,58 @@ ul {
   display: block;
   color: #f2f2f2;
   text-align: center;
-  padding: 1rem;
+  padding-inline: var(--padding-inline);
+  padding-block: var(--padding-block);
   text-decoration: none;
-  font-size: 1rem;
+  font-size: 1.5rem;
   width: 5rem;
 }
 
 .topnav a:is(:active, :hover, :focus) {
-  background-color: #04aa6d;
+  background-color: var(--button-background-color);
   color: black;
-  transition: all 0.5s;
+  transition: var(--transition-effect);
 }
 
 .topnav .icon {
   display: none;
 }
 
+.card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 25rem;
+  border: 1px solid wheat;
+  border-radius: var(--border-radius);
+  padding: var(--padding-inline);
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  gap: 0.5rem;
+  width: inherit;
+
+  & :last-child {
+    margin-top: var(--padding-inline);
+  }
+}
+
 @media screen and (max-width: 600px) {
+  .home {
+    gap: 1rem;
+  }
+  .card {
+    width: 16rem;
+    padding: 0.5rem;
+  }
+
+  .form {
+    gap: 0.5rem;
+  }
+
   .topnav .uList :not(:first-child, :last-child) {
     display: none;
   }
@@ -54,16 +91,25 @@ ul {
   .topnav a {
     padding: 0.5rem;
     width: 2rem;
+    font-size: medium;
   }
   .topnav a.icon {
     float: right;
     display: block;
-    background-color: #04aa6d;
+    background-color: var(--button-background-color);
+    width: 20px;
+    height: 1.5rem;
+    border-top-right-radius: var(--border-radius);
+    border-bottom-right-radius: var(--border-radius);
+  }
+
+  .topnav.responsive a.icon {
+    border-bottom-right-radius: 0;
   }
 
   .topnav.responsive {
     position: relative;
-    height: calc(3 * 3.5rem);
+    height: calc(2.3 * var(--nav-bar-height));
   }
   .topnav.responsive .icon {
     position: absolute;
@@ -89,5 +135,11 @@ ul {
   .topnav a {
     flex: 1 1 200px;
     padding-inline: 2rem;
+  }
+}
+
+@media screen and (max-width: 285px) {
+  .card {
+    width: 12rem;
   }
 }

@@ -14,10 +14,12 @@ import verifyToken from "./src/middleware/verifySession.js";
 import errorHandler from "./src/middleware/errorHandler.js";
 import compression from "compression";
 import sirv from "sirv";
+import clientHttpValidation from "./src/middleware/clientHttpValidation.js";
 
 const port = process.env.PORT || 3330;
 const isProduction = process.env.NODE_ENV === "production";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const clientFolderpath = "dist/client";
 
 //cached production assets
 const templateHtml = isProduction
@@ -74,11 +76,13 @@ if (!isProduction) {
   app.use(compression());
   //server static assets in production
   app.use("/", sirv("./dist/client", { extensions: [] }));
+  // cache validation
+  app.use(clientHttpValidation(clientFolderpath));
 }
 
 // React component rendering client route
 // serve home page
-// must use *, otherwise on page refresh client sent get request to server
+// must use *, otherwise on page refresh; client sent get request to server
 // and server will send http code on all request
 app.use("*", async (req, res) => {
   try {
@@ -114,9 +118,7 @@ app.use("*", async (req, res) => {
         res.status(didError ? 500 : 200);
         res.set({
           "Content-Type": "text/html",
-          "Cache-Control": "public, max-age=10",
-          Expires: new Date(Date.now() + 10).toUTCString(), // expires in 10 sec
-          Vary: "Accept-Encoding",
+          // "Last-Modified": lastModifiedDate,
         });
 
         const transformStream = new Transform({
@@ -154,14 +156,18 @@ app.use("*", async (req, res) => {
 
 app
   .listen(port, () => {
-    console.log(`Auth-SSR server is running at http://localhost:${port}`);
+    console.log(
+      `Auth-SSR ${process.env.NODE_ENV} server is running at http://localhost:${port}`
+    );
   })
   .on("error", (error) => {
     if (error.code === "EADDRINUSE") {
       console.log(`Port ${port} is in use, trying another port...`);
       app.listen(port + 1, () => {
         console.log(
-          `Auth-SSR server is now running at http://localhost:${port + 1}`
+          `Auth-SSR ${
+            process.env.NODE_ENV
+          } server is now running at http://localhost:${port + 1}`
         );
       });
     }
