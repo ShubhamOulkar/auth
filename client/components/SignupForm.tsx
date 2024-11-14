@@ -9,7 +9,7 @@ type Inputs = {
   confirmPassword: string;
 };
 
-function LoginForm() {
+function SignupForm() {
   const {
     register,
     handleSubmit,
@@ -27,18 +27,28 @@ function LoginForm() {
           User first name{" "}
           {errors.firstname && <span> * This field is required</span>}
         </label>
-        <input type="text" {...register("firstname", { required: true })} />
+        <input
+          id="firstname"
+          type="text"
+          autoFocus={true}
+          {...register("firstname", { required: true })}
+        />
 
         <label htmlFor="lastname">
           User last name
           {errors.lastname && <span> * This field is required</span>}
         </label>
-        <input type="text" {...register("lastname", { required: true })} />
+        <input
+          id="lastname"
+          type="text"
+          {...register("lastname", { required: true })}
+        />
 
         <label htmlFor="email">
           Email address{errors.email && <span> * This field is required</span>}
         </label>
         <input
+          id="email"
           type="email"
           placeholder="abcd@xyz.com"
           {...register("email", { required: true })}
@@ -48,13 +58,18 @@ function LoginForm() {
           Create password
           {errors.password && <span> * This field is required</span>}
         </label>
-        <input type="password" {...register("password", { required: true })} />
+        <input
+          id="password"
+          type="password"
+          {...register("password", { required: true })}
+        />
 
         <label htmlFor="confirmPassword">
           Confirm password
           {errors.confirmPassword && <span> * This field is required</span>}
         </label>
         <input
+          id="confirmPassword"
           type="password"
           {...register("confirmPassword", { required: true })}
         />
@@ -65,4 +80,4 @@ function LoginForm() {
   );
 }
 
-export default LoginForm;
+export default SignupForm;

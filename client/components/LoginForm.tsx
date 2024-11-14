@@ -28,8 +28,11 @@ function LoginForm() {
           {errors.email && <span> * This field is required</span>}
         </label>
         <input
+          id="email"
           type="email"
           placeholder="abcd@xyz.com"
+          autoComplete="true"
+          autoFocus={true}
           {...register("email", { required: true })}
         />
 
@@ -37,7 +40,12 @@ function LoginForm() {
           Enter password
           {errors.password && <span> * This field is required</span>}
         </label>
-        <input type="password" {...register("password", { required: true })} />
+        <input
+          id="password"
+          type="password"
+          autoComplete="true"
+          {...register("password", { required: true })}
+        />
 
         <button type="submit">Submit</button>
       </form>

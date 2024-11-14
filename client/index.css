@@ -1,12 +1,24 @@
 :root {
+  /* custom css variables */
+  --border-radius: 5px;
+  --border-size: 2px;
+  --dark-blue-color: hsl(207, 72%, 13%);
+  --button-background-color: hsl(208, 82%, 79%);
+  --top-nav-background-color: hsl(0, 0%, 41%);
+  --transition-effect: all 0.5s;
+  --padding-inline: 1rem;
+  --padding-block: 0.3rem;
+  --margin-block: var(--padding-block);
+  --nav-bar-height:3.3rem
+
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
   box-sizing: border-box;
 
   color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  color: hsl(0, 0%, 100%, 0.87);
+  background-color: var(--dark-blue-color);
   margin: 0;
   padding: 0;
 
@@ -19,33 +31,39 @@
 
 input {
   border: none;
+  appearance: none;
 }
 
 input,
 button {
   height: 2rem;
-  border-radius: 5px;
-  padding-block: 0.3rem;
-  padding-inline: 1rem;
+  border-radius: var(--border-radius);
+  padding-block: var(--padding-block);
+  padding-inline: var(--padding-inline);
   font-size: large;
   width: -webkit-fill-available;
-  transition: all 0.5s;
+  width: -moz-available;
+  transition: var(--transition-effect);
+}
+
+button{
+  height: 2.5rem;
 }
 
 button:is(:active, :focus, :hover) {
-  border: 2px solid rgb(9, 34, 55);
-  background-color: rgb(156, 203, 245);
-  color: rgb(9, 34, 55);
+  border: var(--border-size) solid var(--dark-blue-color);
+  background-color: var(--button-background-color);
+  color: var(--dark-blue-color);
 }
 
 input:is(:active, :focus, :hover) {
-  border: 2px solid white;
+  border: var(--border-size) solid white;
 }
 
 h1 {
   text-align: center;
   margin-block-start: 0;
-  margin-block-end: 0.5rem;
+  margin-block-end: var(--margin-block);
 }
 
 label {
@@ -76,5 +94,12 @@ span {
 
   h1 {
     font-size: x-large;
+    text-align: left;
+  }
+
+  button{
+    height: 1.8rem;
+    font-size: small;
+    font-weight: 700;
   }
 }
