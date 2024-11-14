@@ -13,7 +13,7 @@ export default function NavBar() {
           <Link to="/login">login</Link>
         </li>
         <li>
-          <Link to="/logout">logout</Link>
+          <Link to="/signup">Signup</Link>
         </li>
         <li>
           <Link className="icon" onClick={myFunction}>
@@ -26,7 +26,7 @@ export default function NavBar() {
 }
 
 function myFunction() {
-  let x = document.getElementById("myTopnav");
+  let x = document.getElementById("myTopnav") as HTMLElement;
   if (x.className === "topnav") {
     x.className += " responsive";
   } else {

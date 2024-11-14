@@ -12,7 +12,7 @@ export function Router() {
       <Route path="/" element={<Home />}>
         <Route index element={<ProjectInfo />} />
         <Route path="login" element={<LoginForm />} />
-        <Route path="logout" element={<LogoutForm />} />
+        <Route path="signup" element={<LogoutForm />} />
       </Route>
       <Route path="*" element={<InvalidReq />} />
     </Routes>

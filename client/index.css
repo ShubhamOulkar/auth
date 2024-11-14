@@ -2,6 +2,7 @@
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
+  box-sizing: border-box;
 
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
@@ -14,4 +15,66 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
+}
+
+input {
+  border: none;
+}
+
+input,
+button {
+  height: 2rem;
+  border-radius: 5px;
+  padding-block: 0.3rem;
+  padding-inline: 1rem;
+  font-size: large;
+  width: -webkit-fill-available;
+  transition: all 0.5s;
+}
+
+button:is(:active, :focus, :hover) {
+  border: 2px solid rgb(9, 34, 55);
+  background-color: rgb(156, 203, 245);
+  color: rgb(9, 34, 55);
+}
+
+input:is(:active, :focus, :hover) {
+  border: 2px solid white;
+}
+
+h1 {
+  text-align: center;
+  margin-block-start: 0;
+  margin-block-end: 0.5rem;
+}
+
+label {
+  display: flex;
+  width: inherit;
+}
+
+span {
+  color: red;
+  font-size: small;
+  margin-left: auto;
+}
+
+@media screen and (max-width: 600px) {
+  input {
+    height: 1rem;
+    font-size: smaller;
+  }
+
+  label {
+    flex-direction: column;
+  }
+
+  span {
+    font-size: x-small;
+    margin-left: 0;
+  }
+
+  h1 {
+    font-size: x-large;
+  }
 }

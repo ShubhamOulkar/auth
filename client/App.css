@@ -2,6 +2,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  gap: 1.8rem;
 }
 
 ul {
@@ -19,7 +20,8 @@ ul {
 .topnav {
   width: 100%;
   background-color: #696868;
-  height: 3.5rem;
+  height: 3.3rem;
+  border-radius: 5px;
   transition: all 0.8s;
 }
 
@@ -28,9 +30,10 @@ ul {
   display: block;
   color: #f2f2f2;
   text-align: center;
-  padding: 1rem;
+  padding-inline: 1rem;
+  padding-block: 0.5rem;
   text-decoration: none;
-  font-size: 1rem;
+  font-size: 1.5rem;
   width: 5rem;
 }
 
@@ -44,7 +47,37 @@ ul {
   display: none;
 }
 
+.card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 25rem;
+  border: 1px solid wheat;
+  border-radius: 5px;
+  padding: 1rem;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  gap: 0.5rem;
+  width: inherit;
+}
+
 @media screen and (max-width: 600px) {
+  .home {
+    gap: 1rem;
+  }
+  .card {
+    width: 16rem;
+    padding: 0.5rem;
+  }
+
+  .form {
+    gap: 0.5rem;
+  }
+
   .topnav .uList :not(:first-child, :last-child) {
     display: none;
   }
@@ -54,16 +87,25 @@ ul {
   .topnav a {
     padding: 0.5rem;
     width: 2rem;
+    font-size: medium;
   }
   .topnav a.icon {
     float: right;
     display: block;
     background-color: #04aa6d;
+    width: 20px;
+    height: 1.5rem;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+  }
+
+  .topnav.responsive a.icon {
+    border-bottom-right-radius: 0;
   }
 
   .topnav.responsive {
     position: relative;
-    height: calc(3 * 3.5rem);
+    height: calc(2.3 * 3.3rem);
   }
   .topnav.responsive .icon {
     position: absolute;
@@ -89,5 +131,11 @@ ul {
   .topnav a {
     flex: 1 1 200px;
     padding-inline: 2rem;
+  }
+}
+
+@media screen and (max-width: 285px) {
+  .card {
+    width: 12rem;
   }
 }

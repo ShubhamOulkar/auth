@@ -14,8 +14,6 @@ import verifyToken from "./src/middleware/verifySession.js";
 import errorHandler from "./src/middleware/errorHandler.js";
 import compression from "compression";
 import sirv from "sirv";
-// import clientHttpValidation from "./src/utilities/clientHttpValidation.js";
-// import getFileModifiedTime from "./src/utilities/getFileModifiedTime.js";
 import clientHttpValidation from "./src/middleware/clientHttpValidation.js";
 
 const port = process.env.PORT || 3330;
@@ -88,16 +86,6 @@ if (!isProduction) {
 // and server will send http code on all request
 app.use("*", async (req, res) => {
   try {
-    // caching response in production only
-    // let validation = await clientHttpValidation(req, clientFilepath);
-
-    // if (validation.ok && isProduction) {
-    //   res.setHeader("Cache-Control", "no-cache");
-    //   res.setHeader("Last-Modified", validation.time);
-    //   res.sendStatus(304);
-    //   return;
-    // }
-
     const url = req.originalUrl;
 
     let template;
@@ -119,9 +107,6 @@ app.use("*", async (req, res) => {
     }
 
     let didError = false;
-
-    // set last modified date for client validation
-    // const lastModifiedDate = await getFileModifiedTime(clientFilepath);
 
     const { pipe, abort } = render(url, ssrManifest, {
       onShellError() {
