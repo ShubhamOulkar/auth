@@ -7,7 +7,7 @@ export default function NavBar() {
     <nav className="topnav" id="myTopnav">
       <ul className="uList">
         <li>
-          <Link to="/">home</Link>
+          <Link to="/">Home</Link>
         </li>
         <li>
           <Link to="/login">login</Link>
@@ -16,9 +16,9 @@ export default function NavBar() {
           <Link to="/signup">Signup</Link>
         </li>
         <li>
-          <Link className="icon" onClick={myFunction}>
+          <a className="icon" onClick={myFunction}>
             <VscThreeBars />
-          </Link>
+          </a>
         </li>
       </ul>
     </nav>

@@ -4,6 +4,7 @@
   "description": "authentication server",
   "type": "module",
   "scripts": {
+    "clean": "rmdir dist",
     "dev": "cross-env NODE_ENV=development node server.js",
     "build": "pnpm run build:client && pnpm run build:server ",
     "build:client": "vite build --ssrManifest --outDir dist/client",
@@ -15,7 +16,9 @@
     "authentication",
     "login",
     "express",
-    "mongodb"
+    "mongodb",
+    "SSR",
+    "React"
   ],
   "author": "shubham oulkar",
   "license": "ISC",

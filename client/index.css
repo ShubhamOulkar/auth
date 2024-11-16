@@ -9,7 +9,10 @@
   --padding-inline: 1rem;
   --padding-block: 0.3rem;
   --margin-block: var(--padding-block);
-  --nav-bar-height:3.3rem
+  --nav-bar-height: 3.3rem;
+  --outline-focus-style: white solid var(--border-size);
+  --outline-invalid-style: var(--tooltip-color) solid var(--border-size);
+  --tooltip-color: hsla(0, 97%, 57%, 0.737);
 
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -36,6 +39,7 @@ input {
 
 input,
 button {
+  cursor: pointer;
   height: 2rem;
   border-radius: var(--border-radius);
   padding-block: var(--padding-block);
@@ -46,18 +50,29 @@ button {
   transition: var(--transition-effect);
 }
 
-button{
+button {
   height: 2.5rem;
 }
 
 button:is(:active, :focus, :hover) {
-  border: var(--border-size) solid var(--dark-blue-color);
   background-color: var(--button-background-color);
   color: var(--dark-blue-color);
+  outline: var(--outline-focus-style);
+}
+
+button:disabled {
+  background-color: var(--tooltip-color);
+  color: white;
+  cursor: not-allowed;
 }
 
 input:is(:active, :focus, :hover) {
-  border: var(--border-size) solid white;
+  outline: var(--outline-focus-style);
+}
+
+input.invalid {
+  outline: var(--outline-invalid-style);
+  background-color: hsla(0, 79%, 78%, 0.584);
 }
 
 h1 {
@@ -67,14 +82,34 @@ h1 {
 }
 
 label {
+  cursor: pointer;
   display: flex;
   width: inherit;
+  position: relative;
 }
 
 span {
-  color: red;
+  position: absolute;
+  top: 0;
+  left: 12rem;
+  color: white;
   font-size: small;
   margin-left: auto;
+  width: max-content;
+  background-color: var(--tooltip-color);
+  border-radius: var(--border-radius);
+  padding: var(--padding-block);
+}
+
+span::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 20%;
+  margin-left: -5px;
+  border-width: 7px;
+  border-style: solid;
+  border-color: var(--tooltip-color) transparent transparent transparent;
 }
 
 @media screen and (max-width: 600px) {
@@ -83,13 +118,9 @@ span {
     font-size: smaller;
   }
 
-  label {
-    flex-direction: column;
-  }
-
   span {
     font-size: x-small;
-    margin-left: 0;
+    left: 9rem;
   }
 
   h1 {
@@ -97,7 +128,7 @@ span {
     text-align: left;
   }
 
-  button{
+  button {
     height: 1.8rem;
     font-size: small;
     font-weight: 700;
