@@ -39,12 +39,12 @@ async function createCollection(databaseName, collectionName, schema) {
 
 async function saveUser(username, password) {
   try {
-    await client
+    const result = await client
       .db(dbName)
       .collection(collName)
       .insertOne({ user: username, pass: password });
 
-    console.log("user is saved");
+    console.log("user is saved", result);
   } catch (err) {
     console.error("Error in storing new user:", err.errmsg);
 
@@ -72,4 +72,47 @@ async function findUser(username) {
   }
 }
 
-export { connectMongo, closeMongo, createCollection, saveUser, findUser };
+// following function will be replaced with redis db opeartions
+async function saveCsrf(collection, hash, jwt) {
+  try {
+    const csrfInstance = client.db(dbName).collection(collection);
+    const result = await csrfInstance.insertOne({ _id: hash, jwt: jwt });
+    console.log("hash is saved", result);
+  } catch (err) {
+    console.error(err);
+    if (err.code === 11000) throw new ErrorResponse("hash already exists", 500);
+    throw err;
+  }
+}
+
+async function findCsrfHash(collection, hash) {
+  try {
+    const csrfToken = await client
+      .db(dbName)
+      .collection(collection)
+      .findOne({ _id: hash });
+
+    if (!csrfToken) {
+      throw new ErrorResponse(
+        "invalid csrf token : csrf token not found in db",
+        500
+      );
+    }
+
+    console.log("csrf token found in db", hash);
+    return csrfToken;
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }
+}
+
+export {
+  connectMongo,
+  closeMongo,
+  createCollection,
+  saveUser,
+  findUser,
+  saveCsrf,
+  findCsrfHash,
+};

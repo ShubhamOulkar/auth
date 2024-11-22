@@ -4,6 +4,7 @@ import LoginFormSchema from "../validation/loginFormSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { LoginInputs } from "../types/formFieldsTypes";
 import Label from "../components/FieldLabel";
+import GoogleBtn from "../components/GoogleBtn";
 
 function LoginPage() {
   const {
@@ -52,6 +53,7 @@ function LoginPage() {
           Submit
         </button>
       </form>
+      <GoogleBtn />
     </div>
   );
 }

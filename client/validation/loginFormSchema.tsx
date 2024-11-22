@@ -5,7 +5,8 @@ const LoginFormSchema = z.object({
   email: z
     .string()
     .min(1, "Valid email is required")
-    .email({ message: "invalid email address" }),
+    .email({ message: "invalid email address" })
+    .trim(),
   // password is invalid if less than 8 characters, do not contain at least a number and special character
   // client only get not valid password error, because hiding password strengths while login
   // but for signup form show error message to the client

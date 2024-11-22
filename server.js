@@ -10,13 +10,14 @@ import { config } from "dotenv";
 config();
 import auth from "./src/routes/auth.js";
 import { connectMongo } from "./src/db/dbUtils.js";
-import verifyToken from "./src/middleware/verifySession.js";
 import errorHandler from "./src/middleware/errorHandler.js";
 import compression from "compression";
 import sirv from "sirv";
 import clientHttpValidation from "./src/middleware/clientHttpValidation.js";
+import googleAuth from "./src/routes/googleVerify.js";
+import setSessionAndCsrfToken from "./src/middleware/setSessionAndCsrfToken.js";
 
-const port = process.env.PORT || 3330;
+const port = process.env.PORT || 5500;
 const isProduction = process.env.NODE_ENV === "production";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const clientFolderpath = "dist/client";
@@ -58,7 +59,10 @@ app.use(cors(corsOptions));
 app.use(express.json());
 
 // authontication and authorization routes
-app.use("/auth", verifyToken, auth);
+app.use("/auth", auth);
+// google indentity checker
+app.use("/google", googleAuth);
+
 app.use(errorHandler);
 
 // in development add vite middleware
@@ -79,6 +83,10 @@ if (!isProduction) {
   // cache validation
   app.use(clientHttpValidation(clientFolderpath));
 }
+
+// set cookie for session ID and csrf token on page load or refresh
+// ! ⬆️ add this middware before cache validation in production ⬆️
+app.use(setSessionAndCsrfToken);
 
 // React component rendering client route
 // serve home page
@@ -118,7 +126,6 @@ app.use("*", async (req, res) => {
         res.status(didError ? 500 : 200);
         res.set({
           "Content-Type": "text/html",
-          // "Last-Modified": lastModifiedDate,
         });
 
         const transformStream = new Transform({
@@ -157,7 +164,7 @@ app.use("*", async (req, res) => {
 app
   .listen(port, () => {
     console.log(
-      `Auth-SSR ${process.env.NODE_ENV} server is running at http://localhost:${port}`
+      `Auth-SSR ${process.env.NODE_ENV} server is running at http://127.0.0.1:${port}`
     );
   })
   .on("error", (error) => {

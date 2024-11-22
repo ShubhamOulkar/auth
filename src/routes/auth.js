@@ -4,7 +4,9 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { saveUser, findUser } from "../db/dbUtils.js";
 import ErrorResponse from "../errorObj/errorClass.js";
+import verifyToken from "../middleware/verifySession.js";
 
+router.use(verifyToken);
 // protected route
 router.get("/protected", (req, res) => {
   res

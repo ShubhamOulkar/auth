@@ -5,7 +5,7 @@ import App from "./App";
 import React from "react";
 
 hydrateRoot(
-  document.getElementById("root"),
+  document.getElementById("root") as HTMLDivElement,
   <StrictMode>
     <BrowserRouter
       future={{
