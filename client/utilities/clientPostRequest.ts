@@ -23,6 +23,8 @@ async function clientPostRequest(
     if (data?.success) {
       // if response is success return data
       return data;
+    } else {
+      return data; // this is error data
     }
   } catch (err) {
     console.error("error in client post request:", err);

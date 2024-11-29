@@ -20,7 +20,7 @@ const ButtonConfiguration = {
   shape: "square", //rectangular, pill, circle
   logo_alignment: "left", //"left", "right", "center"
   width: "300px", // max 400px
-  locale: "zh_CN",
+  locale: "en_IN",
   // click_listener: onClickHandler,
 };
 
