@@ -6,19 +6,6 @@ import React, { useState, useEffect } from "react";
 import SignupPage from "../pages/SignupPage";
 import ProjectInfoPage from "../pages/ProjectInfoPage";
 import ProfilePage from "../pages/ProfilePage";
-import getCookie from "../utilities/getCookie";
-
-const PrivateRoute = ({ children }) => {
-  const [auth0, setAuth0] = useState(true);
-
-  useEffect(() => {
-    const key = getCookie("key");
-
-    key instanceof Error ? setAuth0(false) : setAuth0(true);
-  }, []);
-
-  return auth0 ? children : <Navigate to="/login" />;
-};
 
 export function Router() {
   return (

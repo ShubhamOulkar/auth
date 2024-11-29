@@ -26,7 +26,9 @@ async function sendGoogleIndentity(response: { credential: any }) {
 
       if (response.success) {
         window.location = response.redirect;
-        return response;
+      } else {
+        //@ts-ignore
+        window.location = "/login";
       }
     }
   } catch (err) {

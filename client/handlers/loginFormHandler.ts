@@ -34,6 +34,8 @@ const loginFormHandler: SubmitHandler<LoginInputs> = async (data) => {
 
       if (response.success) {
         return response;
+      } else {
+        return response; //error data
       }
     }
   } catch (err) {

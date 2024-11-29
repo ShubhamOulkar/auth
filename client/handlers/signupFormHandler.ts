@@ -36,6 +36,8 @@ const signupFormHandler = async (data: SignupInputs) => {
 
       if (response.success) {
         return response;
+      } else {
+        return response;
       }
     }
   } catch (err) {
