@@ -1,76 +1,88 @@
 import express from "express";
 const router = express.Router();
 import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
 import { saveUser, findUser } from "../db/dbUtils.js";
-import ErrorResponse from "../errorObj/errorClass.js";
-import verifyToken from "../middleware/verifySession.js";
+import verifySession from "../middleware/verifySession.js";
+import { throwError } from "../utilities/utils.js";
+import getAuthenticationKay from "../utilities/getAuthenticationKey.js";
 
-router.use(verifyToken);
-// protected route
-router.get("/protected", (req, res) => {
-  res
-    .status(302)
-    .json({ message: `protected route is accessed by user ${req.user}` });
-});
+//verify cross site forgery request and session id
+router.use(verifySession);
 
-// user registration
-router.post("/register", async (req, res, next) => {
+// user login
+router.post("/login", async (req, res, next) => {
   try {
-    const {
-      data: { name: username, password },
-    } = req.body;
+    //TODO validate form data
 
-    if (!username || !password) {
-      console.error("invalid request body");
-      throw new ErrorResponse("Requested body is invalid", 500);
-    }
+    const { email, password } = res.locals.formData;
 
-    const hashPass = await bcrypt.hash(password, 10);
-    await saveUser(username, hashPass);
+    !email || (!password && throwError("Requested body is invalid", 500));
+
+    const data = await findUser(email);
+
+    // check password
+    const passMatch = await bcrypt.compare(password, data.password);
+
+    !passMatch && throwError("Authentication failed, password is wrong.");
+
+    const key = getAuthenticationKay(data.email);
+
+    //TODO save key in cache for 1hr
+
+    // set auth key for 1hr
+    res.cookie("key", key, {
+      maxAge: 3600000,
+      secure: true,
+      sameSite: "strict",
+    });
+
+    // send response to the client
     res.setHeader("Content-Type", "application/json");
-    res.status(201).json({ message: "user registred successfully." });
+
+    res.status(200).json({
+      success: true,
+      msg: `User ${data.email} login successfully.`,
+      redirect: "/profile",
+    });
+
+    console.log(`${email} login successful`);
   } catch (err) {
     next(err);
   }
 });
 
-// user login
-router.post("/login", async (req, res, next) => {
+// user registration
+router.post("/register", async (req, res, next) => {
   try {
-    const {
-      data: { name: username, password },
-    } = req.body;
+    const formData = res.locals.formData;
 
-    if (!username || !password) {
-      console.error("invalid request body");
-      throw new ErrorResponse("Requested body is invalid", 500);
-    }
+    //throw error on invalid form data
+    !formData.username ||
+      (!formData.password && throwError("Requested body is invalid", 500));
 
-    const data = await findUser(username);
+    // validate form data
 
-    // check password match
-    const passMatch = await bcrypt.compare(password, data.pass);
+    //hash password
+    formData.password = await bcrypt.hash(formData.password, 10);
+    // add default field email_verified is false
+    formData.email_verified = false;
 
-    if (!passMatch) {
-      console.error(`but ${username} entered wrong password.`);
-      throw new ErrorResponse("Authentication failed, password is wrong.", 401);
-    }
+    // add googleSub none
+    formData.googleSub = `${formData.email} is not verified by google`;
 
-    const token = jwt.sign({ user: data.user }, "my-secret-key", {
-      expiresIn: "1h",
-    });
+    // save user into database
+    const result = await saveUser(formData);
 
+    // send response to the client
     res.setHeader("Content-Type", "application/json");
-    //! set token as cookie, add Secure attribute in https
-    // res.setHeader(
-    //   "Set-Cookie",
-    //   `token=${token}; Domain=localhost;  Max-Age=3600; HttpOnly; Path=/`
-    // );
+    result &&
+      res.status(201).json({
+        success: true,
+        msg: `User ${formData.email} registred successfully. Please login using credentials`,
+        redirect: "/login",
+      });
 
-    res.send({ token: token });
-
-    console.log(`${username} login`);
+    console.log(`${formData.email} registerd successfully.`);
   } catch (err) {
     next(err);
   }

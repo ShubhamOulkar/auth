@@ -3,9 +3,29 @@ import generateSessionId from "../utilities/getSessionId.js";
 import ErrorResponse from "../errorObj/errorClass.js";
 import { config } from "dotenv";
 config();
-import { saveCsrf } from "../db/dbUtils.js";
+import { saveCsrf, deleteCsrfToken } from "../db/dbUtils.js";
+import getCookies from "../utilities/getCookies.js";
+import { base64url } from "jose";
+import decryptJwtToken from "../utilities/decryptJwtToken.js";
 
 const csrfColl = process.env.CSRF_COLLECTION;
+const SESSION_SECRET = process.env.SESSION_SECRET;
+const sessionSecreteKey = base64url.decode(SESSION_SECRET);
+
+const cookieOption = {
+  secure: true,
+  path: "/",
+  sameSite: "strict",
+  expires: new Date(Date.now() + 12000),
+  maxAge: 120000,
+};
+
+const sessionDecryptOptions = {
+  issuer: process.env.JWT_ISSURE,
+  audience: process.env.JWT_AUDIENCE,
+  subject: process.env.JWT_SUBJECT,
+};
+
 /*
 Setting session cookies
 
@@ -16,35 +36,36 @@ Setting session cookies
  *client can not modify session id => HttpOnly
  *send cookie only HTTPS => Secure
  *stop csrf attack => SameSite="strict"
- *do not set Max-Age and Expires attributes because cookie must be stored for that session
+ *set Max-Age and Expires attributes because cookie must be stored for that session
  *do not add Domain because without domain means cookie only send to server.
  */
 
 async function setSessionAndCsrfToken(req, res, next) {
   try {
-    // generate session id
-    const sessionId = await generateSessionId();
-    // set cookie for session id
-    res.cookie(process.env.SESSION_COOKIE_NAME, sessionId, {
-      secure: true,
-      httpOnly: true,
-      path: "/",
-      sameSite: "strict",
-    });
+    const cookie = getCookies(req);
 
-    // generate casrf token using session id
-    const { csrfHash: csrfToken, jwtCsrf } = await generateCsrfToken(sessionId);
+    if (!cookie) {
+      // set session id
+      await setSessionAndCsrf(req, res);
+    } else {
+      const { cookieCsrf, cookieSession } = cookie;
 
-    // store in db csrfHash=jwtCsrf
-    await saveCsrf(csrfColl, csrfToken, jwtCsrf);
+      // verify session id
+      const result = await decryptJwtToken(
+        "session id token",
+        cookieSession,
+        sessionSecreteKey,
+        sessionDecryptOptions
+      );
 
-    // set csrf token
-    res.cookie(process.env.CSRF_COOKIE_NAME, csrfToken, {
-      secure: true,
-      path: "/",
-      sameSite: "strict",
-    });
-
+      // TODO : update following code handle sessionId missmatched/hacked
+      if (!result) {
+        // inform to client
+        res
+          .statusCode(401)
+          .send({ err_msg: "Invalid Session Id", err_code: 401 });
+      }
+    }
     next();
   } catch (err) {
     throw new ErrorResponse(
@@ -52,6 +73,33 @@ async function setSessionAndCsrfToken(req, res, next) {
       500
     );
   }
+}
+
+async function setSessionAndCsrf(req, res) {
+  // generate session id
+  const sessionId = await generateSessionId();
+
+  // generate csrf token using session id
+  const { csrfHash: csrfToken, jwtCsrf } = await generateCsrfToken(sessionId);
+
+  // set cookie for session id
+  res.cookie(process.env.SESSION_COOKIE_NAME, sessionId, {
+    ...cookieOption,
+    httpOnly: true,
+  });
+
+  // set csrf token
+  res.cookie(process.env.VITE_CSRF_COOKIE_NAME, csrfToken, cookieOption);
+
+  console.log("Set session and csrf cookie");
+
+  // store csrf and cache in memory
+  await saveCsrf(csrfColl, csrfToken, jwtCsrf);
+
+  // remove csrf token after expiration
+  setTimeout(async () => {
+    await deleteCsrfToken(csrfColl, csrfToken);
+  }, process.env.VITE_COOKIE_EXP_TIME);
 }
 
 export default setSessionAndCsrfToken;

@@ -3,13 +3,13 @@ import z from "zod";
 // form validation schema
 const SignupFormSchema = z
   .object({
-    firstname: z
+    firstName: z
       .string()
       .min(1, "Valid name is required")
       .max(255, "Name cannot be more than 255 characters")
       .regex(/^[a-zA-Z]+$/, "only letters allowed")
       .trim(),
-    lastname: z
+    lastName: z
       .string()
       .min(1, "Valid last name is required")
       .max(255, "Name cannot be more than 255 characters")

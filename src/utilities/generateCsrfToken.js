@@ -23,7 +23,6 @@ async function generateCsrfToken(sessionId) {
     return { csrfHash, jwtCsrf };
   } catch (err) {
     console.error(err);
-    throw new Error(err);
   }
 }
 

@@ -3,6 +3,8 @@ import ErrorResponse from "../errorObj/errorClass.js";
 function errorHandler(err, req, res, next) {
   let error = err;
 
+  console.error(err);
+
   if (!(error instanceof ErrorResponse)) {
     error = new ErrorResponse(err.message, 500);
   }

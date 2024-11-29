@@ -1,10 +1,10 @@
 import React, { useRef, useEffect } from "react";
-import sendTokenToServer from "../utilities/sendTokenToServer";
+import sendGoogleIndentity from "../handlers/sendGoogleIndentity";
 
 const IdConfiguration = {
   //@ts-ignore
   client_id: import.meta.env.VITE_GOOGLE_CLIENT_ID,
-  callback: sendTokenToServer, // callback user by "popup" mode
+  callback: sendGoogleIndentity, // callback user by "popup" mode
   // login_uri: "http://127.0.0.1:5500/google/token", //login uri used by "redirect" mode
   context: "signup",
   ux_mode: "popup", // "popup""redirect"
