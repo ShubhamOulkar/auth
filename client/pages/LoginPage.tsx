@@ -1,22 +1,39 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { useForm, SubmitHandler } from "react-hook-form";
 import LoginFormSchema from "../validation/loginFormSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { LoginInputs } from "../types/formFieldsTypes";
 import Label from "../components/FieldLabel";
+import GoogleBtn from "../components/GoogleBtn";
+import loginFormHandler from "../handlers/loginFormHandler";
+loginFormHandler;
 
 function LoginPage() {
+  const navigate = useNavigate();
+
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    reset,
+    formState,
+    formState: { errors, isSubmitSuccessful },
   } = useForm<LoginInputs>({
-    defaultValues: { email: "abcd@gmail.com" }, // default values for input fields
+    // defaultValues: { email: "abcd@gmail.com" }, // default values for input fields(i am using autofill)
     resolver: zodResolver(LoginFormSchema),
   });
 
-  const onSubmit: SubmitHandler<LoginInputs> = (data) => {
-    console.log(data);
+  useEffect(() => {
+    if (isSubmitSuccessful) {
+      reset({ email: "", password: "" });
+    }
+  }, [formState, reset]);
+
+  const onSubmit: SubmitHandler<LoginInputs> = async (data) => {
+    let response = await loginFormHandler(data);
+    console.log("login response: ", response);
+    //@ts-ignore
+    response?.success && navigate(response?.redirect);
   };
 
   return (
@@ -52,6 +69,7 @@ function LoginPage() {
           Submit
         </button>
       </form>
+      <GoogleBtn />
     </div>
   );
 }

@@ -12,7 +12,7 @@ function Label({ label, labelFor, errorsObj }) {
     <label htmlFor={labelFor}>
       {label}
       {ifError && (
-        <span id={errId} aria-live="assertive">
+        <span className="error" id={errId} aria-live="assertive">
           {" "}
           {ifError?.message}
         </span>

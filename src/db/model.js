@@ -9,15 +9,36 @@ const dbSchema = {
   $jsonSchema: {
     bsonType: "object",
     title: "usercollection",
-    required: ["user", "pass"],
+    required: [
+      "firstName",
+      "lastName",
+      "email",
+      "password",
+      "confirmPassword",
+      "email_verified",
+    ],
     properties: {
-      user: {
+      firstName: {
+        bsonType: "string",
+        minLength: 1,
+      },
+      lastName: {
+        bsonType: "string",
+        minLength: 1,
+      },
+      email: {
         bsonType: "string",
         minLength: 3,
       },
-      pass: {
+      password: {
         bsonType: "string",
         minLength: 8,
+      },
+      confirmPassword: {
+        bsonType: "string",
+      },
+      email_verified: {
+        bsonType: "bool",
       },
     },
   },

@@ -1,21 +1,43 @@
-import React from "react";
-import { useForm, SubmitHandler } from "react-hook-form";
+import React, { useEffect } from "react";
+import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 import { zodResolver } from "@hookform/resolvers/zod";
 import SignupFormSchema from "../validation/signupFormSchema";
 import { SignupInputs } from "../types/formFieldsTypes";
 import Label from "../components/FieldLabel";
-import { object } from "zod";
+import signupFormHandler from "../handlers/signupFormHandler";
+import { SubmitHandler } from "react-hook-form";
 
 function SignupPage() {
+  const navigate = useNavigate();
+
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    reset,
+    formState,
+    formState: { errors, isSubmitSuccessful, isSubmitting },
   } = useForm<SignupInputs>({
     resolver: zodResolver(SignupFormSchema),
   });
 
-  const onSubmit: SubmitHandler<SignupInputs> = (data) => console.log(data);
+  useEffect(() => {
+    if (isSubmitSuccessful) {
+      reset({
+        firstName: "",
+        lastName: "",
+        email: "",
+        password: "",
+        confirmPassword: "",
+      });
+    }
+  }, [formState, reset]);
+
+  const onSubmit: SubmitHandler<SignupInputs> = async (data) => {
+    let response = await signupFormHandler(data);
+    console.log("signup response: ", response);
+    response?.success && navigate(response?.redirect);
+  };
 
   return (
     <div className="card">
@@ -23,24 +45,24 @@ function SignupPage() {
       <form className="form" onSubmit={handleSubmit(onSubmit)}>
         <Label
           label="User first name"
-          labelFor="firstname"
+          labelFor="firstName"
           errorsObj={errors}
         />
         <input
           id="firstname"
           type="text"
-          className={errors?.firstname && "invalid"}
+          className={errors?.firstName && "invalid"}
           autoFocus={true}
           aria-describedby="firstNameErr"
-          {...register("firstname")}
+          {...register("firstName")}
         />
-        <Label label="User last name" labelFor="lastname" errorsObj={errors} />
+        <Label label="User last name" labelFor="lastName" errorsObj={errors} />
         <input
           id="lastname"
           type="text"
-          className={errors?.lastname && "invalid"}
+          className={errors?.lastName && "invalid"}
           aria-describedby="lastNameErr"
-          {...register("lastname")}
+          {...register("lastName")}
         />
         <Label label="User email address" labelFor="email" errorsObj={errors} />
         <input
