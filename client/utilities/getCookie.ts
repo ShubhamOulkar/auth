@@ -1,24 +1,36 @@
-function returnError(message: string): Error {
-  return new Error(message);
+import { CLientErrorType } from "../types/notificationType";
+
+export function returnError(message: string): CLientErrorType {
+  return {
+    success: false,
+    err_msg: message,
+  };
 }
 
-export default function getCookie(cookieName: string): string | Error {
+export default function getCookie(cookieName: string) {
   // Check if cookieName is empty
-  const op = cookieName || returnError("Cookie name cannot be empty");
+  if (!cookieName) {
+    return returnError("Cookie name cannot be empty");
+  }
 
   // Check if cookies exist
   const cookies = document.cookie;
-  const cookieError = !cookies && returnError("document.cookie is empty .");
+  if (!cookies) {
+    return returnError("refresh the page to set new session.");
+  }
+
+  const result = cookies
+    .split(";")
+    .filter((c) => c.includes(cookieName + "="))[0]
+    ?.replace(cookieName + "=", "")
+    .trim();
+
+  if (!result) {
+    return returnError(
+      `Cookie ${cookieName} not found. refresh the page to set new session.`
+    );
+  }
 
   // Return cookie value or error
-  return (
-    (op instanceof Error && op) ||
-    (cookieError instanceof Error && cookieError) ||
-    cookies
-      .split(";")
-      .filter((c) => c.includes(cookieName + "="))[0]
-      ?.replace(cookieName + "=", "")
-      .trim() ||
-    returnError(`Cookie ${cookieName} not found`)
-  );
+  return result;
 }

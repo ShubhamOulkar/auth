@@ -11,6 +11,7 @@ function App() {
       );
 
       if (!exp) {
+        localStorage.removeItem("auth_ssr_user");
         window.location.reload();
       }
     }, refreshInterval);

@@ -13,6 +13,7 @@ function errorHandler(err, req, res, next) {
     success: false,
     err_msg: error.message,
     err_code: error.errorCode,
+    redirect: "/login",
   });
 }
 

@@ -3,6 +3,7 @@
   flex-direction: column;
   align-items: center;
   gap: 1.8rem;
+  position: relative;
 }
 
 ul {
@@ -69,6 +70,45 @@ ul {
   }
 }
 
+/* Spinner style*/
+.spinner {
+  text-align: center;
+  > img {
+    height: 1.5rem;
+    width: 1.5rem;
+  }
+}
+
+/* notification */
+.notification {
+  color: #f2f2f2;
+  display: none;
+  position: absolute;
+  left: var(--border-radius);
+  top: 100%;
+  width: max-content;
+  height: max-content;
+  border: 2px solid black;
+  border-radius: var(--border-radius);
+  padding-inline: var(--padding-inline);
+  padding-block: var(--padding-block);
+  opacity: 0;
+  transform: translateX(100);
+  transition: opacity 0.8s;
+}
+
+.greenNote {
+  background-color: rgb(43, 133, 43);
+  display: block;
+  opacity: 1;
+}
+
+.redNote {
+  background-color: var(--tooltip-color);
+  display: block;
+  opacity: 1;
+}
+
 @media screen and (min-width: 600px) {
   .topnav a {
     height: 2.65rem;
@@ -78,6 +118,10 @@ ul {
 @media screen and (max-width: 600px) {
   .home {
     gap: 1rem;
+  }
+  .notification {
+    width: 250px;
+    height: 50px;
   }
   .card {
     width: 20rem;

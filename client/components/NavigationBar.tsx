@@ -1,16 +1,10 @@
 import { Link } from "react-router-dom";
 import { VscThreeBars } from "react-icons/vsc";
-import React, { useState, useEffect } from "react";
-import getCookie from "../utilities/getCookie";
+import React from "react";
+import useAuthContext from "../auth context/useAuthContext";
 
 export default function NavBar() {
-  const [auth0, setAuth0] = useState(false);
-
-  useEffect(() => {
-    const key = getCookie("key");
-
-    key instanceof Error ? setAuth0(false) : setAuth0(true);
-  }, []);
+  const { auth } = useAuthContext();
 
   return (
     <nav className="topnav" id="myTopnav">
@@ -19,14 +13,18 @@ export default function NavBar() {
           <Link to="/">Home</Link>
         </li>
         <li>
-          <Link to={auth0 ? "/profile" : "/login"}>
-            {auth0 ? "profile" : "login"}
-          </Link>
+          {auth !== null && (
+            <Link to={auth ? "/profile" : "/login"}>
+              {auth ? "profile" : "login"}
+            </Link>
+          )}
         </li>
         <li>
-          <Link to={auth0 ? "/logout" : "/signup"}>
-            {auth0 ? "logout" : "signup"}
-          </Link>
+          {auth !== null && (
+            <Link to={auth ? "/logout" : "/signup"}>
+              {auth ? "logout" : "signup"}
+            </Link>
+          )}
         </li>
         <li>
           <a className="icon" onClick={myFunction}>

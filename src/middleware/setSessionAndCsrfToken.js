@@ -1,12 +1,12 @@
 import generateCsrfToken from "../utilities/generateCsrfToken.js";
 import generateSessionId from "../utilities/getSessionId.js";
-import ErrorResponse from "../errorObj/errorClass.js";
 import { config } from "dotenv";
 config();
 import { saveCsrf, deleteCsrfToken } from "../db/dbUtils.js";
 import getCookies from "../utilities/getCookies.js";
 import { base64url } from "jose";
 import decryptJwtToken from "../utilities/decryptJwtToken.js";
+import { throwError } from "../utilities/utils.js";
 
 const csrfColl = process.env.CSRF_COLLECTION;
 const SESSION_SECRET = process.env.SESSION_SECRET;
@@ -61,17 +61,12 @@ async function setSessionAndCsrfToken(req, res, next) {
       // TODO : update following code handle sessionId missmatched/hacked
       if (!result) {
         // inform to client
-        res
-          .statusCode(401)
-          .send({ err_msg: "Invalid Session Id", err_code: 401 });
+        throwError("Invalid Session Id");
       }
     }
     next();
   } catch (err) {
-    throw new ErrorResponse(
-      "Error in setting client Session or csrf token",
-      500
-    );
+    throwError("Error in setting client Session or csrf token");
   }
 }
 

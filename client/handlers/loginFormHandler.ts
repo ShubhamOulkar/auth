@@ -5,16 +5,17 @@ import getCookie from "../utilities/getCookie";
 import clientPostRequest from "../utilities/clientPostRequest";
 import encryptBody from "../utilities/encryptBody";
 
-const endpoint = import.meta.env.VITE_LOGIN_ENDPOINT;
-const cookieName = import.meta.env.VITE_CSRF_COOKIE_NAME;
+const endpoint: string = import.meta.env.VITE_LOGIN_ENDPOINT;
+const cookieName: string = import.meta.env.VITE_CSRF_COOKIE_NAME;
 
 const loginFormHandler: SubmitHandler<LoginInputs> = async (data) => {
   try {
     // get session id and csrf token
     const csrfValue = getCookie(cookieName);
 
-    if (csrfValue instanceof Error) {
-      throw csrfValue; // this error is catched by catch(err) below
+    //@ts-ignore
+    if (typeof csrfValue === "object" && !csrfValue?.success) {
+      return csrfValue;
     }
 
     // add session id and csrf token in post body

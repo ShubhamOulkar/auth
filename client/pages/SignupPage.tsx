@@ -7,16 +7,19 @@ import { SignupInputs } from "../types/formFieldsTypes";
 import Label from "../components/FieldLabel";
 import signupFormHandler from "../handlers/signupFormHandler";
 import { SubmitHandler } from "react-hook-form";
+import useNotificationContext from "../notification context/useNotificationContexxt";
+import { NotificationType } from "../types/notificationType";
 
 function SignupPage() {
   const navigate = useNavigate();
+  const { notification, setNotification } = useNotificationContext();
 
   const {
     register,
     handleSubmit,
     reset,
     formState,
-    formState: { errors, isSubmitSuccessful, isSubmitting },
+    formState: { errors, isSubmitSuccessful },
   } = useForm<SignupInputs>({
     resolver: zodResolver(SignupFormSchema),
   });
@@ -34,8 +37,13 @@ function SignupPage() {
   }, [formState, reset]);
 
   const onSubmit: SubmitHandler<SignupInputs> = async (data) => {
-    let response = await signupFormHandler(data);
+    let response: NotificationType = await signupFormHandler(data);
+
     console.log("signup response: ", response);
+
+    // generate notification (show errors as well as success)
+    setNotification(response);
+
     response?.success && navigate(response?.redirect);
   };
 
@@ -48,6 +56,7 @@ function SignupPage() {
           labelFor="firstName"
           errorsObj={errors}
         />
+
         <input
           id="firstname"
           type="text"
@@ -56,7 +65,9 @@ function SignupPage() {
           aria-describedby="firstNameErr"
           {...register("firstName")}
         />
+
         <Label label="User last name" labelFor="lastName" errorsObj={errors} />
+
         <input
           id="lastname"
           type="text"
@@ -65,6 +76,7 @@ function SignupPage() {
           {...register("lastName")}
         />
         <Label label="User email address" labelFor="email" errorsObj={errors} />
+
         <input
           id="email"
           type="email"
@@ -73,7 +85,9 @@ function SignupPage() {
           aria-describedby="emailErr"
           {...register("email")}
         />
+
         <Label label="Create password" labelFor="password" errorsObj={errors} />
+
         <input
           id="password"
           type="password"
@@ -86,6 +100,7 @@ function SignupPage() {
           labelFor="confirmPassword"
           errorsObj={errors}
         />
+
         <input
           id="confirmPassword"
           type="password"

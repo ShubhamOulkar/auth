@@ -12,8 +12,9 @@ const signupFormHandler = async (data: SignupInputs) => {
     // get session id and csrf token
     const csrfValue = getCookie(cookieName);
 
-    if (csrfValue instanceof Error) {
-      throw csrfValue; // this error is catched by catch(err) below
+    //@ts-ignore
+    if (typeof csrfValue === "object" && !csrfValue?.success) {
+      return csrfValue;
     }
 
     // set confirmPassword to true
