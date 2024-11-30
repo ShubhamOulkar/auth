@@ -11,7 +11,8 @@ const AuthProvider = ({ children }: PropsWithChildren) => {
     const authKey = getCookie("key");
     console.log("auth key: ", authKey);
     // key is not present then set false
-    authKey instanceof Error ? setAuth(false) : setAuth(true);
+    //@ts-ignore
+    !authKey?.success ? setAuth(false) : setAuth(true);
 
     //TODO decrypt cookie, if not valid then set false
   }, []);

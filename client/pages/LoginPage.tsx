@@ -37,6 +37,7 @@ function LoginPage() {
 
   const onSubmit: SubmitHandler<LoginInputs> = async (data) => {
     const response: NotificationType = await loginFormHandler(data);
+
     console.log("login response: ", response);
 
     // set auth false if authorization faild

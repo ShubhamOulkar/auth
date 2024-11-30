@@ -1,7 +1,8 @@
+import React from "react";
 export type NotificationType = {
-  success: boolean;
+  success?: boolean;
   msg?: string;
-  redirect: string;
+  redirect?: string;
   err_msg?: string;
   err_code?: number;
 };
@@ -11,4 +12,9 @@ export type NotificationContextType = {
   setNotification: React.Dispatch<
     React.SetStateAction<NotificationType | undefined>
   >;
+};
+
+export type CLientErrorType = {
+  success: boolean;
+  err_msg: string;
 };
