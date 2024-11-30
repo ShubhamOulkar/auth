@@ -10,14 +10,17 @@ import { config } from "dotenv";
 config();
 import auth from "./src/routes/auth.js";
 import { connectMongo } from "./src/db/dbUtils.js";
-import verifyToken from "./src/middleware/verifySession.js";
 import errorHandler from "./src/middleware/errorHandler.js";
 import compression from "compression";
 import sirv from "sirv";
+import clientHttpValidation from "./src/middleware/clientHttpValidation.js";
+import googleAuth from "./src/routes/googleAuth.js";
+import setSessionAndCsrfToken from "./src/middleware/setSessionAndCsrfToken.js";
 
-const port = process.env.PORT || 3330;
+const port = process.env.PORT || 5500;
 const isProduction = process.env.NODE_ENV === "production";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const clientFolderpath = "dist/client";
 
 //cached production assets
 const templateHtml = isProduction
@@ -48,16 +51,17 @@ const corsOptions = {
 };
 
 // connect to mongoDB instance
-connectMongo();
+await connectMongo();
 
 // middlewares
 app.use(morgan("tiny"));
 app.use(cors(corsOptions));
-app.use(express.json());
+app.use(express.text());
 
 // authontication and authorization routes
-app.use("/auth", verifyToken, auth);
-app.use(errorHandler);
+app.use("/auth", auth);
+// google indentity checker
+app.use("/google", googleAuth);
 
 // in development add vite middleware
 let vite;
@@ -74,12 +78,21 @@ if (!isProduction) {
   app.use(compression());
   //server static assets in production
   app.use("/", sirv("./dist/client", { extensions: [] }));
+  //set cookie for session ID and csrf token on page load
+  app.use(setSessionAndCsrfToken);
+  // cache client forms
+  app.use(clientHttpValidation(clientFolderpath));
 }
 
-// React component rendering client route
-// serve home page
-// must use *, otherwise on page refresh client sent get request to server
+// set cookie for session ID and csrf token on page load only (page will reload after session expiration)
+// !  remove this middware in production !
+app.use(setSessionAndCsrfToken);
+
+app.use(errorHandler);
+// React component rendering home page
+// must use *, otherwise on page refresh; client sent get request to server
 // and server will send http code on all request
+
 app.use("*", async (req, res) => {
   try {
     const url = req.originalUrl;
@@ -114,9 +127,6 @@ app.use("*", async (req, res) => {
         res.status(didError ? 500 : 200);
         res.set({
           "Content-Type": "text/html",
-          "Cache-Control": "public, max-age=10",
-          Expires: new Date(Date.now() + 10).toUTCString(), // expires in 10 sec
-          Vary: "Accept-Encoding",
         });
 
         const transformStream = new Transform({
@@ -152,17 +162,8 @@ app.use("*", async (req, res) => {
   }
 });
 
-app
-  .listen(port, () => {
-    console.log(`Auth-SSR server is running at http://localhost:${port}`);
-  })
-  .on("error", (error) => {
-    if (error.code === "EADDRINUSE") {
-      console.log(`Port ${port} is in use, trying another port...`);
-      app.listen(port + 1, () => {
-        console.log(
-          `Auth-SSR server is now running at http://localhost:${port + 1}`
-        );
-      });
-    }
-  });
+app.listen(port, () => {
+  console.log(
+    `Auth-SSR ${process.env.NODE_ENV} server is running at http://127.0.0.1:${port}`
+  );
+});

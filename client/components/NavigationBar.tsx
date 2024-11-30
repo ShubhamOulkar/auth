@@ -1,24 +1,35 @@
 import { Link } from "react-router-dom";
 import { VscThreeBars } from "react-icons/vsc";
 import React from "react";
+import useAuthContext from "../auth context/useAuthContext";
 
 export default function NavBar() {
+  const { auth } = useAuthContext();
+
   return (
     <nav className="topnav" id="myTopnav">
       <ul className="uList">
         <li>
-          <Link to="/">home</Link>
+          <Link to="/">Home</Link>
         </li>
         <li>
-          <Link to="/login">login</Link>
+          {auth !== null && (
+            <Link to={auth ? "/profile" : "/login"}>
+              {auth ? "profile" : "login"}
+            </Link>
+          )}
         </li>
         <li>
-          <Link to="/logout">logout</Link>
+          {auth !== null && (
+            <Link to={auth ? "/logout" : "/signup"}>
+              {auth ? "logout" : "signup"}
+            </Link>
+          )}
         </li>
         <li>
-          <Link className="icon" onClick={myFunction}>
+          <a className="icon" onClick={myFunction}>
             <VscThreeBars />
-          </Link>
+          </a>
         </li>
       </ul>
     </nav>
@@ -26,7 +37,7 @@ export default function NavBar() {
 }
 
 function myFunction() {
-  let x = document.getElementById("myTopnav");
+  let x = document.getElementById("myTopnav") as HTMLElement;
   if (x.className === "topnav") {
     x.className += " responsive";
   } else {

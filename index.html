@@ -3,7 +3,15 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="auth-ssr icon"
+      href="client/assets/favicon.svg"
+      type="image/x-icon"
+    />
+
     <title>Auth-SSR</title>
+    <!-- load google new GIS SDK, this script will add google object property on window object -->
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
     <script type="module" src="client/entry-client.tsx"></script>
     <link rel="stylesheet" href="client/index.css" />
     <link rel="stylesheet" href="client/App.css" />
