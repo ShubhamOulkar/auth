@@ -9,10 +9,13 @@ import GoogleBtn from "../components/GoogleBtn";
 import loginFormHandler from "../handlers/loginFormHandler";
 import useAuthContext from "../auth context/useAuthContext";
 import Spinner from "../components/Spinner";
+import useNotificationContext from "../notification context/useNotificationContexxt";
+import { NotificationType } from "../types/notificationType";
 
 function LoginPage() {
   const navigate = useNavigate();
   const { setAuth } = useAuthContext();
+  const { setNotification } = useNotificationContext();
 
   const {
     register,
@@ -33,7 +36,7 @@ function LoginPage() {
   }, [formState, reset]);
 
   const onSubmit: SubmitHandler<LoginInputs> = async (data) => {
-    let response = await loginFormHandler(data);
+    const response: NotificationType = await loginFormHandler(data);
     console.log("login response: ", response);
 
     // set auth false if authorization faild
@@ -43,6 +46,9 @@ function LoginPage() {
     // store user auth data in localstorage
     //@ts-ignore
     localStorage.setItem("auth", response?.success);
+
+    //set notification for client (show errors as well as success)
+    setNotification(response);
 
     //navigate to redirect route provided by server
     //@ts-ignore

@@ -7,6 +7,7 @@ import { StaticRouter } from "react-router-dom/server";
 import App from "./App";
 import React from "react";
 import AuthProvider from "./auth context/AuthProvider";
+import NotificationProvider from "./notification context/NotificationContextProvider";
 
 /**
  * @param {string} url
@@ -21,11 +22,13 @@ export function render(
 ) {
   return renderToPipeableStream(
     <StrictMode>
-      <AuthProvider>
-        <StaticRouter location={_url}>
-          <App />
-        </StaticRouter>
-      </AuthProvider>
+      <NotificationProvider>
+        <AuthProvider>
+          <StaticRouter location={_url}>
+            <App />
+          </StaticRouter>
+        </AuthProvider>
+      </NotificationProvider>
     </StrictMode>,
     options
   );

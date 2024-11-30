@@ -1,9 +1,5 @@
 import { createContext } from "react";
-
-type AuthContextType = {
-  auth: boolean | null;
-  setAuth: React.Dispatch<React.SetStateAction<boolean | null>>;
-};
+import { AuthContextType } from "../types/authContextType";
 
 const AuthContext = createContext({} as AuthContextType);
 
