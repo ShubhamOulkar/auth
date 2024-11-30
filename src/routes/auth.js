@@ -36,6 +36,13 @@ router.post("/login", async (req, res, next) => {
       sameSite: "strict",
     });
 
+    const sendUser = {
+      first: data.firstName,
+      last: data.lastName,
+      email: data.email,
+      picture: data?.picture,
+    };
+
     // send response to the client
     res.setHeader("Content-Type", "application/json");
 
@@ -43,6 +50,7 @@ router.post("/login", async (req, res, next) => {
       success: true,
       msg: `User ${data.email} login successfully.`,
       redirect: "/profile",
+      user: sendUser,
     });
 
     console.log(`${email} login successful`);
@@ -78,7 +86,7 @@ router.post("/register", async (req, res, next) => {
     result &&
       res.status(201).json({
         success: true,
-        msg: `User ${formData.email} registred successfully. Please login using credentials`,
+        msg: `User ${formData.email} registred successfully. Please login using email.`,
         redirect: "/login",
       });
 

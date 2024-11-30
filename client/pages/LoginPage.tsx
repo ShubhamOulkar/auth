@@ -11,6 +11,7 @@ import useAuthContext from "../auth context/useAuthContext";
 import Spinner from "../components/Spinner";
 import useNotificationContext from "../notification context/useNotificationContexxt";
 import { NotificationType } from "../types/notificationType";
+import { storeInLocalStorage } from "../utilities/storeInLocalStorage";
 
 function LoginPage() {
   const navigate = useNavigate();
@@ -46,7 +47,7 @@ function LoginPage() {
 
     // store user auth data in localstorage
     //@ts-ignore
-    localStorage.setItem("auth", response?.success);
+    storeInLocalStorage(response.user);
 
     //set notification for client (show errors as well as success)
     setNotification(response);

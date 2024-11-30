@@ -1,10 +1,13 @@
 import React from "react";
+import { UserType } from "./userType";
+
 export type NotificationType = {
   success?: boolean;
   msg?: string;
   redirect?: string;
   err_msg?: string;
   err_code?: number;
+  user?: UserType;
 };
 
 export type NotificationContextType = {

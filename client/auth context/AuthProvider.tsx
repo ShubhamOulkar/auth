@@ -12,7 +12,9 @@ const AuthProvider = ({ children }: PropsWithChildren) => {
     console.log("auth key: ", authKey);
     // key is not present then set false
     //@ts-ignore
-    !authKey?.success ? setAuth(false) : setAuth(true);
+    typeof authKey === "object" && !authKey?.success
+      ? setAuth(false)
+      : setAuth(true);
 
     //TODO decrypt cookie, if not valid then set false
   }, []);
