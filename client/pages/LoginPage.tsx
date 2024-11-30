@@ -7,22 +7,25 @@ import { LoginInputs } from "../types/formFieldsTypes";
 import Label from "../components/FieldLabel";
 import GoogleBtn from "../components/GoogleBtn";
 import loginFormHandler from "../handlers/loginFormHandler";
-loginFormHandler;
+import useAuthContext from "../auth context/useAuthContext";
+import Spinner from "../components/Spinner";
 
 function LoginPage() {
   const navigate = useNavigate();
+  const { setAuth } = useAuthContext();
 
   const {
     register,
     handleSubmit,
     reset,
     formState,
-    formState: { errors, isSubmitSuccessful },
+    formState: { errors, isSubmitSuccessful, isSubmitting },
   } = useForm<LoginInputs>({
     // defaultValues: { email: "abcd@gmail.com" }, // default values for input fields(i am using autofill)
     resolver: zodResolver(LoginFormSchema),
   });
 
+  // clear the input fields
   useEffect(() => {
     if (isSubmitSuccessful) {
       reset({ email: "", password: "" });
@@ -32,9 +35,23 @@ function LoginPage() {
   const onSubmit: SubmitHandler<LoginInputs> = async (data) => {
     let response = await loginFormHandler(data);
     console.log("login response: ", response);
+
+    // set auth false if authorization faild
     //@ts-ignore
-    response?.success && navigate(response?.redirect);
+    response?.success ? setAuth(true) : setAuth(false);
+
+    // store user auth data in localstorage
+    //@ts-ignore
+    localStorage.setItem("auth", response?.success);
+
+    //navigate to redirect route provided by server
+    //@ts-ignore
+    navigate(response?.redirect);
   };
+
+  if (isSubmitting) {
+    return <Spinner />;
+  }
 
   return (
     <div className="card">
@@ -69,7 +86,7 @@ function LoginPage() {
           Submit
         </button>
       </form>
-      <GoogleBtn />
+      {/* <GoogleBtn /> */}
     </div>
   );
 }

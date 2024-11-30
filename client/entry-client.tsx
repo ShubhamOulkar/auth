@@ -3,17 +3,20 @@ import { hydrateRoot } from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
 import App from "./App";
 import React from "react";
+import AuthProvider from "./auth context/AuthProvider";
 
 hydrateRoot(
   document.getElementById("root") as HTMLDivElement,
   <StrictMode>
-    <BrowserRouter
-      future={{
-        v7_relativeSplatPath: true,
-        v7_startTransition: true,
-      }}
-    >
-      <App />
-    </BrowserRouter>
+    <AuthProvider>
+      <BrowserRouter
+        future={{
+          v7_relativeSplatPath: true,
+          v7_startTransition: true,
+        }}
+      >
+        <App />
+      </BrowserRouter>
+    </AuthProvider>
   </StrictMode>
 );

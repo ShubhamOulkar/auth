@@ -67,7 +67,7 @@ async function verifySession(req, res, next) {
       verifySessionId(cookieSession, csrfPayload.sessionId)
         .then((res) => console.log("Session id verified successfully : ", res))
         .catch((err) => {
-          throwError(err);
+          throwError(err.message);
         });
     });
 

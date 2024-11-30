@@ -1,20 +1,18 @@
-import React, { useState } from "react";
-import { useEffect } from "react";
-import getCookie from "../utilities/getCookie";
+import React from "react";
 import { Link } from "react-router-dom";
+import useAuthContext from "../auth context/useAuthContext";
+import Spinner from "../components/Spinner";
 
 function ProfilePage() {
-  const [auth0, setAuth0] = useState(false);
+  const { auth } = useAuthContext();
 
-  useEffect(() => {
-    const key = getCookie("key");
-
-    key instanceof Error ? setAuth0(false) : setAuth0(true);
-  }, []);
+  if (auth === null) {
+    return <Spinner />;
+  }
 
   return (
     <>
-      {auth0 ? (
+      {auth ? (
         <h1>User Profile</h1>
       ) : (
         <p>
