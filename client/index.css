@@ -88,6 +88,12 @@ label {
   position: relative;
 }
 
+form {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
 .error {
   position: absolute;
   top: 0;

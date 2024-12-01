@@ -7,7 +7,6 @@
 }
 
 ul {
-  width: 100%;
   list-style-type: none;
   margin-block: 0;
   padding-inline-start: 0;
@@ -26,16 +25,26 @@ ul {
   transition: var(--transition-effect);
 }
 
-.topnav a {
+.topnav a,
+.logoutBtn {
+  border: none;
+  border-radius: 0;
+  font-size: x-large;
   float: left;
-  display: block;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   color: #f2f2f2;
   text-align: center;
-  padding-inline: var(--padding-inline);
-  padding-block: var(--padding-block);
   text-decoration: none;
-  font-size: 1.5rem;
-  width: 5rem;
+  height: var(--nav-bar-height);
+  width: 8rem;
+  padding: 5px;
+}
+
+.logoutBtn:hover {
+  outline: 0;
 }
 
 .topnav a:is(:active, :hover, :focus) {
@@ -58,6 +67,7 @@ ul {
   padding: var(--padding-inline);
 }
 
+/* login/signup form class */
 .form {
   display: flex;
   flex-direction: column;
@@ -138,19 +148,32 @@ ul {
     display: none;
   }
   .topnav {
-    height: 2.5rem;
+    height: var(--nav-bar-height);
   }
   .topnav a {
-    padding: 0.5rem;
+    padding: 0;
     width: 2rem;
-    font-size: medium;
+    font-size: larger;
+    height: var(--nav-bar-height);
+    flex: 1 1 200px;
+    padding-inline: 2rem;
   }
+
+  .logoutBtn {
+    flex: 1 1 200px;
+    font-size: large;
+    font-weight: 100;
+  }
+
   .topnav a.icon {
+    cursor: pointer;
     float: right;
-    display: block;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     background-color: var(--button-background-color);
     width: 20px;
-    height: 1.5rem;
+    height: var(--nav-bar-height);
     border-top-right-radius: var(--border-radius);
     border-bottom-right-radius: var(--border-radius);
   }
@@ -161,7 +184,7 @@ ul {
 
   .topnav.responsive {
     position: relative;
-    height: calc(2.3 * var(--nav-bar-height));
+    height: calc(3 * var(--nav-bar-height));
   }
   .topnav.responsive .icon {
     position: absolute;
@@ -180,13 +203,7 @@ ul {
     }
   }
   .topnav.responsive .uList * {
-    display: block;
     text-align: left;
-  }
-
-  .topnav a {
-    flex: 1 1 200px;
-    padding-inline: 2rem;
   }
 }
 

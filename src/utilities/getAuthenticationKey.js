@@ -1,15 +1,25 @@
-import jwt from "jsonwebtoken";
+import { EncryptJWT, base64url } from "jose";
 import { config } from "dotenv";
 config();
 
-const secretKey = process.env.AUTH_SECRET_KEY;
+const SECRET = process.env.AUTH_SECRET_KEY;
+const secreteKey = base64url.decode(SECRET);
 
-function getAuthenticationKay(email) {
-  const key = jwt.sign({ user: email }, secretKey, {
-    expiresIn: "1h",
-  });
+async function getAuthenticationKay(email) {
+  try {
+    const authKey = await new EncryptJWT({ email })
+      .setProtectedHeader({ alg: "dir", enc: "A128CBC-HS256", typ: "jwt" })
+      .setIssuedAt()
+      .setSubject(process.env.JWT_SUBJECT)
+      .setExpirationTime(process.env.VITE_AUTH_EXP_TIME)
+      .setIssuer(process.env.JWT_ISSURE)
+      .setAudience(process.env.JWT_AUDIENCE)
+      .encrypt(secreteKey);
 
-  return key;
+    return authKey;
+  } catch (err) {
+    console.error(err);
+  }
 }
 
 export default getAuthenticationKay;

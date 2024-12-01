@@ -120,12 +120,27 @@ async function deleteCsrfToken(collection, token) {
   }
 }
 
+async function deleteUser(email) {
+  try {
+    const deteleResult = await client
+      .db(dbName)
+      .collection(collName)
+      .deleteOne({ email: email });
+
+    console.log("user deleted", deteleResult);
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }
+}
+
 export {
   connectMongo,
   closeMongo,
   createCollection,
   saveUser,
   findUser,
+  deleteUser,
   saveCsrf,
   findCsrfHash,
   deleteCsrfToken,

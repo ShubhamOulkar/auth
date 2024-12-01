@@ -1,13 +1,20 @@
 import { Link } from "react-router-dom";
 import { VscThreeBars } from "react-icons/vsc";
-import React from "react";
+import React, { useRef } from "react";
 import useAuthContext from "../auth context/useAuthContext";
+import MotherBtn from "./MotherBtn";
 
 export default function NavBar() {
   const { auth } = useAuthContext();
+  const nav = useRef();
 
   return (
-    <nav className="topnav" id="myTopnav">
+    <nav
+      className="topnav"
+      id="myTopnav"
+      ref={nav}
+      onClick={() => myFunction(nav.current)}
+    >
       <ul className="uList">
         <li>
           <Link to="/">Home</Link>
@@ -15,19 +22,19 @@ export default function NavBar() {
         <li>
           {auth !== null && (
             <Link to={auth ? "/profile" : "/login"}>
-              {auth ? "profile" : "login"}
+              {auth ? "Profile" : "Login"}
             </Link>
           )}
         </li>
         <li>
-          {auth !== null && (
-            <Link to={auth ? "/logout" : "/signup"}>
-              {auth ? "logout" : "signup"}
-            </Link>
+          {auth !== null && auth ? (
+            <MotherBtn btnName="Logout" />
+          ) : (
+            <Link to="/signup">Signup</Link>
           )}
         </li>
         <li>
-          <a className="icon" onClick={myFunction}>
+          <a className="icon">
             <VscThreeBars />
           </a>
         </li>
@@ -36,11 +43,20 @@ export default function NavBar() {
   );
 }
 
-function myFunction() {
-  let x = document.getElementById("myTopnav") as HTMLElement;
-  if (x.className === "topnav") {
-    x.className += " responsive";
+function myFunction(nav: HTMLElement | undefined) {
+  if (nav?.className === "topnav") {
+    nav.className += " responsive";
   } else {
-    x.className = "topnav";
+    nav.className = "topnav";
   }
+}
+
+function sendLogoutRequest() {
+  fetch("http://127.0.0.1:5500/auth/logout", {
+    method: "POST",
+    body: "shubham logout",
+    headers: {
+      "Content-Type": "text/plain",
+    },
+  }).then((res) => console.log(res));
 }

@@ -1,5 +1,4 @@
 import { jwtDecrypt } from "jose";
-import { throwError } from "./utils.js";
 
 async function decryptJwtToken(tokenName, token, secreteKey, options) {
   try {
@@ -7,7 +6,7 @@ async function decryptJwtToken(tokenName, token, secreteKey, options) {
     console.log(`${tokenName} is verified`);
     return result;
   } catch (error) {
-    throwError(`Error verifying ${tokenName}: ${error.message}`, 401);
+    return new Error(`Error verifying ${tokenName}: ${error.message}`);
   }
 }
 

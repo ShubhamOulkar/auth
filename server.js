@@ -86,7 +86,7 @@ if (!isProduction) {
 
 // set cookie for session ID and csrf token on page load only (page will reload after session expiration)
 // !  remove this middware in production !
-app.use(setSessionAndCsrfToken);
+// app.use(setSessionAndCsrfToken);
 
 app.use(errorHandler);
 // React component rendering home page

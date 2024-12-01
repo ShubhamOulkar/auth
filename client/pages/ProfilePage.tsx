@@ -3,17 +3,22 @@ import { Link } from "react-router-dom";
 import useAuthContext from "../auth context/useAuthContext";
 import Spinner from "../components/Spinner";
 import { UserType } from "../types/userType";
+import MotherBtn from "../components/MotherBtn";
 
 function ProfilePage() {
   const { auth } = useAuthContext();
-  const [user, setUser] = useState<UserType | null>();
+  const [user, setUser] = useState<UserType>();
 
   useEffect(() => {
-    const storageString = localStorage.getItem("auth_ssr_user");
-    const userObject = storageString && JSON.parse(storageString);
-    console.log(storageString);
-    setUser(userObject);
-  });
+    if (auth) {
+      const storageString = localStorage.getItem(
+        import.meta.env.VITE_LOCALSTORAGE_NAME
+      );
+      const userObject: UserType = storageString && JSON.parse(storageString);
+      console.log("local storage:", storageString);
+      typeof userObject === "object" ? setUser(userObject) : setUser({});
+    }
+  }, [auth]);
 
   if (auth === null) {
     return <Spinner />;
@@ -28,6 +33,7 @@ function ProfilePage() {
           <p>Surname: {user?.last}</p>
           <p>Email: {user?.email}</p>
           <img src={user?.picture} alt={`${user?.email} picture`} />
+          <MotherBtn btnName="Delete user" />
         </div>
       ) : (
         <p>
