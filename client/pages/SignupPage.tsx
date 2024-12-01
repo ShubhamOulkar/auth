@@ -41,7 +41,7 @@ function SignupPage() {
 
     console.log("signup response: ", response);
 
-    // generate notification (show errors as well as success)
+    // generate notification (show errors as well as success message)
     setNotification(response);
 
     response?.success && navigate(response?.redirect);
