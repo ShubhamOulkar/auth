@@ -17,9 +17,11 @@ function Notification() {
   const message = getMessage(notification);
 
   useEffect(() => {
-    setTimeout(() => {
+    const timer = setTimeout(() => {
       setNotification(undefined);
-    }, 10000);
+    }, 20000);
+
+    return () => clearTimeout(timer);
   }, [notification]);
 
   if (notification === undefined) {

@@ -2,6 +2,7 @@ import React, { PropsWithChildren, useEffect, useState } from "react";
 import AuthContext from "./CreateAuthContext";
 import getCookie from "../utilities/getCookie";
 import { UserType } from "../types/userType";
+import { userInfo } from "os";
 
 // using three states of auth variable true, false, and null.
 // null state = on page load it is null by deafult, then render spinner
@@ -16,8 +17,7 @@ const AuthProvider = ({ children }: PropsWithChildren) => {
   //this effect only happens on initial page load
   useEffect(() => {
     // check client has auth cookie
-    // TODO use env variable for key
-    const authKey = getCookie("key");
+    const authKey = getCookie(import.meta.env.VITE_AUTH_KEY);
     console.log("auth key: ", authKey);
     // key is not present then set false else true
     //@ts-ignore
@@ -28,14 +28,11 @@ const AuthProvider = ({ children }: PropsWithChildren) => {
     // TODO decrypt cookie, if not valid then set false
 
     // TODO get local storage data and validate
-    if (auth) {
-      const storageString = localStorage.getItem(
-        import.meta.env.VITE_LOCALSTORAGE_NAME
-      );
-      const userObject: UserType = storageString && JSON.parse(storageString);
-      console.log("local storage:", storageString);
-      typeof userObject === "object" ? setUser(userObject) : setUser({});
-    }
+    const storageString =
+      localStorage.getItem(import.meta.env.VITE_LOCALSTORAGE_NAME) || "";
+    const userObject: UserType = storageString && JSON.parse(storageString);
+    console.log("local storage:", userObject);
+    typeof userObject === "object" ? setUser(userObject) : setAuth(false);
   }, [auth]);
 
   return (

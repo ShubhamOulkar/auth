@@ -41,16 +41,16 @@ function LoginPage() {
 
     console.log("login response: ", response);
 
-    // set auth false if authorization faild
-    //@ts-ignore
-    response?.success ? setAuth(true) : setAuth(false);
+    //set notification for client (show errors as well as success)
+    setNotification(response);
 
     // store user auth data in localstorage
     //@ts-ignore
-    storeInLocalStorage(response.user);
+    response?.success && storeInLocalStorage(response.user);
 
-    //set notification for client (show errors as well as success)
-    setNotification(response);
+    // set auth false if authorization faild
+    //@ts-ignore
+    response?.success ? setAuth(true) : setAuth(false);
 
     //navigate to redirect route provided by server
     //@ts-ignore

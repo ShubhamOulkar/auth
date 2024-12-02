@@ -51,6 +51,7 @@ button {
   transition: var(--transition-effect);
 }
 
+/* overwrite above button height */
 button {
   height: 2.5rem;
 }
@@ -121,23 +122,20 @@ form {
 
 @media screen and (max-width: 600px) {
   input {
-    height: 1rem;
+    height: 1.5rem;
     font-size: smaller;
   }
 
   .error {
-    font-size: x-small;
     left: 9rem;
   }
 
   h1 {
     font-size: x-large;
-    text-align: left;
   }
 
   button {
-    height: 1.8rem;
-    font-size: small;
+    font-size:large;
     font-weight: 700;
   }
 }

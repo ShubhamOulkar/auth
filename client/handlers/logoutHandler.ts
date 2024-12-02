@@ -3,7 +3,7 @@ import encryptBody from "../utilities/encryptBody";
 import getCookie from "../utilities/getCookie";
 import { ClientCredential } from "../types/clientCredentialType";
 import { UserType } from "../types/userType";
-import { CLientErrorType, NotificationType } from "../types/notificationType";
+import { CLientErrorType } from "../types/notificationType";
 import { LogoutHandlerType } from "../types/LogoutHandlerType";
 
 async function logoutHandler(btnName: string): Promise<LogoutHandlerType> {
@@ -25,8 +25,9 @@ async function logoutHandler(btnName: string): Promise<LogoutHandlerType> {
     const userObject: UserType = user && JSON.parse(user);
 
     // get auth key
-    // TODO use env variable for key
-    const authKey: string | CLientErrorType = getCookie("key");
+    const authKey: string | CLientErrorType = getCookie(
+      import.meta.env.VITE_AUTH_KEY
+    );
 
     //@ts-ignore
     if (typeof authKey === "object" && !authKey?.success) {
@@ -48,8 +49,6 @@ async function logoutHandler(btnName: string): Promise<LogoutHandlerType> {
       authKey: authKey,
       btnName: btnName.toLowerCase() === "logout" ? "" : "delete",
     };
-
-    console.log(body);
 
     // encrypt body object
     const bodyEnc = await encryptBody(body);

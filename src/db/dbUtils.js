@@ -56,12 +56,47 @@ async function saveUser(formData) {
   }
 }
 
+async function verifyUser(email, sub) {
+  try {
+    const user = await client
+      .db(dbName)
+      .collection(collName)
+      .findOne(
+        { googleVerified: true, email: email, googleSub: sub },
+        { projection: { _id: 1 } }
+      );
+
+    if (!user) {
+      console.error(`${email} is not google verified.`);
+      return false;
+    }
+
+    console.log(`google user id ${email} is found in db`);
+
+    return true;
+  } catch (err) {
+    throw err;
+  }
+}
+
 async function findUser(email) {
   try {
     const user = await client
       .db(dbName)
       .collection(collName)
-      .findOne({ email: email }, { projection: { _id: 0 } });
+      .findOne(
+        { email: email },
+        {
+          projection: {
+            _id: 0,
+            firstName: 1,
+            lastName: 1,
+            email: 1,
+            googleVerified: 1,
+            picture: 1,
+          },
+        }
+      );
 
     if (!user) {
       throwError(`user ${email} does not exist`, 404);
@@ -113,7 +148,7 @@ async function deleteCsrfToken(collection, token) {
       .collection(collection)
       .deleteOne({ _id: token });
 
-    console.log(deteleResult);
+    console.log(`csrf token deleted:`, deteleResult);
   } catch (err) {
     console.error(err);
     throw err;
@@ -127,7 +162,7 @@ async function deleteUser(email) {
       .collection(collName)
       .deleteOne({ email: email });
 
-    console.log("user deleted", deteleResult);
+    console.log(`user deleted ${email}`, deteleResult);
   } catch (err) {
     console.error(err);
     throw err;
@@ -141,6 +176,7 @@ export {
   saveUser,
   findUser,
   deleteUser,
+  verifyUser,
   saveCsrf,
   findCsrfHash,
   deleteCsrfToken,
