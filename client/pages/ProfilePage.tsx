@@ -6,19 +6,7 @@ import { UserType } from "../types/userType";
 import MotherBtn from "../components/MotherBtn";
 
 function ProfilePage() {
-  const { auth } = useAuthContext();
-  const [user, setUser] = useState<UserType>();
-
-  useEffect(() => {
-    if (auth) {
-      const storageString = localStorage.getItem(
-        import.meta.env.VITE_LOCALSTORAGE_NAME
-      );
-      const userObject: UserType = storageString && JSON.parse(storageString);
-      console.log("local storage:", storageString);
-      typeof userObject === "object" ? setUser(userObject) : setUser({});
-    }
-  }, [auth]);
+  const { auth, user } = useAuthContext();
 
   if (auth === null) {
     return <Spinner />;

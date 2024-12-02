@@ -13,8 +13,9 @@
   --outline-focus-style: white solid var(--border-size);
   --outline-invalid-style: var(--tooltip-color) solid var(--border-size);
   --tooltip-color: hsla(0, 97%, 57%, 0.737);
+  --font:Inter, system-ui, Avenir, Helvetica, Arial, sans-serif
 
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: var(--font);
   line-height: 1.5;
   font-weight: 400;
   box-sizing: border-box;

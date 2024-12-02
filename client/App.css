@@ -15,6 +15,11 @@ ul {
   li:nth-child(2) {
     margin-left: auto;
   }
+
+  > li:nth-child(2) > a {
+    width: max-content;
+    padding-inline: 1.5rem;
+  }
 }
 
 .topnav {
@@ -30,6 +35,7 @@ ul {
   border: none;
   border-radius: 0;
   font-size: x-large;
+  font-family: var(--font);
   float: left;
   display: flex;
   flex-direction: column;
@@ -44,6 +50,7 @@ ul {
 }
 
 .logoutBtn:hover {
+  font-weight: 100;
   outline: 0;
 }
 

@@ -1,6 +1,7 @@
 import React, { PropsWithChildren, useEffect, useState } from "react";
 import AuthContext from "./CreateAuthContext";
 import getCookie from "../utilities/getCookie";
+import { UserType } from "../types/userType";
 
 // using three states of auth variable true, false, and null.
 // null state = on page load it is null by deafult, then render spinner
@@ -10,6 +11,7 @@ import getCookie from "../utilities/getCookie";
 
 const AuthProvider = ({ children }: PropsWithChildren) => {
   const [auth, setAuth] = useState<boolean | null>(null);
+  const [user, setUser] = useState<UserType>({});
 
   //this effect only happens on initial page load
   useEffect(() => {
@@ -26,11 +28,19 @@ const AuthProvider = ({ children }: PropsWithChildren) => {
     // TODO decrypt cookie, if not valid then set false
 
     // TODO get local storage data and validate
+    if (auth) {
+      const storageString = localStorage.getItem(
+        import.meta.env.VITE_LOCALSTORAGE_NAME
+      );
+      const userObject: UserType = storageString && JSON.parse(storageString);
+      console.log("local storage:", storageString);
+      typeof userObject === "object" ? setUser(userObject) : setUser({});
+    }
   }, [auth]);
 
   return (
     <>
-      <AuthContext.Provider value={{ auth, setAuth }}>
+      <AuthContext.Provider value={{ auth, setAuth, user, setUser }}>
         {children}
       </AuthContext.Provider>
     </>

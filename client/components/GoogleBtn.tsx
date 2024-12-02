@@ -7,7 +7,7 @@ const IdConfiguration = {
   callback: sendGoogleIndentity, // callback user by "popup" mode
   // login_uri: "http://127.0.0.1:5500/google/token", //login uri used by "redirect" mode
   context: "signup",
-  ux_mode: "popup", // "popup""redirect"
+  ux_mode: "popup", // "popup" "redirect"
   itp_support: true, // enable one tap UX on intelligent Tracking Prevention (ITP) browers like firefox, ios browsers.
   use_fedcm_for_prompt: true,
 };
@@ -19,7 +19,7 @@ const ButtonConfiguration = {
   size: "large",
   shape: "square", //rectangular, pill, circle
   logo_alignment: "left", //"left", "right", "center"
-  width: "300px", // max 400px
+  width: "400px", // max 400px
   locale: "en_IN",
   // click_listener: onClickHandler,
 };
@@ -43,7 +43,7 @@ export default function GoogleBtn() {
 
   return (
     <>
-      <div ref={googleRef} style={{ width: "inherit", marginBlock: 20 }}></div>
+      <div ref={googleRef} style={{ width: "100%", marginBlock: 20 }}></div>
     </>
   );
 }

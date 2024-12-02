@@ -5,8 +5,14 @@ import useAuthContext from "../auth context/useAuthContext";
 import MotherBtn from "./MotherBtn";
 
 export default function NavBar() {
-  const { auth } = useAuthContext();
-  const nav = useRef();
+  const { auth, user } = useAuthContext();
+  const nav = useRef<HTMLDivElement>(null);
+
+  function myFunction(nav: HTMLElement | null) {
+    if (nav) {
+      nav?.classList.toggle("responsive");
+    }
+  }
 
   return (
     <nav
@@ -20,14 +26,11 @@ export default function NavBar() {
           <Link to="/">Home</Link>
         </li>
         <li>
-          {auth !== null && (
-            <Link to={auth ? "/profile" : "/login"}>
-              {auth ? "Profile" : "Login"}
-            </Link>
-          )}
+          {auth && <Link to="/profile">{`User ${user?.first}`}</Link>}
+          {!auth && <Link to="/login">Login</Link>}
         </li>
         <li>
-          {auth !== null && auth ? (
+          {auth ? (
             <MotherBtn btnName="Logout" />
           ) : (
             <Link to="/signup">Signup</Link>
@@ -41,22 +44,4 @@ export default function NavBar() {
       </ul>
     </nav>
   );
-}
-
-function myFunction(nav: HTMLElement | undefined) {
-  if (nav?.className === "topnav") {
-    nav.className += " responsive";
-  } else {
-    nav.className = "topnav";
-  }
-}
-
-function sendLogoutRequest() {
-  fetch("http://127.0.0.1:5500/auth/logout", {
-    method: "POST",
-    body: "shubham logout",
-    headers: {
-      "Content-Type": "text/plain",
-    },
-  }).then((res) => console.log(res));
 }

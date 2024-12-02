@@ -8,11 +8,11 @@ import Label from "../components/FieldLabel";
 import signupFormHandler from "../handlers/signupFormHandler";
 import { SubmitHandler } from "react-hook-form";
 import useNotificationContext from "../notification context/useNotificationContexxt";
-import { NotificationType } from "../types/notificationType";
+import { SignupFormHandlerType } from "../types/SignupFormHandlerType";
 
 function SignupPage() {
   const navigate = useNavigate();
-  const { notification, setNotification } = useNotificationContext();
+  const { setNotification } = useNotificationContext();
 
   const {
     register,
@@ -37,13 +37,14 @@ function SignupPage() {
   }, [formState, reset]);
 
   const onSubmit: SubmitHandler<SignupInputs> = async (data) => {
-    let response: NotificationType = await signupFormHandler(data);
+    let response: SignupFormHandlerType = await signupFormHandler(data);
 
     console.log("signup response: ", response);
 
     // generate notification (show errors as well as success message)
     setNotification(response);
 
+    //@ts-ignore
     response?.success && navigate(response?.redirect);
   };
 

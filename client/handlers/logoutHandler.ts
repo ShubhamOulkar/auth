@@ -3,10 +3,10 @@ import encryptBody from "../utilities/encryptBody";
 import getCookie from "../utilities/getCookie";
 import { ClientCredential } from "../types/clientCredentialType";
 import { UserType } from "../types/userType";
-import { CLientErrorType } from "../types/notificationType";
+import { CLientErrorType, NotificationType } from "../types/notificationType";
+import { LogoutHandlerType } from "../types/LogoutHandlerType";
 
-async function logoutHandler(e: { preventDefault: any }, btnName: string) {
-  e.preventDefault();
+async function logoutHandler(btnName: string): Promise<LogoutHandlerType> {
   console.log("performing Logout user");
 
   try {
@@ -19,7 +19,7 @@ async function logoutHandler(e: { preventDefault: any }, btnName: string) {
       return {
         success: false,
         err_msg: "local storage is empty",
-      };
+      } as CLientErrorType;
     }
 
     const userObject: UserType = user && JSON.parse(user);
@@ -54,11 +54,15 @@ async function logoutHandler(e: { preventDefault: any }, btnName: string) {
     // encrypt body object
     const bodyEnc = await encryptBody(body);
 
+    if (typeof bodyEnc === "object" && !bodyEnc?.success) {
+      return bodyEnc;
+    }
+
     console.log("login form bodyEnc: ", bodyEnc);
 
     // send data to server
-    if (bodyEnc) {
-      let response = await clientPostRequest(
+    if (typeof bodyEnc === "string") {
+      let response: LogoutHandlerType = await clientPostRequest(
         import.meta.env.VITE_LOGOUT_ENDPOINT,
         bodyEnc
       );
@@ -72,6 +76,12 @@ async function logoutHandler(e: { preventDefault: any }, btnName: string) {
   } catch (err) {
     console.error("Error sending logout request", err);
   }
+
+  // default return
+  return {
+    success: false,
+    err_msg: "An unknown error occurred in logout form handler",
+  } as CLientErrorType;
 }
 
 export default logoutHandler;
