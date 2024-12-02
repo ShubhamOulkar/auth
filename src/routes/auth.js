@@ -62,7 +62,7 @@ router.post("/logout", async (req, res, next) => {
     await setSessionAndCsrf(req, res);
 
     // TODO remove auth key
-    res.cookie("key", "", {
+    res.cookie(process.env.VITE_AUTH_KEY, "", {
       maxAge: 0,
       secure: true,
       sameSite: "strict",
@@ -93,6 +93,8 @@ router.post("/login", async (req, res, next) => {
 
     const data = await findUser(email);
 
+    console.log("data:", data);
+
     // check password
     const passMatch = await bcrypt.compare(password, data.password);
 
@@ -103,7 +105,7 @@ router.post("/login", async (req, res, next) => {
     //TODO save key in cache for 1hr
 
     // set auth key for 1hr
-    res.cookie("key", key, {
+    res.cookie(process.env.VITE_AUTH_KEY, key, {
       maxAge: 3600000,
       secure: true,
       sameSite: "strict",

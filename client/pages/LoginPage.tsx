@@ -10,7 +10,7 @@ import loginFormHandler from "../handlers/loginFormHandler";
 import useAuthContext from "../auth context/useAuthContext";
 import Spinner from "../components/Spinner";
 import useNotificationContext from "../notification context/useNotificationContexxt";
-import { NotificationType } from "../types/notificationType";
+import { loginFormHandlerType } from "../types/LoginFormHandlerType";
 import { storeInLocalStorage } from "../utilities/storeInLocalStorage";
 
 function LoginPage() {
@@ -37,24 +37,24 @@ function LoginPage() {
   }, [formState, reset]);
 
   const onSubmit: SubmitHandler<LoginInputs> = async (data) => {
-    const response: NotificationType = await loginFormHandler(data);
+    const response: loginFormHandlerType = await loginFormHandler(data);
 
     console.log("login response: ", response);
+
+    //set notification for client (show errors as well as success)
+    setNotification(response);
+
+    // store user auth data in localstorage
+    //@ts-ignore
+    response?.success && storeInLocalStorage(response.user);
 
     // set auth false if authorization faild
     //@ts-ignore
     response?.success ? setAuth(true) : setAuth(false);
 
-    // store user auth data in localstorage
-    //@ts-ignore
-    storeInLocalStorage(response.user);
-
-    //set notification for client (show errors as well as success)
-    setNotification(response);
-
     //navigate to redirect route provided by server
     //@ts-ignore
-    navigate(response?.redirect);
+    response?.success && navigate(response?.redirect);
   };
 
   if (isSubmitting) {
@@ -91,10 +91,10 @@ function LoginPage() {
         />
 
         <button type="submit" disabled={Object.keys(errors).length !== 0}>
-          Submit
+          Login
         </button>
       </form>
-      {/* <GoogleBtn /> */}
+      <GoogleBtn />
     </div>
   );
 }

@@ -1,9 +1,9 @@
 import React from "react";
 import logoutHandler from "../handlers/logoutHandler";
 import useNotificationContext from "../notification context/useNotificationContexxt";
-import { NotificationType } from "../types/notificationType";
 import { useNavigate } from "react-router-dom";
 import useAuthContext from "../auth context/useAuthContext";
+import { LogoutHandlerType } from "../types/LogoutHandlerType";
 
 function MotherBtn({ btnName }: { btnName: string }) {
   const navigate = useNavigate();
@@ -11,7 +11,9 @@ function MotherBtn({ btnName }: { btnName: string }) {
   const { setNotification } = useNotificationContext();
 
   const onSubmit = async (e: { preventDefault: () => void }) => {
-    const response: NotificationType = await logoutHandler(e, btnName);
+    e.preventDefault();
+
+    const response: LogoutHandlerType = await logoutHandler(btnName);
 
     // set notification
     setNotification(response);
