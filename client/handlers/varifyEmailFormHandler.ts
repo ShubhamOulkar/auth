@@ -1,17 +1,22 @@
-import { LoginInputs } from "../types/formFieldsTypes";
-import { ClientCredential } from "../types/clientCredentialType";
-import getCookie from "../utilities/getCookie";
-import clientPostRequest from "../utilities/clientPostRequest";
-import encryptBody from "../utilities/encryptBody";
-import { loginFormHandlerType } from "../types/LoginFormHandlerType";
-import { CLientErrorType, NotificationType } from "../types/notificationType";
+/// <reference types="vite/client" />
 
-const endpoint: string = import.meta.env.VITE_LOGIN_ENDPOINT;
+import { FaEmailInput } from "../types/FaType";
+import { CLientErrorType, NotificationType } from "../types/notificationType";
+import {
+  getCookie,
+  encryptBody,
+  clientPostRequest,
+} from "../utilities/utilitiesExporter";
+import { ClientCredential } from "../types/clientCredentialType";
+
+const endpoint: string = import.meta.env.VITE_VERIFY_EMAIL_ENDPOINT;
 const cookieName: string = import.meta.env.VITE_CSRF_COOKIE_NAME;
 
-const loginFormHandler = async (
-  data: LoginInputs
-): Promise<loginFormHandlerType> => {
+type VerifyEmailFormHandlerType = CLientErrorType | NotificationType;
+
+async function verifyEmailFormHandler(
+  data: FaEmailInput
+): Promise<VerifyEmailFormHandlerType> {
   try {
     // get session id and csrf token
     const csrfValue: string | CLientErrorType = getCookie(cookieName);
@@ -34,11 +39,11 @@ const loginFormHandler = async (
       return bodyEnc;
     }
 
-    console.log("login form bodyEnc: ", bodyEnc);
+    console.log("verify email form bodyEnc: ", bodyEnc);
 
     // send data to server
     if (typeof bodyEnc === "string") {
-      let response: loginFormHandlerType = await clientPostRequest(
+      let response: VerifyEmailFormHandlerType = await clientPostRequest(
         endpoint,
         bodyEnc
       );
@@ -46,14 +51,17 @@ const loginFormHandler = async (
       return response;
     }
   } catch (err) {
-    console.error("Error is sending user credentials for login form", err);
+    console.error(
+      "Error is sending user credentials for varify email form:",
+      err
+    );
   }
 
   // default return
   return {
     success: false,
-    err_msg: "An unknown error occurred in login form handler",
+    err_msg: "An unknown error occurred in verify email form handler",
   } as CLientErrorType;
-};
+}
 
-export default loginFormHandler;
+export default verifyEmailFormHandler;

@@ -6,16 +6,15 @@ import { fileURLToPath } from "url";
 import { Transform } from "stream";
 import fs from "fs/promises";
 import { createServer as createDevServer } from "vite";
-import { config } from "dotenv";
-config();
-import auth from "./src/routes/auth.js";
-import { connectMongo } from "./src/db/dbUtils.js";
-import errorHandler from "./src/middleware/errorHandler.js";
 import compression from "compression";
 import sirv from "sirv";
+import { config } from "dotenv";
+config();
+import { connectMongo } from "./src/db/dbUtils.js";
 import clientHttpValidation from "./src/middleware/clientHttpValidation.js";
-import googleAuth from "./src/routes/googleAuth.js";
 import setSessionAndCsrfToken from "./src/middleware/setSessionAndCsrfToken.js";
+import errorHandler from "./src/middleware/errorHandler.js";
+import { auth, googleAuth, twoFa } from "./src/routes/routesExporter.js";
 
 const port = process.env.PORT || 5500;
 const isProduction = process.env.NODE_ENV === "production";
@@ -60,8 +59,10 @@ app.use(express.text());
 
 // authontication and authorization routes
 app.use("/auth", auth);
-// google indentity checker
+// authenticate by google indentity route
 app.use("/google", googleAuth);
+// two factor authentication routes
+app.use("/2fa", twoFa);
 
 // in development add vite middleware
 let vite;
@@ -86,7 +87,7 @@ if (!isProduction) {
 
 // set cookie for session ID and csrf token on page load only (page will reload after session expiration)
 // !  remove this middware in production !
-app.use(setSessionAndCsrfToken);
+// app.use(setSessionAndCsrfToken);
 
 app.use(errorHandler);
 // React component rendering home page

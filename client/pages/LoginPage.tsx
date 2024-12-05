@@ -4,19 +4,25 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import LoginFormSchema from "../validation/loginFormSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { LoginInputs } from "../types/formFieldsTypes";
-import Label from "../components/FieldLabel";
-import GoogleBtn from "../components/GoogleBtn";
+import {
+  Label,
+  GoogleBtn,
+  Spinner,
+  LoginBottomLinks,
+} from "../components/ComponentExpoter";
 import loginFormHandler from "../handlers/loginFormHandler";
-import useAuthContext from "../auth context/useAuthContext";
-import Spinner from "../components/Spinner";
-import useNotificationContext from "../notification context/useNotificationContexxt";
+import {
+  useAuthContext,
+  useNotificationContext,
+  use2FaContext,
+} from "../context/customUseContextExporters";
 import { loginFormHandlerType } from "../types/LoginFormHandlerType";
-import { storeInLocalStorage } from "../utilities/storeInLocalStorage";
 
 function LoginPage() {
   const navigate = useNavigate();
   const { setAuth } = useAuthContext();
   const { setNotification } = useNotificationContext();
+  const { setFa, setEmail, setTwoFaContext } = use2FaContext();
 
   const {
     register,
@@ -44,17 +50,17 @@ function LoginPage() {
     //set notification for client (show errors as well as success)
     setNotification(response);
 
-    // store user auth data in localstorage
-    //@ts-ignore
-    response?.success && storeInLocalStorage(response.user);
-
-    // set auth false if authorization faild
-    //@ts-ignore
-    response?.success ? setAuth(true) : setAuth(false);
-
-    //navigate to redirect route provided by server
-    //@ts-ignore
-    response?.success && navigate(response?.redirect);
+    if (response.success) {
+      // set two factor context
+      setTwoFaContext("verify email");
+      // enable two factor auth
+      setFa(true);
+      // set email conatext
+      setEmail(data.email);
+      //navigate to redirect route provided by server
+      //@ts-ignore
+      response?.success && navigate(response?.redirect);
+    }
   };
 
   if (isSubmitting) {
@@ -94,6 +100,7 @@ function LoginPage() {
           Login
         </button>
       </form>
+      <LoginBottomLinks />
       <GoogleBtn />
     </div>
   );

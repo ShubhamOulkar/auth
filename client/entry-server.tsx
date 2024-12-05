@@ -1,3 +1,4 @@
+import React from "react";
 import { StrictMode } from "react";
 import {
   renderToPipeableStream,
@@ -5,9 +6,7 @@ import {
 } from "react-dom/server";
 import { StaticRouter } from "react-router-dom/server";
 import App from "./App";
-import React from "react";
-import AuthProvider from "./auth context/AuthProvider";
-import NotificationProvider from "./notification context/NotificationContextProvider";
+import AllContextProvider from "./context/AllContextProvider";
 
 /**
  * @param {string} url
@@ -22,13 +21,11 @@ export function render(
 ) {
   return renderToPipeableStream(
     <StrictMode>
-      <NotificationProvider>
-        <AuthProvider>
-          <StaticRouter location={_url}>
-            <App />
-          </StaticRouter>
-        </AuthProvider>
-      </NotificationProvider>
+      <AllContextProvider>
+        <StaticRouter location={_url}>
+          <App />
+        </StaticRouter>
+      </AllContextProvider>
     </StrictMode>,
     options
   );

@@ -9,14 +9,15 @@ import decryptJwtToken from "../utilities/decryptJwtToken.js";
 
 const csrfColl = process.env.CSRF_COLLECTION;
 const SESSION_SECRET = process.env.SESSION_SECRET;
+const cookieExpTime = process.env.VITE_COOKIE_EXP_TIME;
 const sessionSecreteKey = base64url.decode(SESSION_SECRET);
 
 const cookieOption = {
   secure: true,
   path: "/",
   sameSite: "strict",
-  expires: new Date(Date.now() + 12000),
-  maxAge: 120000,
+  expires: new Date(Date.now() + Number(cookieExpTime)),
+  maxAge: Number(cookieExpTime),
 };
 
 const sessionDecryptOptions = {

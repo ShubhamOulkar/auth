@@ -1,13 +1,12 @@
 import React, { useEffect } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, SubmitHandler } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { zodResolver } from "@hookform/resolvers/zod";
 import SignupFormSchema from "../validation/signupFormSchema";
 import { SignupInputs } from "../types/formFieldsTypes";
-import Label from "../components/FieldLabel";
+import { Label } from "../components/ComponentExpoter";
 import signupFormHandler from "../handlers/signupFormHandler";
-import { SubmitHandler } from "react-hook-form";
-import useNotificationContext from "../notification context/useNotificationContexxt";
+import { useNotificationContext } from "../context/customUseContextExporters";
 import { SignupFormHandlerType } from "../types/SignupFormHandlerType";
 
 function SignupPage() {

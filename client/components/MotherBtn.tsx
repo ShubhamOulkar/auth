@@ -1,14 +1,18 @@
 import React from "react";
 import logoutHandler from "../handlers/logoutHandler";
-import useNotificationContext from "../notification context/useNotificationContexxt";
+import {
+  useNotificationContext,
+  use2FaContext,
+  useAuthContext,
+} from "../context/customUseContextExporters";
 import { useNavigate } from "react-router-dom";
-import useAuthContext from "../auth context/useAuthContext";
 import { LogoutHandlerType } from "../types/LogoutHandlerType";
 
 function MotherBtn({ btnName }: { btnName: string }) {
   const navigate = useNavigate();
   const { setAuth } = useAuthContext();
   const { setNotification } = useNotificationContext();
+  const { setFa, reset2FaContext } = use2FaContext();
 
   const onSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
@@ -24,6 +28,12 @@ function MotherBtn({ btnName }: { btnName: string }) {
 
       // set auth context false
       setAuth(false);
+
+      // disable two factor auth
+      setFa(false);
+
+      // reset 2Fa context
+      reset2FaContext();
 
       //navigate to redirect route provided by server
       //@ts-ignore

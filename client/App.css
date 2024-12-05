@@ -1,3 +1,8 @@
+/* 
+camelCase class names are used in react components
+these classes are set by javascript code
+ */
+
 .home {
   display: flex;
   flex-direction: column;
@@ -17,8 +22,10 @@ ul {
   }
 
   > li:nth-child(2) > a {
-    width: max-content;
+    display: flex;
     padding-inline: 1.5rem;
+    flex-direction: row;
+    gap: 0.4rem;
   }
 }
 
@@ -47,6 +54,7 @@ ul {
   height: var(--nav-bar-height);
   width: 8rem;
   padding: 5px;
+  background-color: var(--top-nav-background-color);
 }
 
 .logoutBtn:hover {
@@ -69,9 +77,31 @@ ul {
   flex-direction: column;
   align-items: center;
   width: 25rem;
-  border: 1px solid wheat;
+  border: 1px solid rgba(0, 0, 0, 0.24);
+  box-shadow: rgba(0, 0, 0, 0.24) -5px 5px 8px;
   border-radius: var(--border-radius);
   padding: var(--padding-inline);
+  gap: 1rem;
+}
+
+.profile-card {
+  align-items: flex-start;
+}
+
+.login-bottom-link {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.card-link {
+  font-size: 1rem;
+  color: #f2f2f2;
+  text-decoration: none;
+}
+
+.card-link:hover {
+  color: var(--button-background-color);
 }
 
 /* login/signup form class */
@@ -100,9 +130,6 @@ ul {
 .notification {
   color: #f2f2f2;
   display: none;
-  position: absolute;
-  left: var(--border-radius);
-  top: 100%;
   width: max-content;
   height: max-content;
   border: 2px solid black;
@@ -110,8 +137,10 @@ ul {
   padding-inline: var(--padding-inline);
   padding-block: var(--padding-block);
   opacity: 0;
-  transform: translateX(100);
   transition: opacity 0.8s;
+  position: absolute;
+  left: var(--border-radius);
+  top: 10%;
 }
 
 .greenNote {
@@ -120,10 +149,47 @@ ul {
   opacity: 1;
 }
 
+/* class added by js */
 .redNote {
   background-color: var(--tooltip-color);
   display: block;
   opacity: 1;
+}
+
+.fa {
+  margin: auto;
+  margin-top: 10rem;
+}
+
+.otp-container {
+  width: inherit;
+}
+
+.otp-form {
+  display: flex;
+  justify-content: space-between;
+}
+
+.otp-field {
+  width: 1rem;
+  margin: 3px;
+  padding-left: 1.2rem;
+}
+
+.otp-field:disabled:hover {
+  cursor: not-allowed;
+  border: none;
+  outline: none;
+}
+
+.otpInvalid {
+  outline: var(--outline-invalid-style);
+  background-color: hsla(0, 79%, 78%, 0.584);
+}
+
+.otpValid {
+  outline: green;
+  background-color: hsla(95, 79%, 78%, 0.584);
 }
 
 @media screen and (min-width: 600px) {
@@ -133,13 +199,16 @@ ul {
 }
 
 @media screen and (max-width: 600px) {
+  ul {
+    > li:nth-child(2) > a {
+      justify-content: center;
+    }
+  }
+
   .home {
     gap: 1rem;
   }
-  .notification {
-    width: 250px;
-    height: 50px;
-  }
+
   .card {
     width: 20rem;
     padding: 0.5rem;
