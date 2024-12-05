@@ -1,8 +1,6 @@
 import React, { useEffect } from "react";
 import { Router } from "./routes/browserRoutes";
 
-const refreshInterval = import.meta.env.VITE_COOKIE_EXP_TIME;
-
 function App() {
   useEffect(() => {
     const timerId = setInterval(() => {
@@ -11,10 +9,9 @@ function App() {
       );
 
       if (!exp) {
-        localStorage.removeItem("auth_ssr_user");
         window.location.reload();
       }
-    }, refreshInterval);
+    }, 60000);
 
     return () => {
       clearInterval(timerId);

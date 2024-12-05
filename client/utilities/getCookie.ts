@@ -26,9 +26,7 @@ export default function getCookie(cookieName: string) {
     .trim();
 
   if (!result) {
-    return returnError(
-      `Cookie ${cookieName} not found. refresh the page to set new session.`
-    );
+    return returnError(`Auth  ${cookieName} not found.`);
   }
 
   // Return cookie value or error

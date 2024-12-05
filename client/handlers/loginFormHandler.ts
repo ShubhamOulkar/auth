@@ -1,17 +1,20 @@
-import { SubmitHandler } from "react-hook-form";
 import { LoginInputs } from "../types/formFieldsTypes";
 import { ClientCredential } from "../types/clientCredentialType";
 import getCookie from "../utilities/getCookie";
 import clientPostRequest from "../utilities/clientPostRequest";
 import encryptBody from "../utilities/encryptBody";
+import { loginFormHandlerType } from "../types/LoginFormHandlerType";
+import { CLientErrorType, NotificationType } from "../types/notificationType";
 
 const endpoint: string = import.meta.env.VITE_LOGIN_ENDPOINT;
 const cookieName: string = import.meta.env.VITE_CSRF_COOKIE_NAME;
 
-const loginFormHandler: SubmitHandler<LoginInputs> = async (data) => {
+const loginFormHandler = async (
+  data: LoginInputs
+): Promise<loginFormHandlerType> => {
   try {
     // get session id and csrf token
-    const csrfValue = getCookie(cookieName);
+    const csrfValue: string | CLientErrorType = getCookie(cookieName);
 
     //@ts-ignore
     if (typeof csrfValue === "object" && !csrfValue?.success) {
@@ -27,21 +30,30 @@ const loginFormHandler: SubmitHandler<LoginInputs> = async (data) => {
     // encrypt body object
     const bodyEnc = await encryptBody(body);
 
+    if (typeof bodyEnc === "object" && !bodyEnc?.success) {
+      return bodyEnc;
+    }
+
     console.log("login form bodyEnc: ", bodyEnc);
 
     // send data to server
-    if (bodyEnc) {
-      let response = await clientPostRequest(endpoint, bodyEnc);
+    if (typeof bodyEnc === "string") {
+      let response: loginFormHandlerType = await clientPostRequest(
+        endpoint,
+        bodyEnc
+      );
 
-      if (response.success) {
-        return response;
-      } else {
-        return response; //error data
-      }
+      return response;
     }
   } catch (err) {
-    console.error("Error is sending user credentials", err);
+    console.error("Error is sending user credentials for login form", err);
   }
+
+  // default return
+  return {
+    success: false,
+    err_msg: "An unknown error occurred in login form handler",
+  } as CLientErrorType;
 };
 
 export default loginFormHandler;

@@ -3,7 +3,7 @@ import useNotificationContext from "../notification context/useNotificationConte
 
 function getMessage(notification) {
   if (notification?.err_code || notification?.err_msg) {
-    return `${notification?.err_code || "client error:"}: ${
+    return `${notification?.err_code || "server error:"}: ${
       notification?.err_msg
     }`;
   } else {
@@ -17,9 +17,11 @@ function Notification() {
   const message = getMessage(notification);
 
   useEffect(() => {
-    setTimeout(() => {
+    const timer = setTimeout(() => {
       setNotification(undefined);
-    }, 10000);
+    }, 20000);
+
+    return () => clearTimeout(timer);
   }, [notification]);
 
   if (notification === undefined) {

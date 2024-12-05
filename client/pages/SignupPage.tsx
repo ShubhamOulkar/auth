@@ -1,18 +1,17 @@
 import React, { useEffect } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, SubmitHandler } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { zodResolver } from "@hookform/resolvers/zod";
 import SignupFormSchema from "../validation/signupFormSchema";
 import { SignupInputs } from "../types/formFieldsTypes";
-import Label from "../components/FieldLabel";
+import { Label } from "../components/ComponentExpoter";
 import signupFormHandler from "../handlers/signupFormHandler";
-import { SubmitHandler } from "react-hook-form";
-import useNotificationContext from "../notification context/useNotificationContexxt";
-import { NotificationType } from "../types/notificationType";
+import { useNotificationContext } from "../context/customUseContextExporters";
+import { SignupFormHandlerType } from "../types/SignupFormHandlerType";
 
 function SignupPage() {
   const navigate = useNavigate();
-  const { notification, setNotification } = useNotificationContext();
+  const { setNotification } = useNotificationContext();
 
   const {
     register,
@@ -37,13 +36,14 @@ function SignupPage() {
   }, [formState, reset]);
 
   const onSubmit: SubmitHandler<SignupInputs> = async (data) => {
-    let response: NotificationType = await signupFormHandler(data);
+    let response: SignupFormHandlerType = await signupFormHandler(data);
 
     console.log("signup response: ", response);
 
-    // generate notification (show errors as well as success)
+    // generate notification (show errors as well as success message)
     setNotification(response);
 
+    //@ts-ignore
     response?.success && navigate(response?.redirect);
   };
 

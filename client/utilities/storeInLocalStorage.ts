@@ -4,5 +4,8 @@ export function storeInLocalStorage(storage: object) {
   //     localStorage.setItem(key, storage[key]);
   //   });
 
-  localStorage.setItem("auth_ssr_user", JSON.stringify(storage));
+  localStorage.setItem(
+    import.meta.env.VITE_LOCALSTORAGE_NAME,
+    JSON.stringify(storage)
+  );
 }

@@ -4,7 +4,7 @@ import { UserType } from "./userType";
 export type NotificationType = {
   success?: boolean;
   msg?: string;
-  redirect?: string;
+  redirect?: string | null;
   err_msg?: string;
   err_code?: number;
   user?: UserType;

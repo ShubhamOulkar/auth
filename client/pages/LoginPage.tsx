@@ -4,19 +4,25 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import LoginFormSchema from "../validation/loginFormSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { LoginInputs } from "../types/formFieldsTypes";
-import Label from "../components/FieldLabel";
-import GoogleBtn from "../components/GoogleBtn";
+import {
+  Label,
+  GoogleBtn,
+  Spinner,
+  LoginBottomLinks,
+} from "../components/ComponentExpoter";
 import loginFormHandler from "../handlers/loginFormHandler";
-import useAuthContext from "../auth context/useAuthContext";
-import Spinner from "../components/Spinner";
-import useNotificationContext from "../notification context/useNotificationContexxt";
-import { NotificationType } from "../types/notificationType";
-import { storeInLocalStorage } from "../utilities/storeInLocalStorage";
+import {
+  useAuthContext,
+  useNotificationContext,
+  use2FaContext,
+} from "../context/customUseContextExporters";
+import { loginFormHandlerType } from "../types/LoginFormHandlerType";
 
 function LoginPage() {
   const navigate = useNavigate();
   const { setAuth } = useAuthContext();
   const { setNotification } = useNotificationContext();
+  const { setFa, setEmail, setTwoFaContext } = use2FaContext();
 
   const {
     register,
@@ -37,24 +43,24 @@ function LoginPage() {
   }, [formState, reset]);
 
   const onSubmit: SubmitHandler<LoginInputs> = async (data) => {
-    const response: NotificationType = await loginFormHandler(data);
+    const response: loginFormHandlerType = await loginFormHandler(data);
 
     console.log("login response: ", response);
-
-    // set auth false if authorization faild
-    //@ts-ignore
-    response?.success ? setAuth(true) : setAuth(false);
-
-    // store user auth data in localstorage
-    //@ts-ignore
-    storeInLocalStorage(response.user);
 
     //set notification for client (show errors as well as success)
     setNotification(response);
 
-    //navigate to redirect route provided by server
-    //@ts-ignore
-    navigate(response?.redirect);
+    if (response.success) {
+      // set two factor context
+      setTwoFaContext("verify email");
+      // enable two factor auth
+      setFa(true);
+      // set email conatext
+      setEmail(data.email);
+      //navigate to redirect route provided by server
+      //@ts-ignore
+      response?.success && navigate(response?.redirect);
+    }
   };
 
   if (isSubmitting) {
@@ -91,10 +97,11 @@ function LoginPage() {
         />
 
         <button type="submit" disabled={Object.keys(errors).length !== 0}>
-          Submit
+          Login
         </button>
       </form>
-      {/* <GoogleBtn /> */}
+      <LoginBottomLinks />
+      <GoogleBtn />
     </div>
   );
 }

@@ -1,46 +1,61 @@
 import { Link } from "react-router-dom";
 import { VscThreeBars } from "react-icons/vsc";
-import React from "react";
+import { PiUserCircleGearBold } from "react-icons/pi";
+import React, { useRef } from "react";
 import useAuthContext from "../auth context/useAuthContext";
+import MotherBtn from "./MotherBtn";
 
 export default function NavBar() {
-  const { auth } = useAuthContext();
+  const { auth, user } = useAuthContext();
+  const nav = useRef<HTMLDivElement>(null);
+
+  function myFunction(nav: HTMLElement | null) {
+    if (nav) {
+      nav?.classList.toggle("responsive");
+    }
+  }
 
   return (
-    <nav className="topnav" id="myTopnav">
+    <nav
+      className="topnav"
+      id="myTopnav"
+      ref={nav}
+      onClick={() => myFunction(nav.current)}
+    >
       <ul className="uList">
         <li>
           <Link to="/">Home</Link>
         </li>
         <li>
-          {auth !== null && (
-            <Link to={auth ? "/profile" : "/login"}>
-              {auth ? "profile" : "login"}
+          {auth && (
+            <Link to="/profile">
+              {user?.picture ? (
+                <img
+                  className="navprofile"
+                  src={user?.picture}
+                  alt={`${user?.email} picture`}
+                />
+              ) : (
+                <PiUserCircleGearBold />
+              )}
+              {user?.first}
             </Link>
+          )}
+          {!auth && <Link to="/login">Login</Link>}
+        </li>
+        <li>
+          {auth ? (
+            <MotherBtn btnName="Logout" />
+          ) : (
+            <Link to="/signup">Signup</Link>
           )}
         </li>
         <li>
-          {auth !== null && (
-            <Link to={auth ? "/logout" : "/signup"}>
-              {auth ? "logout" : "signup"}
-            </Link>
-          )}
-        </li>
-        <li>
-          <a className="icon" onClick={myFunction}>
+          <a className="icon">
             <VscThreeBars />
           </a>
         </li>
       </ul>
     </nav>
   );
-}
-
-function myFunction() {
-  let x = document.getElementById("myTopnav") as HTMLElement;
-  if (x.className === "topnav") {
-    x.className += " responsive";
-  } else {
-    x.className = "topnav";
-  }
 }

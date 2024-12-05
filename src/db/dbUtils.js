@@ -12,9 +12,9 @@ const client = new MongoClient(process.env.MONGO_CONNECT_STRING);
 async function connectMongo() {
   try {
     await client.connect();
-    console.log("Mongo atlas connected.");
+    console.log("MongoDB atlas connected.");
   } catch (err) {
-    console.error("client connection error");
+    console.error("MongoDB client connection error");
   }
 }
 
@@ -56,12 +56,51 @@ async function saveUser(formData) {
   }
 }
 
-async function findUser(email) {
+async function verifyUser(email, sub = null) {
+  const filter = sub
+    ? { googleVerified: true, email: email, googleSub: sub }
+    : { email: email };
+
   try {
     const user = await client
       .db(dbName)
       .collection(collName)
-      .findOne({ email: email }, { projection: { _id: 0 } });
+      .findOne(filter, { projection: { _id: 1 } });
+
+    if (!user) {
+      console.error(`${email} is not ${sub ? "google verified." : "valid."}`);
+      return false;
+    }
+
+    console.log(`google user id ${email} is found in db`);
+
+    return true;
+  } catch (err) {
+    throw err;
+  }
+}
+
+async function findUser(email, context = "verify password") {
+  const projection =
+    context === "verify password"
+      ? { _id: 0, email: 1, password: 1, googleVerified: 1 }
+      : {
+          _id: 0,
+          firstName: 1,
+          lastName: 1,
+          email: 1,
+          googleVerified: 1,
+          password: 1,
+          picture: 1,
+          email_verified: 1,
+        };
+  try {
+    const user = await client.db(dbName).collection(collName).findOne(
+      { email: email },
+      {
+        projection: projection,
+      }
+    );
 
     if (!user) {
       throwError(`user ${email} does not exist`, 404);
@@ -71,6 +110,27 @@ async function findUser(email) {
 
     return user;
   } catch (err) {
+    throw err;
+  }
+}
+
+async function updateUserPassword(email, pass, verify) {
+  try {
+    const result = await client
+      .db(dbName)
+      .collection(collName)
+      .updateOne(
+        { email: email },
+        { $set: { password: pass, email_verified: verify } }
+      );
+
+    if (!result) {
+      return false;
+    }
+
+    return true;
+  } catch (err) {
+    console.error(err);
     throw err;
   }
 }
@@ -113,7 +173,21 @@ async function deleteCsrfToken(collection, token) {
       .collection(collection)
       .deleteOne({ _id: token });
 
-    console.log(deteleResult);
+    console.log(`csrf token deleted:`, deteleResult);
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }
+}
+
+async function deleteUser(email) {
+  try {
+    const deteleResult = await client
+      .db(dbName)
+      .collection(collName)
+      .deleteOne({ email: email });
+
+    console.log(`user deleted ${email}`, deteleResult);
   } catch (err) {
     console.error(err);
     throw err;
@@ -126,7 +200,10 @@ export {
   createCollection,
   saveUser,
   findUser,
+  deleteUser,
+  verifyUser,
   saveCsrf,
   findCsrfHash,
   deleteCsrfToken,
+  updateUserPassword,
 };

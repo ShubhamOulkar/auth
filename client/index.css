@@ -13,8 +13,9 @@
   --outline-focus-style: white solid var(--border-size);
   --outline-invalid-style: var(--tooltip-color) solid var(--border-size);
   --tooltip-color: hsla(0, 97%, 57%, 0.737);
+  --font:Inter, system-ui, Avenir, Helvetica, Arial, sans-serif
 
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: var(--font);
   line-height: 1.5;
   font-weight: 400;
   box-sizing: border-box;
@@ -30,6 +31,22 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
+}
+svg{
+  width: 2em;
+  height: 2em;
+}
+
+.navprofile{
+  border-radius: 50%;
+  width: 35px;
+  height: 35px;
+}
+
+.profile {
+  border-radius: 50%;
+  width: 70px;
+  height: 70px;
 }
 
 input {
@@ -50,6 +67,7 @@ button {
   transition: var(--transition-effect);
 }
 
+/* overwrite above button height */
 button {
   height: 2.5rem;
 }
@@ -88,6 +106,12 @@ label {
   position: relative;
 }
 
+form {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
 .error {
   position: absolute;
   top: 0;
@@ -112,25 +136,27 @@ label {
   border-color: var(--tooltip-color) transparent transparent transparent;
 }
 
+p{
+  font-size: larger;
+  margin-block: 0;
+}
+
 @media screen and (max-width: 600px) {
   input {
-    height: 1rem;
+    height: 1.5rem;
     font-size: smaller;
   }
 
   .error {
-    font-size: x-small;
     left: 9rem;
   }
 
   h1 {
     font-size: x-large;
-    text-align: left;
   }
 
   button {
-    height: 1.8rem;
-    font-size: small;
+    font-size:large;
     font-weight: 700;
   }
 }
