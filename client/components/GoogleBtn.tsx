@@ -49,7 +49,9 @@ export default function GoogleBtn() {
 
   return (
     <>
-      <div ref={googleRef} style={{ marginBlock: 30 }}></div>
+      <div>OR</div>
+
+      <div ref={googleRef} style={{ marginBlock: 10 }}></div>
     </>
   );
 }

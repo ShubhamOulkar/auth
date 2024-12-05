@@ -76,7 +76,7 @@ async function sendGoogleIndentity(
       }
     }
   } catch (err) {
-    console.error("Error in sending token to server", err);
+    console.error("Error in sending google token to server", err);
   }
 }
 

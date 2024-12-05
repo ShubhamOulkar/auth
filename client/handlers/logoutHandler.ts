@@ -66,11 +66,7 @@ async function logoutHandler(btnName: string): Promise<LogoutHandlerType> {
         bodyEnc
       );
 
-      if (response.success) {
-        return response;
-      } else {
-        return response; //error data
-      }
+      return response;
     }
   } catch (err) {
     console.error("Error sending logout request", err);

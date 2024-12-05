@@ -1,17 +1,21 @@
-import { LoginInputs } from "../types/formFieldsTypes";
-import { ClientCredential } from "../types/clientCredentialType";
-import getCookie from "../utilities/getCookie";
-import clientPostRequest from "../utilities/clientPostRequest";
-import encryptBody from "../utilities/encryptBody";
-import { loginFormHandlerType } from "../types/LoginFormHandlerType";
+/// <reference types="vite/client" />
+import { FaOtpInput } from "../types/FaType";
 import { CLientErrorType, NotificationType } from "../types/notificationType";
+import {
+  getCookie,
+  encryptBody,
+  clientPostRequest,
+} from "../utilities/utilitiesExporter";
+import { ClientCredential } from "../types/clientCredentialType";
 
-const endpoint: string = import.meta.env.VITE_LOGIN_ENDPOINT;
+const endpoint: string = import.meta.env.VITE_VERIFY_OTP_ENDPOINT;
 const cookieName: string = import.meta.env.VITE_CSRF_COOKIE_NAME;
 
-const loginFormHandler = async (
-  data: LoginInputs
-): Promise<loginFormHandlerType> => {
+type VerifyOtpFormHandlerType = CLientErrorType | NotificationType;
+
+async function verifyOtpHandler(
+  data: FaOtpInput
+): Promise<VerifyOtpFormHandlerType> {
   try {
     // get session id and csrf token
     const csrfValue: string | CLientErrorType = getCookie(cookieName);
@@ -34,11 +38,11 @@ const loginFormHandler = async (
       return bodyEnc;
     }
 
-    console.log("login form bodyEnc: ", bodyEnc);
+    console.log("OTP form bodyEnc: ", bodyEnc);
 
     // send data to server
     if (typeof bodyEnc === "string") {
-      let response: loginFormHandlerType = await clientPostRequest(
+      let response: VerifyOtpFormHandlerType = await clientPostRequest(
         endpoint,
         bodyEnc
       );
@@ -46,14 +50,14 @@ const loginFormHandler = async (
       return response;
     }
   } catch (err) {
-    console.error("Error is sending user credentials for login form", err);
+    console.error("Error is sending otp for email verification:", err);
   }
 
   // default return
   return {
     success: false,
-    err_msg: "An unknown error occurred in login form handler",
+    err_msg: "An unknown error occurred in verify otp handler",
   } as CLientErrorType;
-};
+}
 
-export default loginFormHandler;
+export default verifyOtpHandler;

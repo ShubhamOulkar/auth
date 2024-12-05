@@ -47,14 +47,10 @@ const signupFormHandler = async (
         bodyEnc
       );
 
-      if (response.success) {
-        return response;
-      } else {
-        return response;
-      }
+      return response;
     }
   } catch (err) {
-    console.error("Error is sending user credentials: ", err);
+    console.error("Error is sending user credentials for signup form: ", err);
   }
 
   // default return

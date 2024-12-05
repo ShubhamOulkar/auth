@@ -5,7 +5,7 @@ config();
 const SECRET = process.env.AUTH_SECRET_KEY;
 const secreteKey = base64url.decode(SECRET);
 
-async function getAuthenticationKay(email) {
+async function getAuthenticationKey(email) {
   try {
     const authKey = await new EncryptJWT({ email })
       .setProtectedHeader({ alg: "dir", enc: "A128CBC-HS256", typ: "jwt" })
@@ -22,4 +22,4 @@ async function getAuthenticationKay(email) {
   }
 }
 
-export default getAuthenticationKay;
+export default getAuthenticationKey;

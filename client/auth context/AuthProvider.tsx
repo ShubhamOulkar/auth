@@ -1,8 +1,9 @@
+/// <reference types="vite/client" />
+
 import React, { PropsWithChildren, useEffect, useState } from "react";
 import AuthContext from "./CreateAuthContext";
 import getCookie from "../utilities/getCookie";
 import { UserType } from "../types/userType";
-import { userInfo } from "os";
 
 // using three states of auth variable true, false, and null.
 // null state = on page load it is null by deafult, then render spinner

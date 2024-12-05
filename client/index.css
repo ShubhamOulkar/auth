@@ -32,6 +32,22 @@
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
 }
+svg{
+  width: 2em;
+  height: 2em;
+}
+
+.navprofile{
+  border-radius: 50%;
+  width: 35px;
+  height: 35px;
+}
+
+.profile {
+  border-radius: 50%;
+  width: 70px;
+  height: 70px;
+}
 
 input {
   border: none;
@@ -118,6 +134,11 @@ form {
   border-width: 7px;
   border-style: solid;
   border-color: var(--tooltip-color) transparent transparent transparent;
+}
+
+p{
+  font-size: larger;
+  margin-block: 0;
 }
 
 @media screen and (max-width: 600px) {
