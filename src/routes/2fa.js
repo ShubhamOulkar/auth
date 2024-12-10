@@ -1,6 +1,11 @@
 import express from "express";
 import verifySession from "../middleware/verifySession.js";
-import { findUser, verifyUser } from "../db/dbUtils.js";
+import {
+  findUser,
+  verifyUser,
+  getVerificationCode,
+  deleteVerificationCode,
+} from "../db/dbUtils.js";
 import {
   throwError,
   getAuthenticationKey,
@@ -8,10 +13,10 @@ import {
 import { config } from "dotenv";
 import bcrypt from "bcrypt";
 import { updateUserPassword } from "../db/dbUtils.js";
+import sendEmail from "../mailer/sendEmail.js";
 config();
 
 const twoFa = express.Router();
-let verificationCode = "ASD00"; //delete
 
 //verify cross site forgery request and session id
 twoFa.use(verifySession);
@@ -124,26 +129,29 @@ twoFa.post("/verifyotp", async (req, res, next) => {
     if (!otp || !email || !twoFaContext)
       throwError("Request do not contain valid request body.", 500);
 
-    // TODO get otp from cache for given email
-    // TODO if otp is not found for email send error
-    // if otp are matched send success
-    if (otp === verificationCode) {
-      twoFaContext === "verify email"
-        ? await sendUserResponseToClient(res, email) // user login to profile after email verification
-        : sendResponseToClient(
-            // user redirect to login on reset password
-            res,
-            true,
-            `${email} otp is verified.`,
-            "/newpassword"
-          );
+    // Get OTP from cache
+    const cachedOtp = await getVerificationCode(email);
+
+    // Compare OTP
+    if (cachedOtp !== otp) {
+      sendResponseToClient(res, false, `Invalid OTP for ${email}`);
+      return;
+    }
+
+    // Handle 2FA verification
+    if (twoFaContext === "verify email") {
+      await sendUserResponseToClient(res, email);
     } else {
       sendResponseToClient(
         res,
-        false,
-        `${email} otp verification failed. Enter valid code.`
+        true,
+        `${email} OTP is verified.`,
+        "/newpassword"
       );
     }
+
+    // Delete OTP from cache
+    await deleteVerificationCode(email);
   } catch (err) {
     next(err);
   }
@@ -160,23 +168,33 @@ twoFa.post("/verifyemail", async (req, res, next) => {
 
     const result = await verifyUser(email);
 
-    if (result) {
-      // TODO generate verification code
-      // TODO save in cache memory
-      // TODO send verification code to an email
+    switch (result) {
+      case true:
+        // send verification on email
+        const result = await sendEmail(email);
 
-      // send response to the client
-      sendResponseToClient(
-        res,
-        result,
-        `Verification code has been send to ${email}.`
-      );
-    } else {
-      sendResponseToClient(
-        res,
-        result,
-        `User ${email} is invalid. Try correct email`
-      );
+        // send response to the client
+        result &&
+          sendResponseToClient(
+            res,
+            result,
+            `Verification code has been send to ${email}.`
+          );
+        break;
+      case false:
+        sendResponseToClient(
+          res,
+          result,
+          `User ${email} is invalid. Try correct email`
+        );
+        break;
+      case "google verified":
+        sendResponseToClient(
+          res,
+          false,
+          `User ${email} is google verified. Use login with google button.`
+        );
+        break;
     }
   } catch (err) {
     next(err);
