@@ -9,12 +9,14 @@ import { createServer as createDevServer } from "vite";
 import compression from "compression";
 import sirv from "sirv";
 import { config } from "dotenv";
-config();
 import { connectMongo } from "./src/db/dbUtils.js";
-import clientHttpValidation from "./src/middleware/clientHttpValidation.js";
-import setSessionAndCsrfToken from "./src/middleware/setSessionAndCsrfToken.js";
-import errorHandler from "./src/middleware/errorHandler.js";
+import {
+  clientHttpValidation,
+  setSessionAndCsrfToken,
+  errorHandler,
+} from "./src/middleware/middlewareExpoter.js";
 import { auth, googleAuth, twoFa } from "./src/routes/routesExporter.js";
+config();
 
 const port = process.env.PORT || 5500;
 const isProduction = process.env.NODE_ENV === "production";
