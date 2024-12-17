@@ -7,6 +7,7 @@ import {
 } from "../context/customUseContextExporters";
 import { useNavigate } from "react-router-dom";
 import { LogoutHandlerType } from "../types/LogoutHandlerType";
+import { localStorageName } from "../env";
 
 function MotherBtn({ btnName }: { btnName: string }) {
   const navigate = useNavigate();
@@ -24,7 +25,7 @@ function MotherBtn({ btnName }: { btnName: string }) {
 
     if (response.success) {
       // delete local storage
-      localStorage.removeItem(import.meta.env.VITE_LOCALSTORAGE_NAME);
+      localStorage.removeItem(localStorageName);
 
       // set auth context false
       setAuth(false);

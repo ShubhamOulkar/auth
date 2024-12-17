@@ -4,17 +4,15 @@ import getCookie from "../utilities/getCookie";
 import clientPostRequest from "../utilities/clientPostRequest";
 import encryptBody from "../utilities/encryptBody";
 import { loginFormHandlerType } from "../types/LoginFormHandlerType";
-import { CLientErrorType, NotificationType } from "../types/notificationType";
-
-const endpoint: string = import.meta.env.VITE_LOGIN_ENDPOINT;
-const cookieName: string = import.meta.env.VITE_CSRF_COOKIE_NAME;
+import { CLientErrorType } from "../types/notificationType";
+import { loginEndpoint, csrfCookieName } from "../env";
 
 const loginFormHandler = async (
   data: LoginInputs
 ): Promise<loginFormHandlerType> => {
   try {
     // get session id and csrf token
-    const csrfValue: string | CLientErrorType = getCookie(cookieName);
+    const csrfValue: string | CLientErrorType = getCookie(csrfCookieName);
 
     //@ts-ignore
     if (typeof csrfValue === "object" && !csrfValue?.success) {
@@ -39,7 +37,7 @@ const loginFormHandler = async (
     // send data to server
     if (typeof bodyEnc === "string") {
       let response: loginFormHandlerType = await clientPostRequest(
-        endpoint,
+        loginEndpoint,
         bodyEnc
       );
 

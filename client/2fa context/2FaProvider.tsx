@@ -1,7 +1,15 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, PropsWithChildren, Context } from "react";
 import faContext from "./create2faContext";
 import { useNotificationContext } from "../context/customUseContextExporters";
-import { FaContext } from "../types/FaType";
+import { FaContext, FaType } from "../types/FaType";
+
+/**
+ * A two factor auth provider
+ *
+ *
+ * @param {JSX.Element} Component as a child
+ * @returns {JSX.Element} A 2FA provider element
+ */
 
 const FaProvider = ({ children }) => {
   const [fa, setFa] = useState<boolean>(false); // enabe 2FA

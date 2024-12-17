@@ -1,7 +1,8 @@
 import React, { useEffect } from "react";
 import useNotificationContext from "../notification context/useNotificationContexxt";
+import { NotificationType } from "../types/notificationType";
 
-function getMessage(notification) {
+function getMessage(notification: NotificationType | undefined) {
   if (notification?.err_code || notification?.err_msg) {
     return `${notification?.err_code || "server error:"}: ${
       notification?.err_msg

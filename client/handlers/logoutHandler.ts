@@ -5,15 +5,19 @@ import { ClientCredential } from "../types/clientCredentialType";
 import { UserType } from "../types/userType";
 import { CLientErrorType } from "../types/notificationType";
 import { LogoutHandlerType } from "../types/LogoutHandlerType";
+import {
+  localStorageName,
+  csrfCookieName,
+  authenticationKey,
+  logoutEndpoint,
+} from "../env";
 
 async function logoutHandler(btnName: string): Promise<LogoutHandlerType> {
   console.log("performing Logout user");
 
   try {
     // get localstorage data
-    const user: string | null = localStorage.getItem(
-      import.meta.env.VITE_LOCALSTORAGE_NAME
-    );
+    const user: string | null = localStorage.getItem(localStorageName);
 
     if (!user) {
       return {
@@ -25,9 +29,7 @@ async function logoutHandler(btnName: string): Promise<LogoutHandlerType> {
     const userObject: UserType = user && JSON.parse(user);
 
     // get auth key
-    const authKey: string | CLientErrorType = getCookie(
-      import.meta.env.VITE_AUTH_KEY
-    );
+    const authKey: string | CLientErrorType = getCookie(authenticationKey);
 
     //@ts-ignore
     if (typeof authKey === "object" && !authKey?.success) {
@@ -35,7 +37,7 @@ async function logoutHandler(btnName: string): Promise<LogoutHandlerType> {
     }
 
     //get csrf cookie
-    const csrfCookie = getCookie(import.meta.env.VITE_CSRF_COOKIE_NAME);
+    const csrfCookie = getCookie(csrfCookieName);
 
     //@ts-ignore
     if (typeof csrfCookie === "object" && !csrfCookie?.success) {
@@ -62,7 +64,7 @@ async function logoutHandler(btnName: string): Promise<LogoutHandlerType> {
     // send data to server
     if (typeof bodyEnc === "string") {
       let response: LogoutHandlerType = await clientPostRequest(
-        import.meta.env.VITE_LOGOUT_ENDPOINT,
+        logoutEndpoint,
         bodyEnc
       );
 

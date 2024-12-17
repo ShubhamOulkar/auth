@@ -9,6 +9,12 @@ import signupFormHandler from "../handlers/signupFormHandler";
 import { useNotificationContext } from "../context/customUseContextExporters";
 import { SignupFormHandlerType } from "../types/SignupFormHandlerType";
 
+/**
+ * A logout form page component.
+ *
+ * @returns {JSX.Element} A page containing logout form
+ */
+
 function SignupPage() {
   const navigate = useNavigate();
   const { setNotification } = useNotificationContext();
