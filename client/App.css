@@ -72,6 +72,25 @@ ul {
   display: none;
 }
 
+.password-container {
+  display: flex;
+  width: 100%;
+  position: relative;
+}
+
+.show-btn {
+  cursor: pointer;
+  position: absolute;
+  right: 0;
+  top: 10px;
+  margin-right: 10px;
+
+  > svg {
+    width: 16px;
+    height: 16px;
+  }
+}
+
 .card {
   display: flex;
   flex-direction: column;

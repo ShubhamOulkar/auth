@@ -9,6 +9,7 @@ import EmailForm from "./VerifyEmailForm";
 import SendOTPForm from "./SendOTPForm";
 import NewPasswordForm from "./NewPasswordForm";
 import ProfileCard from "./ProfileCard";
+import ShowPassword from "./ShowPassword";
 
 export {
   Label,
@@ -22,4 +23,5 @@ export {
   SendOTPForm,
   NewPasswordForm,
   ProfileCard,
+  ShowPassword,
 };

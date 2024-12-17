@@ -113,13 +113,13 @@ async function verifyUser(email) {
       .collection(collName)
       .findOne(filter, { projection: { _id: 1, googleVerified: 1 } });
 
-    if (user.googleVerified) {
-      return "google verified";
-    }
-
     if (!user) {
       console.error(`${email} is invalid.`);
       return false;
+    }
+
+    if (user?.googleVerified) {
+      return "google verified";
     }
 
     console.log(`google user id ${email} is found in db`);
