@@ -18,6 +18,12 @@ import {
 } from "../context/customUseContextExporters";
 import { loginFormHandlerType } from "../types/LoginFormHandlerType";
 
+/**
+ * A login form page component.
+ *
+ * @returns {JSX.Element} A page containing login form
+ */
+
 function LoginPage() {
   const navigate = useNavigate();
   const { setNotification } = useNotificationContext();

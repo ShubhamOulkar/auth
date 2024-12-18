@@ -8,9 +8,7 @@ import {
   clientPostRequest,
 } from "../utilities/utilitiesExporter";
 import { ClientCredential } from "../types/clientCredentialType";
-
-const endpoint: string = import.meta.env.VITE_RESET_PASSWORD_ENDPOINT;
-const cookieName: string = import.meta.env.VITE_CSRF_COOKIE_NAME;
+import { resetPasswordEndpoint, csrfCookieName } from "../env";
 
 type NewPasswordFormHandlerType = CLientErrorType | NotificationType;
 
@@ -19,7 +17,7 @@ async function newPasswordFormHandler(
 ): Promise<NewPasswordFormHandlerType> {
   try {
     // get session id and csrf token
-    const csrfValue: string | CLientErrorType = getCookie(cookieName);
+    const csrfValue: string | CLientErrorType = getCookie(csrfCookieName);
 
     //@ts-ignore
     if (typeof csrfValue === "object" && !csrfValue?.success) {
@@ -44,7 +42,7 @@ async function newPasswordFormHandler(
     // send data to server
     if (typeof bodyEnc === "string") {
       let response: NewPasswordFormHandlerType = await clientPostRequest(
-        endpoint,
+        resetPasswordEndpoint,
         bodyEnc
       );
 

@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "clean": "rmdir dist",
-    "dev": "cross-env NODE_ENV=development node server.js",
+    "dev": "cross-env NODE_ENV=development node --inspect server.js",
     "build": "pnpm run build:client && pnpm run build:server ",
     "build:client": "vite build --ssrManifest --outDir dist/client",
     "build:server": "vite build --ssr client/entry-server.tsx --outDir dist/server",
