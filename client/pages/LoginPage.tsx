@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { useForm, SubmitHandler } from "react-hook-form";
 import LoginFormSchema from "../validation/loginFormSchema";
@@ -9,20 +9,26 @@ import {
   GoogleBtn,
   Spinner,
   LoginBottomLinks,
+  ShowPassword,
 } from "../components/ComponentExpoter";
 import loginFormHandler from "../handlers/loginFormHandler";
 import {
-  useAuthContext,
   useNotificationContext,
   use2FaContext,
 } from "../context/customUseContextExporters";
 import { loginFormHandlerType } from "../types/LoginFormHandlerType";
 
+/**
+ * A login form page component.
+ *
+ * @returns {JSX.Element} A page containing login form
+ */
+
 function LoginPage() {
   const navigate = useNavigate();
-  const { setAuth } = useAuthContext();
   const { setNotification } = useNotificationContext();
   const { setFa, setEmail, setTwoFaContext } = use2FaContext();
+  const passwordInputRef = useRef<HTMLInputElement>(null);
 
   const {
     register,
@@ -34,6 +40,8 @@ function LoginPage() {
     // defaultValues: { email: "abcd@gmail.com" }, // default values for input fields(i am using autofill)
     resolver: zodResolver(LoginFormSchema),
   });
+
+  const passwordRegister = register("password");
 
   // clear the input fields
   useEffect(() => {
@@ -87,14 +95,23 @@ function LoginPage() {
         />
 
         <Label label="Enter password" labelFor="password" errorsObj={errors} />
-        <input
-          id="password"
-          type="password"
-          className={errors?.password && "invalid"}
-          autoComplete="current-password webauthn"
-          aria-describedby="passwordErr"
-          {...register("password")}
-        />
+        <div className="password-container">
+          <input
+            id="password"
+            type="password"
+            className={errors?.password && "invalid"}
+            autoComplete="current-password webauthn"
+            aria-describedby="passwordErr"
+            {...passwordRegister}
+            ref={(e) => {
+              // get the reference to the input element after it is render
+              passwordRegister.ref(e);
+              //@ts-ignore
+              passwordInputRef.current = e;
+            }}
+          />
+          <ShowPassword refInput={passwordInputRef} />
+        </div>
 
         <button type="submit" disabled={Object.keys(errors).length !== 0}>
           Login

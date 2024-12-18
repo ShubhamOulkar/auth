@@ -6,6 +6,7 @@ config();
 
 const dbName = process.env.DB_NAME;
 const collName = process.env.COLL_NAME;
+const verificationCollection = process.env.VERIFICATION_CODE_COLLECTION_NAME;
 
 const client = new MongoClient(process.env.MONGO_CONNECT_STRING);
 
@@ -38,6 +39,53 @@ async function createCollection(databaseName, collectionName, schema) {
   }
 }
 
+async function saveVerificationCode(email, code) {
+  try {
+    const result = await client
+      .db(dbName)
+      .collection(verificationCollection)
+      .insertOne({ email: email, code: code });
+
+    console.log(`verification code is saved for user ${email}`, result);
+    return;
+  } catch (err) {
+    console.error("Error in storing varification code:", err.errmsg);
+    throw err;
+  }
+}
+
+async function getVerificationCode(email) {
+  try {
+    const user = await client
+      .db(dbName)
+      .collection(verificationCollection)
+      .findOne({ email: email });
+
+    if (!user) {
+      return false;
+    }
+
+    console.log("verification code is found in db: ", user);
+    return user.code;
+  } catch (err) {
+    throw err;
+  }
+}
+
+async function deleteVerificationCode(email) {
+  try {
+    const deteleResult = await client
+      .db(dbName)
+      .collection(verificationCollection)
+      .deleteOne({ email: email });
+
+    console.log(`verification code deleted for ${email}:`, deteleResult);
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }
+}
+
 async function saveUser(formData) {
   try {
     const result = await client
@@ -56,20 +104,22 @@ async function saveUser(formData) {
   }
 }
 
-async function verifyUser(email, sub = null) {
-  const filter = sub
-    ? { googleVerified: true, email: email, googleSub: sub }
-    : { email: email };
+async function verifyUser(email) {
+  const filter = { email: email };
 
   try {
     const user = await client
       .db(dbName)
       .collection(collName)
-      .findOne(filter, { projection: { _id: 1 } });
+      .findOne(filter, { projection: { _id: 1, googleVerified: 1 } });
 
     if (!user) {
-      console.error(`${email} is not ${sub ? "google verified." : "valid."}`);
+      console.error(`${email} is invalid.`);
       return false;
+    }
+
+    if (user?.googleVerified) {
+      return "google verified";
     }
 
     console.log(`google user id ${email} is found in db`);
@@ -206,4 +256,7 @@ export {
   findCsrfHash,
   deleteCsrfToken,
   updateUserPassword,
+  saveVerificationCode,
+  getVerificationCode,
+  deleteVerificationCode,
 };

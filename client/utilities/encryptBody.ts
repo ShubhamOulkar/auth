@@ -1,9 +1,15 @@
 import { EncryptJWT, base64url } from "jose";
 import { ClientCredential } from "../types/clientCredentialType";
 import { CLientErrorType } from "../types/notificationType";
+import {
+  postBodySecretKey,
+  postBodyEncSubject,
+  postBodyEncExpTime,
+  postBodyEncAudience,
+  postBodyEncIssure,
+} from "../env";
 
-const SECRET: string = import.meta.env.VITE_POST_BODY_SECRET;
-const secretKey = base64url.decode(SECRET);
+const secretKey = base64url.decode(postBodySecretKey);
 
 // Function to generate a CSRF token
 async function encryptBody(
@@ -14,10 +20,10 @@ async function encryptBody(
     const bodyEnc = await new EncryptJWT({ payload })
       .setProtectedHeader({ alg: "dir", enc: "A128CBC-HS256", typ: "jwt" })
       .setIssuedAt()
-      .setSubject(import.meta.env.VITE_SUBJECT)
-      .setExpirationTime(import.meta.env.VITE_EXP_TIME)
-      .setIssuer(import.meta.env.VITE_ISSURE)
-      .setAudience(import.meta.env.VITE_AUDIENCE)
+      .setSubject(postBodyEncSubject)
+      .setExpirationTime(postBodyEncExpTime)
+      .setIssuer(postBodyEncIssure)
+      .setAudience(postBodyEncAudience)
       .encrypt(secretKey);
 
     return bodyEnc;

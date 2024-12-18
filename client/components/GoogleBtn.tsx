@@ -3,6 +3,7 @@ import sendGoogleIndentity from "../handlers/sendGoogleIndentity";
 import useAuthContext from "../auth context/useAuthContext";
 import useNotificationContext from "../notification context/useNotificationContexxt";
 import { GoogleCredentialResponse } from "../types/GoogleCredentialResponse";
+import { googleClientId } from "../env";
 
 export default function GoogleBtn() {
   const googleRef = useRef<HTMLDivElement>(null);
@@ -11,7 +12,7 @@ export default function GoogleBtn() {
 
   const IdConfiguration = {
     //@ts-ignore
-    client_id: import.meta.env.VITE_GOOGLE_CLIENT_ID,
+    client_id: googleClientId,
     callback: (response: GoogleCredentialResponse) =>
       sendGoogleIndentity(response, setAuth, setNotification), // callback user by "popup" mode
     // login_uri: "http://127.0.0.1:5500/google/token", //login uri used by "redirect" mode

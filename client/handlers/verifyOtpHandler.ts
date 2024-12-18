@@ -7,9 +7,7 @@ import {
   clientPostRequest,
 } from "../utilities/utilitiesExporter";
 import { ClientCredential } from "../types/clientCredentialType";
-
-const endpoint: string = import.meta.env.VITE_VERIFY_OTP_ENDPOINT;
-const cookieName: string = import.meta.env.VITE_CSRF_COOKIE_NAME;
+import { verifyOtpEndpoint, csrfCookieName } from "../env";
 
 type VerifyOtpFormHandlerType = CLientErrorType | NotificationType;
 
@@ -18,7 +16,7 @@ async function verifyOtpHandler(
 ): Promise<VerifyOtpFormHandlerType> {
   try {
     // get session id and csrf token
-    const csrfValue: string | CLientErrorType = getCookie(cookieName);
+    const csrfValue: string | CLientErrorType = getCookie(csrfCookieName);
 
     //@ts-ignore
     if (typeof csrfValue === "object" && !csrfValue?.success) {
@@ -43,7 +41,7 @@ async function verifyOtpHandler(
     // send data to server
     if (typeof bodyEnc === "string") {
       let response: VerifyOtpFormHandlerType = await clientPostRequest(
-        endpoint,
+        verifyOtpEndpoint,
         bodyEnc
       );
 

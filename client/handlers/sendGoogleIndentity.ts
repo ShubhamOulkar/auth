@@ -7,9 +7,7 @@ import encryptBody from "../utilities/encryptBody";
 import { GoogleCredentialResponse } from "../types/GoogleCredentialResponse";
 import { storeInLocalStorage } from "../utilities/storeInLocalStorage";
 import { NotificationType } from "../types/notificationType";
-
-const endpoint = import.meta.env.VITE_GOOGLE_LOGIN_ENDPOINT;
-const cookieName = import.meta.env.VITE_CSRF_COOKIE_NAME;
+import { googleEndpoint, csrfCookieName } from "../env";
 
 async function sendGoogleIndentity(
   response: GoogleCredentialResponse,
@@ -18,7 +16,7 @@ async function sendGoogleIndentity(
 ): Promise<void> {
   try {
     // get csrf token
-    const csrfValue = getCookie(cookieName);
+    const csrfValue = getCookie(csrfCookieName);
 
     //@ts-ignore
     if (typeof csrfValue === "object" && !csrfValue?.success) {
@@ -44,7 +42,7 @@ async function sendGoogleIndentity(
 
     // send data to server
     if (typeof bodyEnc === "string") {
-      let response = await clientPostRequest(endpoint, bodyEnc);
+      let response = await clientPostRequest(googleEndpoint, bodyEnc);
 
       // on success full user verification
       if (response?.success) {
