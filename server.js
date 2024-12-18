@@ -160,8 +160,10 @@ app.use("*", async (req, res) => {
     }, 10000);
   } catch (e) {
     vite?.ssrFixStacktrace(e);
-    console.log(e.stack);
-    res.status(500).end(e.stack);
+    // log error only on sever
+    console.error(e.stack);
+    // end response with exception message
+    res.status(500).end("An exception occurred");
   }
 });
 

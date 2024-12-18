@@ -1,6 +1,14 @@
 import jwt from "jsonwebtoken";
 import ErrorResponse from "../errorObj/errorClass.js";
 
+/**
+ * This function is not used in production code.This function is used in development for design testing purpose.
+ *
+ * @param {*} req
+ * @param {*} res
+ * @param {*} next
+ */
+
 function authoriseUser(req, res, next) {
   const token = req.header("Authorization");
 
