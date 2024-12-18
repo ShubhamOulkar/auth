@@ -5,11 +5,18 @@ config();
 import verifySession from "../middleware/verifySession.js";
 import { saveUser, verifyUser } from "../db/dbUtils.js";
 import getAuthenticationKay from "../utilities/getAuthenticationKey.js";
+import { limiter } from "../middleware/rateLimiter.js";
 
 const authKeyName = process.env.VITE_AUTH_KEY;
 
 const googleClient = new OAuth2Client();
 const googleAuth = express.Router();
+
+//verify cross site forgery request and session id
+googleAuth.use(verifySession);
+
+// Apply the rate limiting middleware to gooleAuth requests.
+googleAuth.use(limiter);
 
 function sendResponse(res, user, authKey) {
   //TODO save key in cache for 1hr
@@ -41,7 +48,7 @@ function sendResponse(res, user, authKey) {
   console.log(`${user.email} login successful`);
 }
 
-googleAuth.post("/login", verifySession, async (req, res, next) => {
+googleAuth.post("/login", async (req, res, next) => {
   try {
     const googleId = res.locals.googleId;
 

@@ -14,12 +14,16 @@ import { config } from "dotenv";
 import bcrypt from "bcrypt";
 import { updateUserPassword } from "../db/dbUtils.js";
 import sendEmail from "../mailer/sendEmail.js";
+import { limiter } from "../middleware/rateLimiter.js";
 config();
 
 const twoFa = express.Router();
 
 //verify cross site forgery request and session id
 twoFa.use(verifySession);
+
+// Apply the rate limiting middleware to 2fa requests.
+twoFa.use(limiter);
 
 function sendResponseToClient(res, result, msg, redirect = null) {
   const jsonData = result
