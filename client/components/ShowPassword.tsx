@@ -30,11 +30,12 @@ export default function ShowPassword({
       onClick={togglePasswordVisibility}
       aria-label="Show password"
       aria-pressed={showPass}
+      title={showPass ? "Hide password" : "Show password"}
     >
       {showPass ? (
-        <BiShow width={16} height={16} />
-      ) : (
         <BiHide width={16} height={16} />
+      ) : (
+        <BiShow width={16} height={16} />
       )}
     </div>
   );
