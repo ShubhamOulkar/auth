@@ -178,7 +178,7 @@ function LoginPage() {
         </button>
       </form>
       <LoginBottomLinks />
-      {/* <GoogleBtn /> */}
+      <GoogleBtn />
     </div>
   );
 }
