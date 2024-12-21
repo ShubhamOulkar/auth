@@ -1,4 +1,4 @@
-import React, { RefObject, useState } from "react";
+import React, { JSX, RefObject, useState } from "react";
 import { BiHide, BiShow } from "react-icons/bi";
 
 /**
@@ -7,36 +7,32 @@ import { BiHide, BiShow } from "react-icons/bi";
  * @param {React.RefObject<HTMLInputElement>} props.refInput - A reference to the password input field.
  * @returns {JSX.Element} A button that toggles the visibility of the password input field.
  */
-export default function ShowPassword({
-  refInput,
+export default function TogglePasswordBtn({
+  showPassword,
+  setShowPassword,
 }: {
-  refInput: RefObject<HTMLInputElement>;
-}) {
-  const [showPass, setShowPass] = useState(false);
-
+  showPassword: boolean;
+  setShowPassword: React.Dispatch<React.SetStateAction<boolean>>;
+}): JSX.Element {
   /**
    * Toggles the visibility of the password input field.
    */
-  const togglePasswordVisibility = () => {
-    const inputField = refInput.current;
-    //@ts-ignore
-    inputField.type = inputField?.type === "password" ? "text" : "password";
-    setShowPass(!showPass);
+
+  const togglePasswordVisibility = (e) => {
+    e.stopPropagation(); // Prevent event from bubbling up to parent elements
+    setShowPassword(!showPassword);
   };
 
   return (
-    <div
+    <button
+      type="button"
       className="show-btn"
       onClick={togglePasswordVisibility}
       aria-label="Show password"
-      aria-pressed={showPass}
-      title={showPass ? "Hide password" : "Show password"}
+      aria-pressed={showPassword}
+      title={showPassword ? "Hide password" : "Show password"}
     >
-      {showPass ? (
-        <BiHide width={16} height={16} />
-      ) : (
-        <BiShow width={16} height={16} />
-      )}
-    </div>
+      {showPassword ? <BiHide /> : <BiShow />}
+    </button>
   );
 }

@@ -1,18 +1,18 @@
-import React, { useState, useEffect, PropsWithChildren, Context } from "react";
+import React, { useState, useEffect } from "react";
 import faContext from "./create2faContext";
 import { useNotificationContext } from "../context/customUseContextExporters";
-import { FaContext, FaType } from "../types/FaType";
+import { FaContext } from "../types/FaType";
+import { PropsWithChildren } from "react";
 
 /**
  * A two factor auth provider
- *
  *
  * @param {JSX.Element} Component as a child
  * @returns {JSX.Element} A 2FA provider element
  */
 
-const FaProvider = ({ children }) => {
-  const [fa, setFa] = useState<boolean>(false); // enabe 2FA
+const FaProvider = ({ children }: PropsWithChildren) => {
+  const [fa, setFa] = useState<boolean>(false); // enable 2FA
   const [isEmailVerified, setEmailVerification] = useState<boolean>(false); // this is used by profile page and new password page
   const [email, setEmail] = useState<string>(""); // email for varification
   const [twoFaContext, setTwoFaContext] =

@@ -1,4 +1,4 @@
-import LoginFormSchema from "../validation/loginFormSchema";
+import { LoginFormSchema } from "../validation/loginFormSchema";
 import SignupFormSchema from "../validation/signupFormSchema";
 import z from "zod";
 
