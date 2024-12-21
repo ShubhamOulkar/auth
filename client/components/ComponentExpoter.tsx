@@ -9,7 +9,11 @@ import EmailForm from "./VerifyEmailForm";
 import SendOTPForm from "./SendOTPForm";
 import NewPasswordForm from "./NewPasswordForm";
 import ProfileCard from "./ProfileCard";
-import ShowPassword from "./ShowPassword";
+import TogglePasswordBtn from "./ShowPassword";
+import FirstNameInput from "./form fields/FirstNameInput";
+import LastNameInput from "./form fields/LastNameInput";
+import EmailInput from "./form fields/EmailInput";
+import PasswordInput from "./form fields/PasswordInput";
 
 export {
   Label,
@@ -23,5 +27,9 @@ export {
   SendOTPForm,
   NewPasswordForm,
   ProfileCard,
-  ShowPassword,
+  TogglePasswordBtn,
+  FirstNameInput,
+  LastNameInput,
+  EmailInput,
+  PasswordInput,
 };
