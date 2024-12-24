@@ -20,7 +20,7 @@ const AuthProvider = ({ children }: PropsWithChildren) => {
   useEffect(() => {
     // check client has auth cookie
     const authKey = getCookie(authenticationKey);
-    console.log("auth key: ", authKey);
+
     // key is not present then set false else true
     //@ts-ignore
     typeof authKey === "object" && !authKey?.success
@@ -32,7 +32,7 @@ const AuthProvider = ({ children }: PropsWithChildren) => {
     // TODO get local storage data and validate
     const storageString = localStorage.getItem(localStorageName) || "";
     const userObject: UserType = storageString && JSON.parse(storageString);
-    console.log("local storage:", userObject);
+
     typeof userObject === "object" ? setUser(userObject) : setAuth(false);
   }, [auth]);
 

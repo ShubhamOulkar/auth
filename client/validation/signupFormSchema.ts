@@ -69,10 +69,28 @@ const SignupFormSchema = z
     path: ["confirmPassword"],
   });
 
+const NewPasswordFormSchema = z
+  .object({
+    password: z
+      .string()
+      .min(1, "Valid password is required")
+      .regex(/[a-zA-Z]/, "must contain capital letter")
+      .regex(/[0-9]/, "must contain numbers")
+      .regex(/[^a-zA-Z0-9]/, "must contain special characters")
+      .min(8, "must be 8 character long")
+      .trim(),
+    confirmPassword: z.string().min(1, "Valid password is required").trim(),
+  })
+  .refine(async (data) => data.confirmPassword === data.password, {
+    message: "password is not matched",
+    path: ["confirmPassword"],
+  });
+
 export {
   PasswordSchema,
   ConfirmPasswordSchema,
   SignupFormSchema,
   LastNameSchema,
   FirstNameSchema,
+  NewPasswordFormSchema,
 };

@@ -13,8 +13,6 @@ import {
 } from "../env";
 
 async function logoutHandler(btnName: string): Promise<LogoutHandlerType> {
-  console.log("performing Logout user");
-
   try {
     // get localstorage data
     const user: string | null = localStorage.getItem(localStorageName);
@@ -58,8 +56,6 @@ async function logoutHandler(btnName: string): Promise<LogoutHandlerType> {
     if (typeof bodyEnc === "object" && !bodyEnc?.success) {
       return bodyEnc;
     }
-
-    console.log("login form bodyEnc: ", bodyEnc);
 
     // send data to server
     if (typeof bodyEnc === "string") {

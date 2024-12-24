@@ -5,10 +5,14 @@ const EmailInput = memo(function EmailInput({
   data,
   error,
   autofocus,
+  disabled,
+  readOnly,
 }: {
   data: string;
   error: string;
   autofocus?: boolean;
+  disabled?: boolean;
+  readOnly?: boolean;
 }) {
   return (
     <>
@@ -19,9 +23,12 @@ const EmailInput = memo(function EmailInput({
         className={error && "invalid"}
         autoComplete="email webauthn"
         autoFocus={autofocus}
+        disabled={disabled}
         aria-describedby="emailErr"
         name="email"
-        defaultValue={data}
+        defaultValue={!readOnly ? data : undefined}
+        value={readOnly ? data : undefined}
+        readOnly={readOnly}
       />
     </>
   );

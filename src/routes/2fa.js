@@ -175,13 +175,13 @@ twoFa.post("/verifyemail", async (req, res, next) => {
     switch (result) {
       case true:
         // send verification on email
-        const result = await sendEmail(email);
+        const gmailResult = await sendEmail(email);
 
         // send response to the client
-        result &&
+        gmailResult &&
           sendResponseToClient(
             res,
-            result,
+            gmailResult,
             `Verification code has been send to ${email}.`
           );
         break;

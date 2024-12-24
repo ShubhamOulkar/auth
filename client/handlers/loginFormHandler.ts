@@ -32,8 +32,6 @@ const loginFormHandler = async (
       return bodyEnc;
     }
 
-    console.log("login form bodyEnc: ", bodyEnc);
-
     // send data to server
     if (typeof bodyEnc === "string") {
       let response: loginFormHandlerType = await clientPostRequest(

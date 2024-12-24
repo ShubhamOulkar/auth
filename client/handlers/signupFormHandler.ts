@@ -38,8 +38,6 @@ const signupFormHandler = async (
       return bodyEnc;
     }
 
-    console.log("signup form bodyEnc: ", bodyEnc);
-
     // send data to server
     if (typeof bodyEnc === "string") {
       let response: SignupFormHandlerType = await clientPostRequest(

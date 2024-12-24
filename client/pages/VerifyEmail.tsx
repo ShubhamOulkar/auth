@@ -4,6 +4,7 @@ import {
   Notification,
   EmailForm,
   SendOTPForm,
+  CancelAuthenticationButton,
 } from "../components/ComponentExpoter";
 import { use2FaContext } from "../context/customUseContextExporters";
 
@@ -20,6 +21,7 @@ function VerifyEmail() {
       <Notification />
       <EmailForm />
       <SendOTPForm />
+      <CancelAuthenticationButton buttonName="Cancle Two factor Authentication" />
     </div>
   );
 }
