@@ -5,7 +5,7 @@ function Spinner() {
     <div className="spinner">
       <img src="/client/assets/spinner.svg" />
       <p>
-        <strong>Wait, I am doing user verification ✋🏻...</strong>
+        <strong>Wait ✋🏻... connecting to the server.</strong>
       </p>
     </div>
   );

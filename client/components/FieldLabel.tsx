@@ -1,20 +1,13 @@
 import React from "react";
 
-type FieldLabelType = {
-  label: string;
-  labelFor: string;
-};
-
-function Label({ label, labelFor, errorsObj }) {
-  let errId = `${labelFor}Err`;
-  let ifError = errorsObj[labelFor];
+function Label({ label, labelFor, error }) {
+  const id = `${labelFor}Err`;
   return (
     <label htmlFor={labelFor}>
       {label}
-      {ifError && (
-        <span className="error" id={errId} aria-live="assertive">
-          {" "}
-          {ifError?.message}
+      {error && (
+        <span className="error" id={id} aria-live="assertive">
+          {error}
         </span>
       )}
     </label>

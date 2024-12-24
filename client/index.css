@@ -52,6 +52,7 @@ svg{
 input {
   border: none;
   appearance: none;
+  background-color: black;
 }
 
 input,
