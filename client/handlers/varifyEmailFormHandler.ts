@@ -10,7 +10,7 @@ import {
 import { ClientCredential } from "../types/clientCredentialType";
 import { verifyEmailEndpoint, csrfCookieName } from "../env";
 
-type VerifyEmailFormHandlerType = CLientErrorType | NotificationType;
+export type VerifyEmailFormHandlerType = CLientErrorType | NotificationType;
 
 async function verifyEmailFormHandler(
   data: FaEmailInput
@@ -36,8 +36,6 @@ async function verifyEmailFormHandler(
     if (typeof bodyEnc === "object" && !bodyEnc?.success) {
       return bodyEnc;
     }
-
-    console.log("verify email form bodyEnc: ", bodyEnc);
 
     // send data to server
     if (typeof bodyEnc === "string") {

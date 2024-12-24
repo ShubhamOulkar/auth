@@ -16,6 +16,7 @@ import {
   errorHandler,
 } from "./src/middleware/middlewareExpoter.js";
 import { auth, googleAuth, twoFa } from "./src/routes/routesExporter.js";
+import { throwError } from "./src/utilities/utils.js";
 config();
 
 const port = process.env.PORT || 5500;
@@ -83,20 +84,20 @@ if (!isProduction) {
   app.use("/", sirv("./dist/client", { extensions: [] }));
   //set cookie for session ID and csrf token on page load
   app.use(setSessionAndCsrfToken);
-  // cache client forms
+  // cache client pages in production only
   app.use(clientHttpValidation(clientFolderpath));
 }
 
 // set cookie for session ID and csrf token on page load only (page will reload after session expiration)
 // !  remove this middware in production !
-app.use(setSessionAndCsrfToken);
+// app.use(setSessionAndCsrfToken);
 
 app.use(errorHandler);
 // React component rendering home page
 // must use *, otherwise on page refresh; client sent get request to server
 // and server will send http code on all request
 
-app.use("*", async (req, res) => {
+app.use("/", async (req, res) => {
   try {
     const url = req.originalUrl;
 
@@ -169,6 +170,6 @@ app.use("*", async (req, res) => {
 
 app.listen(port, () => {
   console.log(
-    `Auth-SSR ${process.env.NODE_ENV} server is running at http://127.0.0.1:${port}`
+    `⚡Auth-SSR ${process.env.NODE_ENV} server is running at http://127.0.0.1:${port}⚡`
   );
 });

@@ -1,7 +1,11 @@
 import React from "react";
 import use2FaContext from "../2fa context/use2FaContext";
 import { InvalidReq } from "../pages/PagesExporter";
-import { Notification, NewPasswordForm } from "../components/ComponentExpoter";
+import {
+  Notification,
+  NewPasswordForm,
+  CancelAuthenticationButton,
+} from "../components/ComponentExpoter";
 
 function SetNewPassword() {
   const { fa, isEmailVerified } = use2FaContext();
@@ -16,6 +20,7 @@ function SetNewPassword() {
         <Notification />
         <h1>Set new password</h1>
         <NewPasswordForm />
+        <CancelAuthenticationButton buttonName="Cancle Password reset" />
       </div>
     </>
   );

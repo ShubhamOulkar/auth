@@ -37,8 +37,6 @@ async function newPasswordFormHandler(
       return bodyEnc;
     }
 
-    console.log("reset password form bodyEnc: ", bodyEnc);
-
     // send data to server
     if (typeof bodyEnc === "string") {
       let response: NewPasswordFormHandlerType = await clientPostRequest(
