@@ -1,77 +1,61 @@
-import React from "react";
-import { useForm, SubmitHandler } from "react-hook-form";
+import React, { useActionState, useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Label, Spinner } from "../components/ComponentExpoter";
-import { FaPasswordResetInputs } from "../types/FaType";
-import { FaPasswordResetSchema } from "../validation/2FaSchema";
+import { PasswordInput, Spinner } from "../components/ComponentExpoter";
 import {
   useNotificationContext,
   use2FaContext,
 } from "../context/customUseContextExporters";
-import newPasswordFormHandler from "../handlers/newPasswordFormHandler";
+import { InitialStatus } from "../types/FormInitialStatus";
+import { FieldErrors } from "../types/FormFieldErrors";
+import resetPasswordFormFieldsValidation from "../field validation handlers/resetPasswordFormFieldsValidation";
+import resetPasswordAction from "../form actions/resetPasswordAction";
 
 function NewPasswordForm() {
   const navigate = useNavigate();
   const { setNotification } = useNotificationContext();
   const { email, reset2FaContext, setFa } = use2FaContext();
-
-  const {
-    register,
-    handleSubmit,
-    formState: { errors, isSubmitting },
-  } = useForm<FaPasswordResetInputs>({
-    resolver: zodResolver(FaPasswordResetSchema),
-  });
-
-  const onSubmit: SubmitHandler<FaPasswordResetInputs> = async (data) => {
-    // send data to endpoint
-    const newData = { ...data, email };
-    console.log("new password data:", newData);
-    const response = await newPasswordFormHandler(newData);
-    // on success response, enable code varification form
-    setNotification(response);
-
-    if (response.success) {
-      reset2FaContext();
-      setFa(false);
-    }
-
-    //@ts-ignore
-    navigate(response.redirect);
+  const [error, setError] = useState<FieldErrors>();
+  const initialStatus: InitialStatus = {
+    success: true,
+    data: {
+      password: "",
+      confirmPassword: "",
+    },
   };
+  const [formStatus, formAction, isPending] = useActionState(
+    resetPasswordAction(
+      email,
+      setError,
+      setNotification,
+      setFa,
+      reset2FaContext,
+      navigate
+    ),
+    initialStatus
+  );
 
-  if (isSubmitting) {
+  const onChangeValidation = useCallback(
+    resetPasswordFormFieldsValidation(setError),
+    [formStatus.success, error]
+  );
+
+  if (isPending) {
     return <Spinner />;
   }
 
   return (
-    <form className="form" onSubmit={handleSubmit(onSubmit)}>
-      <Label label="Create password" labelFor="password" errorsObj={errors} />
-
-      <input
-        id="password"
-        type="password"
-        className={errors?.password && "invalid"}
-        aria-describedby="passwordErr"
-        {...register("password")}
-        autoFocus={true}
+    <form className="form" action={formAction} onChange={onChangeValidation}>
+      <PasswordInput
+        fieldName="password"
+        error={error?.password ? error.password[0] : ""}
+        data={formStatus.data?.password || ""}
       />
-      <Label
-        label="Confirm password"
-        labelFor="confirmPassword"
-        errorsObj={errors}
+      <PasswordInput
+        fieldName="confirmPassword"
+        error={error?.confirmPassword ? error.confirmPassword[0] : ""}
+        data={formStatus.data?.confirmPassword || ""}
       />
-
-      <input
-        id="confirmPassword"
-        type="password"
-        className={errors?.confirmPassword && "invalid"}
-        aria-describedby="confirmErr"
-        {...register("confirmPassword")}
-      />
-
-      <button type="submit" disabled={Object.keys(errors).length !== 0}>
+      <button type="submit" disabled={error !== undefined}>
         Set new password
       </button>
     </form>

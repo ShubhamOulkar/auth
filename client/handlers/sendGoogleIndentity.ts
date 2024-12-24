@@ -38,8 +38,6 @@ async function sendGoogleIndentity(
       return;
     }
 
-    console.log("google auth bodyEnc: ", bodyEnc);
-
     // send data to server
     if (typeof bodyEnc === "string") {
       let response = await clientPostRequest(googleEndpoint, bodyEnc);

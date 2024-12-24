@@ -43,15 +43,8 @@ export default function SendOTPForm() {
 
   const sendOtpToServer = async () => {
     const data = { otp: otp.join(""), email, twoFaContext };
-    // send email to endpoint
-    console.log("code sending for verification:", data);
-
     const response = await verifyOtpHandler(data);
-
-    console.log("response from /verifyotp", response);
-
     setNotification(response);
-
     if (response.success) {
       // on success response, enable code varification form
       setEmailVerification(response.success);
@@ -156,7 +149,9 @@ export default function SendOTPForm() {
             onChange={handleChangeInput}
             onKeyDown={handleKeyDown}
             onPaste={handlePaste}
-            ref={(el) => (inputRefs.current[index] = el as HTMLInputElement)}
+            ref={(el) => {
+              if (el) inputRefs.current[index] = el as HTMLInputElement;
+            }}
             className={`otp-field ${
               otpStatus === "not verified" ? "otpInvalid" : ""
             }`}

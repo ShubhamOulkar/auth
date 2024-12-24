@@ -11,6 +11,7 @@ import {
 import { throwError, decryptJwtToken } from "../utilities/utilitiesExporter.js";
 import { base64url } from "jose";
 import { config } from "dotenv";
+import { limiter } from "../middleware/rateLimiter.js";
 config();
 
 const auth = express.Router();
@@ -26,6 +27,9 @@ const decryptOptions = {
 
 //verify cross site forgery request and session id
 auth.use(verifySession);
+
+// Apply the rate limiting middleware to auth requests.
+auth.use(limiter);
 
 // user logout
 auth.post("/logout", async (req, res, next) => {

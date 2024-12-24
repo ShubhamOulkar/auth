@@ -36,8 +36,6 @@ async function verifyOtpHandler(
       return bodyEnc;
     }
 
-    console.log("OTP form bodyEnc: ", bodyEnc);
-
     // send data to server
     if (typeof bodyEnc === "string") {
       let response: VerifyOtpFormHandlerType = await clientPostRequest(
