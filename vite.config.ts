@@ -1,10 +1,11 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
+import svgr from "vite-plugin-svgr";
 
 // https://vite.dev/config/
 export default defineConfig({
   envPrefix: ["VITE_"],
-  plugins: [react()],
+  plugins: [svgr(), react()],
   server: {
     headers: {
       "Strict-Transport-Security": "max-age=86400; includeSubDomains", // Adds HSTS options to your website, with a expiry time of 1 day

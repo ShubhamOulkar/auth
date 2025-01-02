@@ -6,6 +6,14 @@ import { FieldErrors } from "../types/FormFieldErrors";
 import { NotificationType } from "../types/notificationType";
 import { NavigateFunction } from "react-router-dom";
 
+export const emptyFields = {
+  firstName: "",
+  lastName: "",
+  email: "",
+  password: "",
+  confirmPassword: "",
+};
+
 export default function signupAction(
   setErrors: React.Dispatch<React.SetStateAction<FieldErrors>>,
   setNotification: React.Dispatch<
@@ -13,7 +21,12 @@ export default function signupAction(
   >,
   navigate: NavigateFunction
 ) {
-  return async (previousState, formData: FormData) => {
+  return async (
+    previousState: InitialStatus,
+    formData: FormData
+  ): Promise<InitialStatus> => {
+    console.log("signupAction");
+    const formSubmittedCount = (previousState.formSubmittedCount ?? 0) + 1;
     const data = {
       firstName: formData.get("firstName")?.toString() || "",
       lastName: formData.get("lastName")?.toString() || "",
@@ -31,7 +44,7 @@ export default function signupAction(
       const returnFormFields: InitialStatus = {
         success: false,
         data: data, // this form data is used to fill form fields on failed validation
-        formSubmittedCount: 1,
+        formSubmittedCount: formSubmittedCount,
       };
       // return form invalid status
       return returnFormFields;
@@ -53,7 +66,7 @@ export default function signupAction(
       return {
         success: response.success,
         data: data,
-        formSubmittedCount: 1,
+        formSubmittedCount: formSubmittedCount,
       } as InitialStatus;
     }
 
@@ -61,10 +74,11 @@ export default function signupAction(
     //@ts-ignore
     navigate(response?.redirect);
 
-    // return form status true
+    // return form status true on response success
     return {
       success: true,
-      formSubmittedCount: 1,
+      data: emptyFields, //reset form fields
+      formSubmittedCount: formSubmittedCount,
     } as InitialStatus;
   };
 }

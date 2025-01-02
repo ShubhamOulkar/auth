@@ -7,6 +7,8 @@ import { FieldErrors } from "../types/FormFieldErrors";
 import { SetStateAction } from "react";
 import { FaContext } from "../types/FaType";
 
+export const emptyFields = { email: "", password: "" }; //initial form fields are empty
+
 export default function loginAction(
   setError: React.Dispatch<React.SetStateAction<FieldErrors>>,
   setNotification: (arg0: loginFormHandlerType) => void,
@@ -17,7 +19,8 @@ export default function loginAction(
   setEmail: React.Dispatch<React.SetStateAction<string>>,
   navigate: NavigateFunction
 ): (previousState: any, formData: FormData) => Promise<InitialStatus> {
-  return async (previousState, formData: FormData) => {
+  return async (previousState: InitialStatus, formData: FormData) => {
+    const formSubmittedCount = (previousState.formSubmittedCount ?? 0) + 1;
     const data = {
       email: formData.get("email")?.toString() || "",
       password: formData.get("password")?.toString() || "",
@@ -32,7 +35,7 @@ export default function loginAction(
       const returnFormFields: InitialStatus = {
         success: false,
         data: data, // this form data is used to fill form fields on failed validation
-        formSubmittedCount: 1,
+        formSubmittedCount: formSubmittedCount,
       };
       return returnFormFields;
     }
@@ -57,7 +60,8 @@ export default function loginAction(
       // return form status true i.e. sumitted successfully
       return {
         success: true,
-        formSubmittedCount: 1,
+        data: emptyFields, // reset form fields
+        formSubmittedCount: formSubmittedCount,
       } as InitialStatus;
     }
 
@@ -70,7 +74,7 @@ export default function loginAction(
     return {
       success: false,
       data: data,
-      formSubmittedCount: 1,
+      formSubmittedCount: formSubmittedCount,
     } as InitialStatus;
   };
 }

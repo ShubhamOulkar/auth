@@ -16,7 +16,7 @@ export default function verifyEmailAction(
   setEmail: React.Dispatch<React.SetStateAction<string>>,
   setOtpEmailSend: React.Dispatch<React.SetStateAction<boolean>>
 ) {
-  return async (previousState: any, formData: FormData) => {
+  return async (previousState: InitialStatus, formData: FormData) => {
     const data = { email: formData.get("email")?.toString() || "" };
     // validate email data
     const validate = EmailSchema.safeParse(data);
