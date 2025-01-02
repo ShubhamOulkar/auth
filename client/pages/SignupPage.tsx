@@ -10,7 +10,7 @@ import {
 import { useNotificationContext } from "../context/customUseContextExporters";
 import { InitialStatus } from "../types/FormInitialStatus";
 import { FieldErrors } from "../types/FormFieldErrors";
-import signupAction from "../form actions/signupAction";
+import signupAction, { emptyFields } from "../form actions/signupAction";
 import loginAndSignupFormFieldsValidation from "../field validation handlers/loginAndSignupFormFieldsValidation";
 
 /**
@@ -20,14 +20,8 @@ import loginAndSignupFormFieldsValidation from "../field validation handlers/log
  */
 
 const initialStatus: InitialStatus = {
-  success: true,
-  data: {
-    firstName: "",
-    lastName: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
-  }, //initial form fields are empty
+  success: false,
+  data: emptyFields,
   formSubmittedCount: 0,
 };
 
@@ -37,7 +31,8 @@ function SignupPage() {
   const [errors, setErrors] = useState<FieldErrors>(undefined);
   const [formStatus, formAction, isPending] = useActionState(
     signupAction(setErrors, setNotification, navigate),
-    initialStatus
+    initialStatus,
+    "/login"
   );
 
   const onChangeValidation = useCallback(

@@ -3,8 +3,6 @@ import cors from "cors";
 import morgan from "morgan";
 import path from "path";
 import { fileURLToPath } from "url";
-import { Transform } from "stream";
-import fs from "fs/promises";
 import { createServer as createDevServer } from "vite";
 import compression from "compression";
 import sirv from "sirv";
@@ -16,24 +14,18 @@ import {
   errorHandler,
 } from "./src/middleware/middlewareExpoter.js";
 import { auth, googleAuth, twoFa } from "./src/routes/routesExporter.js";
-import { throwError } from "./src/utilities/utils.js";
+import {
+  renderDevelopment,
+  renderProduction,
+  streamReact,
+} from "./src/react SSR functions/exportSSRFuctions.js";
+
 config();
 
 const port = process.env.PORT || 5500;
 const isProduction = process.env.NODE_ENV === "production";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const clientFolderpath = "dist/client";
-
-//cached production assets
-const templateHtml = isProduction
-  ? await fs.readFile(path.join(__dirname, "./dist/client/index.html"), "utf-8")
-  : "";
-const ssrManifest = isProduction
-  ? await fs.readFile(
-      path.join(__dirname, "./dist/client/.vite/ssr-manifest.json"),
-      "utf-8"
-    )
-  : undefined;
 
 // http server applicaton
 const app = express();
@@ -97,7 +89,7 @@ app.use(errorHandler);
 // must use *, otherwise on page refresh; client sent get request to server
 // and server will send http code on all request
 
-app.use("/", async (req, res) => {
+app.use("*", async (req, res) => {
   try {
     const url = req.originalUrl;
 
@@ -106,55 +98,24 @@ app.use("/", async (req, res) => {
 
     if (!isProduction) {
       // Always render fresh template in development .jsx
-      template = await fs.readFile(path.join(__dirname, "index.html"), "utf-8");
-      template = await vite.transformIndexHtml(url, template);
-      render = (
-        await vite.ssrLoadModule(
-          path.join(__dirname, "./client/entry-server.tsx")
-        )
-      ).render;
+      const dev = await renderDevelopment(__dirname, vite, url);
+      template = dev.template;
+      render = dev.render;
     } else {
       // render production template .js file
-      template = templateHtml;
-      render = (await import("./dist/server/entry-server.js")).render;
+      const prod = await renderProduction(__dirname);
+      template = prod.template;
+      render = prod.render;
     }
 
-    let didError = false;
-
-    const { pipe, abort } = render(url, ssrManifest, {
-      onShellError() {
-        res.status(500);
-        res.set({ "Content-Type": "text/html" });
-        res.send("<h1>Something went wrong</h1>");
-      },
-      onShellReady() {
-        res.status(didError ? 500 : 200);
-        res.set({
-          "Content-Type": "text/html",
-        });
-
-        const transformStream = new Transform({
-          transform(chunk, encoding, callback) {
-            res.write(chunk, encoding);
-            callback();
-          },
-        });
-
-        const [htmlStart, htmlEnd] = template.split(`<!--app-html-->`);
-
-        res.write(htmlStart);
-
-        transformStream.on("finish", () => {
-          res.end(htmlEnd);
-        });
-
-        pipe(transformStream);
-      },
-      onError(error) {
-        didError = true;
-        console.error(error);
-      },
-    });
+    const abort = await streamReact(
+      res,
+      render,
+      url,
+      template,
+      __dirname,
+      isProduction
+    );
 
     setTimeout(() => {
       abort();
@@ -170,6 +131,6 @@ app.use("/", async (req, res) => {
 
 app.listen(port, () => {
   console.log(
-    `⚡Auth-SSR ${process.env.NODE_ENV} server is running at http://127.0.0.1:${port}⚡`
+    `⚡Auth-SSR ${process.env.NODE_ENV} server is running at http://127.0.0.1:${port}`
   );
 });

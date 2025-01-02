@@ -1,10 +1,4 @@
-import React, {
-  useEffect,
-  useRef,
-  useActionState,
-  useState,
-  useCallback,
-} from "react";
+import React, { useEffect, useActionState, useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   GoogleBtn,
@@ -20,7 +14,7 @@ import {
 import loginAndSignupFormFieldsValidation from "../field validation handlers/loginAndSignupFormFieldsValidation";
 import { InitialStatus } from "../types/FormInitialStatus";
 import { FieldErrors } from "../types/FormFieldErrors";
-import loginAction from "../form actions/loginAction";
+import loginAction, { emptyFields } from "../form actions/loginAction";
 
 /**
  * A login form page component.
@@ -30,7 +24,7 @@ import loginAction from "../form actions/loginAction";
 
 const initialStatus: InitialStatus = {
   success: false,
-  data: { email: "", password: "" }, //initial form fields are empty
+  data: emptyFields,
   formSubmittedCount: 0,
 };
 
@@ -38,7 +32,6 @@ function LoginPage() {
   const navigate = useNavigate();
   const { setNotification } = useNotificationContext();
   const { setFa, setEmail, setTwoFaContext } = use2FaContext();
-  const formRef = useRef<HTMLFormElement | null>(null);
 
   // react 19 hooks
   const [error, setError] = useState<FieldErrors>();
@@ -62,7 +55,6 @@ function LoginPage() {
   useEffect(() => {
     if (formStatus?.success) {
       //clear form inputs (useActionState reset form inputs by default)
-      formRef.current?.reset();
       // clear errors
       setError(undefined);
     }
@@ -75,12 +67,7 @@ function LoginPage() {
   return (
     <div className="card">
       <h1>User Login</h1>
-      <form
-        className="form"
-        action={formAction}
-        onChange={onChangeValidation}
-        ref={formRef}
-      >
+      <form className="form" action={formAction} onChange={onChangeValidation}>
         <EmailInput
           data={formStatus.data?.email || ""}
           error={error?.email ? error?.email[0] : ""}
@@ -96,7 +83,7 @@ function LoginPage() {
         </button>
       </form>
       <LoginBottomLinks />
-      <GoogleBtn />
+      {/* <GoogleBtn /> */}
     </div>
   );
 }

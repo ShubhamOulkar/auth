@@ -17,7 +17,7 @@ export default function resetPasswordAction(
   reset2FaContext: { (): void; (): void },
   navigate: NavigateFunction
 ) {
-  return async (previousState: any, formData: FormData) => {
+  return async (previousState: InitialStatus, formData: FormData) => {
     const data = {
       password: formData.get("password") || "",
       confirmPassword: formData.get("confirmPassword") || "",
