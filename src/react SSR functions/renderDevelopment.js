@@ -1,18 +1,17 @@
 import fs from "fs/promises";
-import path from "path";
 
-export async function renderDevelopment(__dirname, viteDevObj, url) {
+export async function renderDevelopment(
+  viteDevObj,
+  url,
+  fullTemplatePath,
+  fullEntryPath
+) {
   try {
     let template;
-    let render;
     // Always render fresh template in development .jsx
-    template = await fs.readFile(path.join(__dirname, "index.html"), "utf-8");
+    template = await fs.readFile(fullTemplatePath, "utf-8");
     template = await viteDevObj.transformIndexHtml(url, template);
-    render = (
-      await viteDevObj.ssrLoadModule(
-        path.join(__dirname, "./client/entry-server.tsx")
-      )
-    ).render;
+    let render = (await viteDevObj.ssrLoadModule(fullEntryPath)).render;
 
     return { template, render };
   } catch (err) {
