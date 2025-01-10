@@ -31,7 +31,7 @@ export default async function renderReact(req, res, componentName, viteDevObj) {
     // }, ABORT_DELAY);
   } catch (e) {
     viteDevObj?.ssrFixStacktrace(e);
-    console.log(e.stack);
-    res.status(500).end(e.stack);
+    console.log(e.stack); // show error stack on server only
+    res.status(500).end("An internal server error occurred."); // send generic error to client
   }
 }
