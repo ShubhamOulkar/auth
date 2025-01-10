@@ -14,16 +14,13 @@ import { config } from "dotenv";
 import bcrypt from "bcrypt";
 import { updateUserPassword } from "../db/dbUtils.js";
 import sendEmail from "../mailer/sendEmail.js";
-import { limiter } from "../middleware/rateLimiter.js";
+import { limiter2Fa, otpLimiter } from "../middleware/rateLimiter.js";
 config();
 
 const twoFa = express.Router();
 
 //verify cross site forgery request and session id
 twoFa.use(verifySession);
-
-// Apply the rate limiting middleware to 2fa requests.
-twoFa.use(limiter);
 
 function sendResponseToClient(res, result, msg, redirect = null) {
   const jsonData = result
@@ -87,7 +84,7 @@ async function sendUserResponseToClient(res, email) {
 }
 
 // reset password
-twoFa.post("/resetpassword", async (req, res, next) => {
+twoFa.post("/resetpassword", otpLimiter, async (req, res, next) => {
   try {
     // TODO validate form data
 
@@ -125,7 +122,7 @@ twoFa.post("/resetpassword", async (req, res, next) => {
 });
 
 // verify otp send by client
-twoFa.post("/verifyotp", async (req, res, next) => {
+twoFa.post("/verifyotp", limiter2Fa, async (req, res, next) => {
   try {
     // TODO VALIDATE FORM DATA
     const { otp, email, twoFaContext } = res.locals.formData;
@@ -162,7 +159,7 @@ twoFa.post("/verifyotp", async (req, res, next) => {
 });
 
 // verify email is present in DB before resetting new password
-twoFa.post("/verifyemail", async (req, res, next) => {
+twoFa.post("/verifyemail", otpLimiter, async (req, res, next) => {
   try {
     //TODO validate form data
 

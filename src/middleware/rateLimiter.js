@@ -6,5 +6,17 @@ export const limiter = rateLimit({
   limit: 5, // Limit each IP to 5 requests per `window` (here, per 1 minutes).
   standardHeaders: "draft-8", // draft-6: `RateLimit-*` headers; draft-7 & draft-8: combined `RateLimit` header
   legacyHeaders: false, // Disable the `X-RateLimit-*` headers.
-  // store: ... , // Redis, Memcached, etc. See below.
+});
+
+// set up rate limiter: maximum of five requests per minute
+export const limiter2Fa = rateLimit({
+  windowMs: 1 * 60 * 1000, // 1 minutes
+  limit: 3, // Limit each IP to 3 requests per `window` (here, per 1 minutes).
+  standardHeaders: "draft-8", // draft-6: `RateLimit-*` headers; draft-7 & draft-8: combined `RateLimit` header
+  legacyHeaders: false, // Disable the `X-RateLimit-*` headers.
+});
+
+export const otpLimiter = rateLimit({
+  windowMs: 1 * 60 * 1000,
+  limit: 1,
 });

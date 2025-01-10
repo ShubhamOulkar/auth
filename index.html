@@ -6,18 +6,20 @@
 
     <link
       rel="auth-ssr icon"
-      href="client/assets/favicon.svg"
+      href="/pages/root/assets/favicon.svg"
       type="image/x-icon"
     />
 
     <title>Auth-SSR</title>
     <!-- load google new GIS SDK, this script will add google object property on window object -->
     <script src="https://accounts.google.com/gsi/client" async defer></script>
-    <script type="module" src="client/entry-client.tsx"></script>
-    <link rel="stylesheet" href="client/index.css" />
-    <link rel="stylesheet" href="client/App.css" />
+
+    <link rel="stylesheet" href="/pages/root/App.css" />
+    <link rel="stylesheet" href="/pages/root/index.css" />
   </head>
   <body>
     <div id="root"><!--app-html--></div>
+
+    <script type="module" src="/pages/root/entry-client.tsx"></script>
   </body>
 </html>
