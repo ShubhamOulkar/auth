@@ -1,0 +1,166 @@
+:root {
+  /* custom css variables */
+  --border-radius: 5px;
+  --border-size: 2px;
+  --dark-blue-color: hsl(207, 72%, 13%);
+  --button-background-color: hsl(208, 82%, 79%);
+  --top-nav-background-color: hsl(0, 0%, 41%);
+  --transition-effect: all 0.5s;
+  --padding-inline: 1rem;
+  --padding-block: 0.3rem;
+  --margin-block: var(--padding-block);
+  --nav-bar-height: 3.3rem;
+  --outline-focus-style: white solid var(--border-size);
+  --outline-invalid-style: var(--tooltip-color) solid var(--border-size);
+  --tooltip-color: hsla(0, 97%, 57%, 0.737);
+
+  line-height: 1.5;
+  font-weight: 400;
+  box-sizing: border-box;
+
+  color-scheme: light dark;
+  color: hsl(0, 0%, 100%, 0.87);
+  background-color: var(--dark-blue-color);
+  margin: 0;
+  padding: 0;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+}
+
+@font-face {
+  font-family: "Inconsolata";
+  src: url("./assets/fonts/Inconsolata-VariableFont_wdth,wght.ttf");
+}
+
+html {
+  font-family: "Inconsolata", sans-serif;
+}
+
+.navprofile {
+  border-radius: 50%;
+  width: 35px;
+  height: 35px;
+}
+
+.profile {
+  border-radius: 50%;
+  width: 70px;
+  height: 70px;
+}
+
+input {
+  border: none;
+  appearance: none;
+  background-color: black;
+}
+
+input,
+button {
+  cursor: pointer;
+  height: 2rem;
+  border-radius: var(--border-radius);
+  padding-block: var(--padding-block);
+  padding-inline: var(--padding-inline);
+  font-size: large;
+  width: -webkit-fill-available;
+  width: -moz-available;
+  transition: var(--transition-effect);
+}
+
+/* overwrite above button height */
+button {
+  height: 2.5rem;
+}
+
+button:is(:active, :focus, :hover) {
+  background-color: var(--button-background-color);
+  color: var(--dark-blue-color);
+  outline: var(--outline-focus-style);
+}
+
+button:disabled {
+  background-color: var(--tooltip-color);
+  color: white;
+  cursor: not-allowed;
+}
+
+input:is(:active, :focus, :hover) {
+  outline: var(--outline-focus-style);
+}
+
+input.invalid {
+  outline: var(--outline-invalid-style);
+  background-color: hsla(0, 79%, 78%, 0.584);
+}
+
+h1 {
+  text-align: center;
+  margin-block-start: 0;
+  margin-block-end: var(--margin-block);
+}
+
+label {
+  cursor: pointer;
+  display: flex;
+  width: inherit;
+  position: relative;
+}
+
+form {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.error {
+  position: absolute;
+  top: 0;
+  left: 12rem;
+  color: white;
+  font-size: small;
+  margin-left: auto;
+  width: max-content;
+  background-color: var(--tooltip-color);
+  border-radius: var(--border-radius);
+  padding: var(--padding-block);
+}
+
+.error::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 20%;
+  margin-left: -5px;
+  border-width: 7px;
+  border-style: solid;
+  border-color: var(--tooltip-color) transparent transparent transparent;
+}
+
+p {
+  font-size: larger;
+  margin-block: 0;
+}
+
+@media screen and (max-width: 600px) {
+  input {
+    height: 1.5rem;
+    font-size: smaller;
+  }
+
+  .error {
+    left: 9rem;
+  }
+
+  h1 {
+    font-size: x-large;
+  }
+
+  button {
+    font-size: large;
+    font-weight: 700;
+  }
+}
