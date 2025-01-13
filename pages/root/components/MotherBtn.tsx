@@ -1,4 +1,3 @@
-import React from "react";
 import logoutHandler from "../handlers/logoutHandler";
 import {
   useNotificationContext,

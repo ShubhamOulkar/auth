@@ -1,10 +1,9 @@
-import React from "react";
-import LogoFull from "../../assets/images/logo-full.svg?react";
+import LogoFull from "../../assets/images/logo-full.svg?url";
 
 export default function FormHeader() {
   return (
     <>
-      <LogoFull className="logo-full" stroke="black" />
+      <img className="logo-full" src={LogoFull} />
       <h1>
         Your Journey to Coding Conf <br />
         2025 Starts Here!

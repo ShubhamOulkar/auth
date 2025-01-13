@@ -18,6 +18,11 @@ if (!isProduction) {
   renderPages.use(vite.middlewares);
 }
 
+// RSC
+renderPages.use("/rsc", async (req, res) => {
+  await renderReact(req, res, "rsc", vite);
+});
+
 //conference page
 renderPages.use("/conf", async (req, res) => {
   await renderReact(req, res, "conf", vite);

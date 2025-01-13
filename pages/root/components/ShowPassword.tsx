@@ -1,4 +1,4 @@
-import React, { JSX } from "react";
+import { JSX } from "react";
 import { BiHide, BiShow } from "react-icons/bi";
 
 /**
@@ -18,7 +18,7 @@ export default function TogglePasswordBtn({
    * Toggles the visibility of the password input field.
    */
 
-  const togglePasswordVisibility = (e) => {
+  const togglePasswordVisibility = (e: { stopPropagation: () => void }) => {
     e.stopPropagation(); // Prevent event from bubbling up to parent elements
     setShowPassword(!showPassword);
   };

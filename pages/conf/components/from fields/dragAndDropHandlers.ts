@@ -3,7 +3,7 @@ import { StopEvent } from "../../type/formType";
 import { ImageSchema } from "../../form validation/condingConfFormValidationSchema";
 import { SafeParseReturnType } from "zod";
 import { Errors } from "../../type/formType";
-import UploadImageIcon from "../../assets/images/icon-upload.svg";
+import UploadImageIcon from "../../assets/images/icon-upload.svg?url";
 
 const stopEvent = (e: StopEvent) => {
   e.preventDefault();

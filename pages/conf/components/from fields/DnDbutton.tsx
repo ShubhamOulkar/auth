@@ -1,4 +1,3 @@
-import React from "react";
 import UploadImageIcon from "../../assets/images/icon-upload.svg";
 import { usePictureContext } from "../../picture context/createPictureContext";
 import { StopEvent } from "../../type/formType";

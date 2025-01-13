@@ -1,4 +1,4 @@
-import React, { memo } from "react";
+import { memo } from "react";
 import { Label } from "../ComponentExpoter";
 
 const EmailInput = memo(function EmailInput({

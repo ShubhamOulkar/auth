@@ -47,7 +47,7 @@ export default function loginAndSignupFormFieldsValidation(
           break;
       }
 
-      if (validate.success) {
+      if (validate?.success) {
         // 1st update current field validation error to undefined
         const newErrors = { ...errors, [fieldName]: undefined };
         const nextError =
@@ -59,7 +59,7 @@ export default function loginAndSignupFormFieldsValidation(
         setErrors(nextError);
         return;
       }
-      const err = validate.error?.flatten().fieldErrors;
+      const err = validate?.error?.flatten().fieldErrors;
       setErrors((prev) => ({ ...prev, ...err }));
     }
   };

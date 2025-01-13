@@ -1,4 +1,4 @@
-import React, { StrictMode } from "react";
+import { StrictMode } from "react";
 import {
   type RenderToPipeableStreamOptions,
   renderToPipeableStream,
@@ -9,7 +9,6 @@ import { PictureProvider } from "./picture context/createPictureContext";
 
 export function render(
   _url: string = "",
-  _ssrManifest?: string,
   options?: RenderToPipeableStreamOptions
 ) {
   return renderToPipeableStream(

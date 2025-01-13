@@ -1,11 +1,11 @@
-import React, {
+import {
   createContext,
   useState,
   useContext,
   PropsWithChildren,
   useRef,
 } from "react";
-import UploadImageIcon from "../assets/images/icon-upload.svg";
+import UploadImageIcon from "../assets/images/icon-upload.svg?url";
 import { Errors, PictureContext } from "../type/formType";
 
 const pictureContext = createContext({} as PictureContext);

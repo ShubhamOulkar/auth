@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from "react";
+import { useRef, useEffect } from "react";
 import sendGoogleIndentity from "../handlers/sendGoogleIndentity";
 import useAuthContext from "../auth context/useAuthContext";
 import useNotificationContext from "../notification context/useNotificationContexxt";

@@ -1,4 +1,3 @@
-import React from "react";
 import { StrictMode } from "react";
 import {
   renderToPipeableStream,
@@ -14,11 +13,7 @@ import AllContextProvider from "./context/AllContextProvider";
  * @param {import('react-dom/server').RenderToPipeableStreamOptions} [options]
  */
 
-export function render(
-  _url: string,
-  _ssrManifest?: string,
-  options?: RenderToPipeableStreamOptions
-) {
+export function render(_url: string, options?: RenderToPipeableStreamOptions) {
   return renderToPipeableStream(
     <StrictMode>
       <AllContextProvider>

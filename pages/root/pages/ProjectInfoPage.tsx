@@ -1,4 +1,3 @@
-import React from "react";
 import { SiWebauthn } from "react-icons/si";
 
 export default function ProjectInfoPage() {

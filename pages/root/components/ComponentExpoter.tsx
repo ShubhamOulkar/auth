@@ -14,6 +14,8 @@ import LastNameInput from "./form fields/LastNameInput";
 import EmailInput from "./form fields/EmailInput";
 import PasswordInput from "./form fields/PasswordInput";
 import { CancelAuthenticationButton } from "./CancelAuthenticationButton";
+import SkeNav from "./skeleton/SkeNav";
+import SkeForm from "./skeleton/SkeForm";
 
 export {
   Label,
@@ -32,4 +34,6 @@ export {
   EmailInput,
   PasswordInput,
   CancelAuthenticationButton,
+  SkeNav,
+  SkeForm,
 };

@@ -20,7 +20,7 @@ config();
 
 const port = process.env.PORT || 5500;
 const isProduction = process.env.NODE_ENV === "production";
-const clientFolderpath = "dist/client";
+const clientFolderpath = "dist/client/pages/root";
 
 // http server applicaton
 const app = express();
@@ -56,13 +56,13 @@ app.use("/google", googleAuth);
 app.use("/2fa", twoFa);
 
 if (isProduction) {
-  // compress each request in production
-  app.use(compression());
   //server static assets in production
   app.use("/", sirv("./dist/client", { extensions: [] }));
+  // compress each request in production
+  app.use(compression());
   //set cookie for session ID and csrf token on page load
   app.use(setSessionAndCsrfToken);
-  // cache client pages in production only
+  // cache pages in production only
   app.use(clientHttpValidation(clientFolderpath));
 }
 

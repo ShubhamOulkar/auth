@@ -1,6 +1,4 @@
-/// <reference types="vite/client" />
-
-import React, { PropsWithChildren, useEffect, useState } from "react";
+import { PropsWithChildren, useEffect, useState } from "react";
 import AuthContext from "./CreateAuthContext";
 import getCookie from "../utilities/getCookie";
 import { UserType } from "../types/userType";

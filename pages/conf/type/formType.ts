@@ -36,7 +36,7 @@ export type DnDType = {
 export type HandleDropHandlerType = StopEvent & DnDType;
 
 export type UserType = {
-  picture: string;
+  picture: any;
   fullName: string;
   email: string;
   githubName: string;

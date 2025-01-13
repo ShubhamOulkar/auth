@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import faContext from "./create2faContext";
 import { useNotificationContext } from "../context/customUseContextExporters";
 import { FaContext } from "../types/FaType";

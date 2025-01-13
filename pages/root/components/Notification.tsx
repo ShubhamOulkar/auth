@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import useNotificationContext from "../notification context/useNotificationContexxt";
 import { NotificationType } from "../types/notificationType";
 

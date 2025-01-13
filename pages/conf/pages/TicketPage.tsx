@@ -1,4 +1,3 @@
-import React from "react";
 import TicketHeader from "../components/page headers/TicketHeader";
 import Ticket from "../components/Ticket";
 import { usePictureContext } from "../picture context/createPictureContext";

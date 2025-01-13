@@ -1,4 +1,3 @@
-import React from "react";
 import use2FaContext from "../2fa context/use2FaContext";
 import { InvalidReq } from "../pages/PagesExporter";
 import {

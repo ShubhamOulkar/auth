@@ -1,4 +1,3 @@
-import React from "react";
 import { usePictureContext } from "../picture context/createPictureContext";
 import Logo from "../assets/images/logo-mark.svg?react";
 import GithubLogo from "../assets/images/icon-github.svg?react";

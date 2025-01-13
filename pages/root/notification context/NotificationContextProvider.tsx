@@ -1,4 +1,4 @@
-import React, { PropsWithChildren, useState } from "react";
+import { PropsWithChildren, useState } from "react";
 import NotificationContext from "./createNotificationContext";
 import { NotificationType } from "../types/notificationType";
 

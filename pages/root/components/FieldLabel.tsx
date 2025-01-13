@@ -1,6 +1,12 @@
-import React from "react";
-
-function Label({ label, labelFor, error }) {
+function Label({
+  label,
+  labelFor,
+  error,
+}: {
+  label: string;
+  labelFor: string;
+  error: string;
+}) {
   const id = `${labelFor}Err`;
   return (
     <label htmlFor={labelFor}>

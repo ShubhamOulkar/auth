@@ -1,4 +1,4 @@
-import React, { memo } from "react";
+import { memo } from "react";
 import { Label } from "../ComponentExpoter";
 
 const LastNameInput = memo(
@@ -22,6 +22,7 @@ const LastNameInput = memo(
           className={error && "invalid"}
           aria-describedby="lastNameErr"
           defaultValue={data}
+          autoFocus={autofocus}
         />
       </>
     );

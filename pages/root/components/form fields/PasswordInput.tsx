@@ -1,4 +1,4 @@
-import React, { memo, useState } from "react";
+import { memo, useState } from "react";
 import { Label, TogglePasswordBtn } from "../ComponentExpoter";
 
 export const PasswordInput = memo(function PasswordInput({

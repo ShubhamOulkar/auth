@@ -1,6 +1,8 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { Router } from "./routes/browserRoutes";
 import { csrfCookieName } from "./env";
+import "./index.css";
+import "./App.css";
 
 function App() {
   useEffect(() => {

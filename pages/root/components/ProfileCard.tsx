@@ -1,4 +1,3 @@
-import React from "react";
 import { PiUserCircleGearBold } from "react-icons/pi";
 import { MotherBtn } from "../components/ComponentExpoter";
 import { UserType } from "../types/userType";

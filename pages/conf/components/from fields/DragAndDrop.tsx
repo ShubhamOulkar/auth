@@ -8,7 +8,7 @@ import {
 } from "./dragAndDropHandlers";
 import { Error } from "./Error";
 import { Errors } from "../../type/formType";
-import UploadImageIcon from "../../assets/images/icon-upload.svg";
+import UploadImageIcon from "../../assets/images/icon-upload.svg?url";
 import { DnDbutton } from "./DnDbutton";
 import { ChangeEvent } from "react";
 

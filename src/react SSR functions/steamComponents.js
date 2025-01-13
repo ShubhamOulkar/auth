@@ -1,22 +1,9 @@
-import { Transform } from "stream";
-import fs from "fs/promises";
-import path from "path";
-import getParentDirectoryName from "../utilities/getParentDirectoryName.js";
-
-const isProduction = process.env.NODE_ENV === "production";
-const __dirname = getParentDirectoryName();
+import { Transform } from "node:stream";
 
 export async function streamReact(res, render, url, template) {
-  const ssrManifest = isProduction
-    ? await fs.readFile(
-        path.join(__dirname, "./dist/client/.vite/ssr-manifest.json"),
-        "utf-8"
-      )
-    : undefined;
-
   let didError = false;
 
-  const { pipe, abort } = render(url, ssrManifest, {
+  const { pipe, abort } = render(url, {
     onShellError() {
       res.status(500);
       res.set({ "Content-Type": "text/html" });

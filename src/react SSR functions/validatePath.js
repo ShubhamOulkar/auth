@@ -38,14 +38,6 @@ function generatePaths(componentName) {
     throw new Error(`Invalid component name: ${componentName}`);
   }
 
-  if (componentName === "root") {
-    templatePath = isProduction ? "./dist/client/index.html" : "./index.html";
-    entryPath = isProduction
-      ? "./dist/server/root/entry-server.js"
-      : "./pages/root/entry-server.tsx";
-    return { templatePath, entryPath };
-  }
-
   templatePath = isProduction
     ? `./dist/client/pages/${componentName}/index.html`
     : `./pages/${componentName}/index.html`;

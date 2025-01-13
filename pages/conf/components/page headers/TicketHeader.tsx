@@ -1,4 +1,3 @@
-import React from "react";
 import { usePictureContext } from "../../picture context/createPictureContext";
 import LogoFull from "../../assets/images/logo-full.svg?react";
 
