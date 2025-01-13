@@ -1,8 +1,6 @@
 import express from "express";
 import cors from "cors";
 import morgan from "morgan";
-import compression from "compression";
-import sirv from "sirv";
 import { config } from "dotenv";
 import { connectMongo } from "./src/db/dbUtils.js";
 import {
@@ -56,6 +54,8 @@ app.use("/google", googleAuth);
 app.use("/2fa", twoFa);
 
 if (isProduction) {
+  const compression = (await import("compression")).default;
+  const sirv = (await import("sirv")).default;
   //server static assets in production
   app.use("/", sirv("./dist/client", { extensions: [] }));
   // compress each request in production

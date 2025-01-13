@@ -1,6 +1,5 @@
 import express from "express";
 import { config } from "dotenv";
-import { createServer as createDevServer } from "vite";
 import renderReact from "../react SSR functions/renderReact.js";
 const renderPages = express.Router();
 config();
@@ -9,7 +8,8 @@ const isProduction = process.env.NODE_ENV === "production";
 // in development add vite middleware
 let vite;
 if (!isProduction) {
-  vite = await createDevServer({
+  const { createServer } = await import("vite");
+  vite = await createServer({
     server: {
       middlewareMode: true,
     },
