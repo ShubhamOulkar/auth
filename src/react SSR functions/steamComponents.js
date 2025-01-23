@@ -4,6 +4,7 @@ export async function streamReact(res, render, url, template) {
   let didError = false;
 
   const { pipe, abort } = render(url, {
+    nonce: res.locals.nonce, // nonce for CSP, used on script tags
     onShellError() {
       res.status(500);
       res.set({ "Content-Type": "text/html" });
@@ -22,7 +23,11 @@ export async function streamReact(res, render, url, template) {
         },
       });
 
-      const [htmlStart, htmlEnd] = template.split(`<!--app-html-->`);
+      let [htmlStart, htmlEnd] = template.split(`<!--app-html-->`);
+
+      if (url === "root") {
+        htmlStart = htmlStart.replace("nonce-value", res.locals.nonce);
+      }
 
       res.write(htmlStart);
 

@@ -7,7 +7,6 @@ import {
   ProfilePage,
   VerifyEmail,
   SetNewPassword,
-  InvalidReq,
 } from "../pages/PagesExporter";
 
 export function Router() {
@@ -25,7 +24,6 @@ export function Router() {
         <Route path="verifyemail" element={<VerifyEmail />} />
         <Route path="newpassword" element={<SetNewPassword />} />
       </Route>
-      <Route path="*" element={<InvalidReq />} />
     </Routes>
   );
 }

@@ -5,22 +5,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link
       rel="auth-ssr icon"
-      href="/pages/root/assets/favicon.svg"
+      href="/views/root/assets/favicon.svg"
       type="image/x-icon"
     />
     <link
       rel="preload"
-      href="/pages/root/assets/fonts/Inconsolata-VariableFont_wdth,wght.woff2"
+      href="/views/root/assets/fonts/Inconsolata-VariableFont_wdth,wght.woff2"
       as="font"
       type="font/ttf"
       crossorigin="anonymous"
     />
     <title>Auth-SSR</title>
-    <!-- load google new GIS SDK, this script will add google object property on window object -->
-    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <script
+      nonce="nonce-value"
+      src="https://accounts.google.com/gsi/client"
+      async
+      defer
+    ></script>
   </head>
   <body>
     <div id="root"><!--app-html--></div>
-    <script type="module" src="/pages/root/entry-client.tsx"></script>
+    <script type="module" src="/views/root/entry-client.tsx"></script>
   </body>
 </html>

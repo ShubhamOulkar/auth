@@ -1,5 +1,5 @@
 import use2FaContext from "../2fa context/use2FaContext";
-import { InvalidReq } from "../pages/PagesExporter";
+import InvalidReq from "./InvalidReq";
 import {
   Notification,
   NewPasswordForm,

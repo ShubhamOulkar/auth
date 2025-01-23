@@ -1,7 +1,6 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import svgr from "vite-plugin-svgr";
-import { resolve } from "path";
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -17,16 +16,17 @@ export default defineConfig({
   },
   build: {
     rollupOptions: {
+      treeshake: true,
       input: {
         // build multiple page application
-        main: resolve(__dirname, "pages/root/index.html"),
-        conf: resolve(__dirname, "pages/conf/index.html"),
-        rsc: resolve(__dirname, "pages/rsc/index.html"),
+        root: "./views/root/root.html",
+        conf: "./views/conf/conf.html",
+        rsc: "./views/rsc/rsc.html",
       },
     },
-    manifest: true, // client asset mapping
-    ssrManifest: true, // server asset mapping
-    minify: "esbuild", // minify using esbuild
+    // manifest: true, // client asset mapping
+    // ssrManifest: true, // server asset mapping
+    // minify: "esbuild", // minify using esbuild
     //minify: false, // disable minification in SSR, as it's done by the server
   },
 });

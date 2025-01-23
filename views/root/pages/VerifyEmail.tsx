@@ -1,4 +1,4 @@
-import { InvalidReq } from "../pages/PagesExporter";
+import InvalidReq from "./InvalidReq";
 import {
   Notification,
   EmailForm,
