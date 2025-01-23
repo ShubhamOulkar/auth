@@ -1,0 +1,311 @@
+:root {
+  --Neutral: hsl(0, 0%, 100%);
+  --Neutral-300: hsl(252, 6%, 83%);
+  --Neutral-500: rgb(135, 132, 164);
+  --Neutral-700: hsl(245, 19%, 35%);
+  --Neutral-900: #0c082b;
+
+  --Orange-500: hsl(7, 88%, 67%);
+  --Orange-700: hsl(7, 71%, 60%);
+  --Gradient: hsl(7, 86%, 67%), hsl(0, 0%, 100%);
+  --Border-radius: 10px;
+}
+
+@font-face {
+  font-family: "Inconsolata";
+  src: url("./assets/fonts/Inconsolata-VariableFont_wdth,wght.woff2");
+  font-weight: 100 900;
+  font-display: swap;
+}
+
+html {
+  font-family: "Inconsolata", sans-serif;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  color: var(--Neutral);
+}
+
+.background {
+  z-index: 0;
+  display: grid;
+  grid-template-columns: repeat(4, calc(100vw / 4));
+  grid-template-rows: repeat(2, calc(100vh / 3));
+  width: 100vw;
+  min-height: 100vh;
+  background-attachment: fixed;
+  background-image: url("./assets/images/background-mobile.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center center;
+
+  @media screen and (min-width: 375px) {
+    background-image: url("./assets/images/background-tablet.png");
+  }
+
+  @media screen and (min-width: 1440px) {
+    background-image: url("./assets/images/background-desktop.png");
+    grid-template-rows: repeat(5, calc(100vh / 3));
+  }
+}
+
+.vericleline {
+  width: 100vw;
+  min-height: 100vh;
+  z-index: 100;
+  grid-row: 1/4;
+  grid-column: 1/4;
+}
+
+.card-ske {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100vw;
+  border-radius: var(--border-radius);
+}
+
+.topline {
+  z-index: 200;
+  grid-row: 1/1;
+  grid-column: 3/5;
+  justify-self: end;
+  width: clamp(10rem, 70vw, 15rem);
+}
+
+.circle {
+  z-index: 500;
+  grid-row: 2/3;
+  grid-column: 3/3;
+  justify-self: right;
+  align-self: self-end;
+}
+
+.bottomline {
+  z-index: 400;
+  grid-row: 2/ 6;
+  grid-column: 1/3;
+  justify-self: self-start;
+  align-self: self-end;
+  width: clamp(10rem, 90vw, 50rem);
+}
+
+.form-page,
+.ticket-page {
+  z-index: 10000;
+  grid-row: 1/5;
+  grid-column: 1/5;
+  align-self: baseline;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+  padding-top: 2rem;
+  gap: 2rem;
+}
+
+.ticket-background {
+  width: clamp(10rem, 80vw, 25rem);
+  min-height: 5rem;
+  background-image: url("./assets/images/pattern-ticket.svg");
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  background-position: center;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: clamp(1rem, 5vw, 1.5rem);
+}
+
+.ticket {
+  display: flex;
+  gap: 1rem;
+
+  > img {
+    width: 4rem;
+    height: 4rem;
+    border-radius: var(--Border-radius);
+  }
+}
+
+.ticket-sub {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+
+  > sub {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    color: var(--Neutral-500);
+    font-size: clamp(0.8rem, 5vw, 1.2rem);
+  }
+}
+
+h1 {
+  font-size: clamp(1.5rem, 10vw, 2.5rem);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  text-align: center;
+  word-spacing: 5px;
+  flex-wrap: wrap;
+  font-weight: 700;
+
+  > sub {
+    color: var(--Neutral-500);
+    font-size: 1.2rem;
+  }
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  width: clamp(12rem, 80vw, 24rem);
+}
+
+input,
+button,
+.dnd-btn {
+  cursor: pointer;
+  width: initial;
+  font-size: clamp(1rem, 5vw, 1.2rem);
+  padding-block: 0.3rem;
+  padding-inline: 0.7rem;
+  border-radius: var(--Border-radius);
+
+  &:is(:focus, :hover, :active) {
+    outline: 1px solid var(--Neutral);
+    outline-offset: 3px;
+  }
+}
+
+input {
+  color: var(--Neutral-300);
+  background-color: var(--Neutral-900);
+  height: 2rem;
+  border: 1px solid var(--Neutral-500);
+}
+
+input::placeholder {
+  font-family: "Inconsolata", sans-serif;
+  color: var(--Neutral-500);
+}
+
+button {
+  color: var(--Neutral-900);
+  background-color: var(--Orange-500);
+  font-weight: 600;
+  height: 3rem;
+  border: 1px solid var(--Orange-700);
+}
+
+label {
+  color: var(--Neutral-300);
+  font-size: clamp(1rem, 5vw, 1.2rem);
+  cursor: pointer;
+  font-weight: 600;
+
+  @media screen and (min-width: 1440px) {
+    font-size: 20px;
+  }
+}
+
+.gradient {
+  display: inline-block;
+  background-image: linear-gradient(90deg, hsl(7, 86%, 67%), hsl(0, 0%, 100%));
+  background-clip: text;
+  color: transparent;
+}
+
+.error {
+  color: red;
+  margin: 0;
+  padding: 0;
+  font-size: clamp(0.9rem, 1vw, 1rem);
+  width: max-content;
+  display: flex;
+  justify-content: center;
+  gap: 0.3rem;
+}
+
+.dnd-target {
+  color: var(--Neutral-500);
+  background-color: var(--Neutral-900);
+  border: 2px dashed var(--Neutral-500);
+  width: initial;
+  height: 5rem;
+  border-radius: var(--Border-radius);
+  padding: 1rem;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 0.8rem;
+  font-size: clamp(0.7rem, 3vw, 1rem);
+
+  &:is(:focus, :hover, :active) {
+    outline: 1px solid var(--Neutral);
+    outline-offset: 3px;
+  }
+
+  @media screen and (min-width: 375px) {
+    height: 8rem;
+  }
+}
+
+.preview-picture {
+  display: block;
+  width: 2.5rem;
+  height: 2.5rem;
+  background-color: var(--Neutral-700);
+  border-radius: var(--Border-radius);
+  border: 2px solid var(--Neutral-300);
+
+  @media screen and (min-width: 375px) {
+    width: 3rem;
+    height: 3rem;
+  }
+}
+
+.dnd-btn-container {
+  display: flex;
+  gap: 0.3rem;
+}
+
+.dnd-btn {
+  color: var(--Neutral-500);
+  background-color: var(--Neutral-700);
+  font-weight: 400;
+  height: 2rem;
+  border: 1px solid var(--Neutral-900);
+
+  &:is(:hover, :focus, :active) {
+    background-color: var(--Neutral-500);
+    color: var(--Neutral-900);
+    outline-offset: 1px;
+    border-radius: 5px;
+  }
+}
+
+.logo-full {
+  min-width: max-content;
+}
+
+.attribution {
+  grid-row: 5/5;
+  grid-column: 1/5;
+  font-size: 1rem;
+  text-align: center;
+  padding-block: 2rem;
+  align-self: center;
+}
+.attribution a {
+  color: hsl(229, 37%, 88%);
+}

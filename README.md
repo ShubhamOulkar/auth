@@ -2,10 +2,7 @@
 
 User authentication and authorization server
 
-## Table of contents
-
 - [ Auth](#-auth)
-  - [Table of contents](#table-of-contents)
   - [Overview](#overview)
   - [Features](#features)
   - [Technology Stack](#technology-stack)
@@ -68,7 +65,7 @@ This will build both the client and server sides of the application.
 To start the production server, run the following command:
 
 ```bash
-pnpm production
+pnpm preview
 ```
 
 ### Cleaning
@@ -84,6 +81,8 @@ pnpm clean
 [Auth api's doc](https://documenter.getpostman.com/view/26238267/2sAY4ydfot)
 
 ## Live Demo
+
+[vercel demo link](https://auth-9j6fnsj77-shubhamoulkars-projects.vercel.app)
 
 A live demo of the application is available at: https://auth-zu2a.onrender.com/
 
