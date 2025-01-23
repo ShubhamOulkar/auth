@@ -1,0 +1,10 @@
+body {
+  background-color: black;
+}
+.error-container {
+  font-size: larger;
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  color: aliceblue;
+}

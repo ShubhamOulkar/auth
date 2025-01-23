@@ -9,7 +9,7 @@ function clientHttpValidation(filePath) {
       if (ifModifiedSince === fileModifiedTime) {
         res.setHeader("Cache-Control", "no-cache");
         res.setHeader("Last-Modified", fileModifiedTime);
-        return res.sendStatus(304); //send  Not Modified status code
+        return res.sendStatus(304); //send Not Modified status code
       }
 
       // Set Last-Modified header if it's a fresh request
