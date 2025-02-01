@@ -6,7 +6,8 @@ async function decryptJwtToken(tokenName, token, secreteKey, options) {
     console.log(`${tokenName} is verified`);
     return result;
   } catch (error) {
-    return new Error(`Error verifying ${tokenName}: ${error.message}`);
+    console.error(`Error verifying ${tokenName}: `, error.stack);
+    return false;
   }
 }
 

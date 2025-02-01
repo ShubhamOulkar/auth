@@ -4,12 +4,13 @@
   "description": "authentication server",
   "type": "module",
   "scripts": {
-    "clean": "rmdir dist",
-    "dev": "cross-env NODE_ENV=development node --inspect server.js",
+    "clean": "if exist dist rmdir /s /q dist",
+    "dev": "cross-env NODE_ENV=development node --inspect src/server.js",
+    "win-build": "pnpm clean && pnpm run build:client && pnpm run build:ssr",
     "build": "pnpm run build:client && pnpm run build:ssr",
-    "build:client": "vite build --ssrManifest --outDir dist/client",
-    "build:ssr": "node script/build-ssr.js",
-    "preview": "cross-env NODE_ENV=production node server.js"
+    "build:client": "vite build --outDir dist",
+    "build:ssr": "node script/build-server.js",
+    "preview": "cross-env NODE_ENV=production node src/server.js"
   },
   "keywords": [
     "jwt",
@@ -18,7 +19,10 @@
     "express",
     "mongodb",
     "SSR",
-    "React"
+    "React",
+    "vite",
+    "typescript",
+    "zod"
   ],
   "author": "shubham oulkar",
   "license": "ISC",
@@ -31,6 +35,7 @@
     "express": "^4.21.2",
     "express-rate-limit": "^7.5.0",
     "google-auth-library": "^9.15.0",
+    "helmet": "^8.0.0",
     "jose": "^5.9.6",
     "jsonwebtoken": "^9.0.2",
     "mongodb": "^6.12.0",
@@ -41,19 +46,21 @@
     "react-dom": "^19.0.0",
     "react-icons": "^5.4.0",
     "react-loading-skeleton": "^3.5.0",
-    "react-router": "^7.1.1",
-    "react-scan": "^0.0.54",
+    "react-router": "^7.1.3",
     "sirv": "^3.0.0",
     "zod": "^3.24.1"
   },
   "devDependencies": {
+    "@types/cors": "^2.8.17",
     "@types/express": "^5.0.0",
-    "@types/node": "^22.10.5",
-    "@types/react": "^19.0.4",
-    "@types/react-dom": "^19.0.2",
+    "@types/morgan": "^1.9.9",
+    "@types/node": "^22.10.8",
+    "@types/react": "^19.0.7",
+    "@types/react-dom": "^19.0.3",
     "@vitejs/plugin-react": "^4.3.4",
+    "tsx": "^4.19.2",
     "typescript": "~5.7.3",
-    "vite": "^6.0.7",
+    "vite": "^6.0.11",
     "vite-plugin-svgr": "^4.3.0"
   },
   "pnpm": {
@@ -61,5 +68,8 @@
       "bcrypt",
       "esbuild"
     ]
+  },
+  "optionalDependencies": {
+    "@rollup/rollup-linux-x64-gnu": "^4.28.1"
   }
 }

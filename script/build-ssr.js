@@ -11,6 +11,11 @@ const pages = [
     entry: `pages/conf/entry-server.tsx`,
     outDir: `dist/server/conf`,
   },
+  {
+    name: "rsc",
+    entry: "pages/rsc/entry-server.tsx",
+    outDir: "dist/server/rsc",
+  },
 ];
 
 async function buildPages() {
