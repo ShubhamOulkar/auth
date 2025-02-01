@@ -12,6 +12,7 @@ import { throwError, decryptJwtToken } from "../utilities/utilitiesExporter.js";
 import { base64url } from "jose";
 import { config } from "dotenv";
 import { limiter } from "../middleware/rateLimiter.js";
+import sendEmail from "../mailer/sendEmail.js";
 config();
 
 const auth = express.Router();
@@ -30,6 +31,62 @@ auth.use(verifySession);
 
 // Apply the rate limiting middleware to auth requests.
 auth.use(limiter);
+
+// delete user
+auth.post("/delete", async (req, res, next) => {
+  try {
+    // TODO decrypt auth token
+    const authKey = res.locals.authKey;
+
+    const authResult = await decryptJwtToken(
+      "auth key varification ",
+      authKey,
+      secreteKey,
+      decryptOptions
+    );
+
+    if (authResult instanceof Error) {
+      // log error on server
+      throwError(
+        `❌ Client sending Threat to the server: auth key is not matched. : ${authResult}`,
+        402
+      );
+    }
+
+    // TODO validate data from client ()
+    const user = res.locals.userData;
+
+    // TODO delete auth key from cache
+
+    //  csrf and session cookie from cache
+    await deleteCsrfToken(csrfColl, res.locals.csrfToken);
+
+    // delete user if delete btn is pressed by user(logout and delete user uses same endpoint)
+    if (res.locals.btnName) await deleteUser(user.email);
+
+    //  set new session and csrf cookie
+    await setSessionAndCsrf(req, res);
+
+    //  remove auth key
+    res.cookie(process.env.VITE_AUTH_KEY, "", {
+      maxAge: 0,
+      secure: true,
+      sameSite: "strict",
+    });
+
+    //  send response to client (client delete local storage on success response and redirect to login page)
+    res.setHeader("Content-Type", "application/json");
+    res.status(200).json({
+      success: true,
+      msg: `User ${user.email} deleted successfully.`,
+      redirect: "/login",
+    });
+
+    console.log(`${user.email} ${res.locals.btnName} successfull.`);
+  } catch (err) {
+    next(err);
+  }
+});
 
 // user logout
 auth.post("/logout", async (req, res, next) => {
@@ -60,11 +117,7 @@ auth.post("/logout", async (req, res, next) => {
     //  csrf and session cookie from cache
     await deleteCsrfToken(csrfColl, res.locals.csrfToken);
 
-    // delete user if delete btn is pressed by user(logout and delete user uses same endpoint)
-    // TODO seperate this endpoint in future updates
-    if (res.locals.btnName) await deleteUser(user.email);
-
-    // T set new session and csrf cookie
+    //  set new session and csrf cookie
     await setSessionAndCsrf(req, res);
 
     //  remove auth key
@@ -108,17 +161,21 @@ auth.post("/login", async (req, res, next) => {
       !passMatch && throwError("Authentication failed, password is wrong.");
     }
 
-    //
+    // send email otp for 2fa
+    const gmailResult = await sendEmail(email);
+
     // send 2FA : verify email address response to the client
     res.setHeader("Content-Type", "application/json");
 
-    res.status(200).json({
-      success: true,
-      msg: `${
-        data.googleVerified ? "Last time you login using google." : ""
-      } Please verify ${data.email}.`,
-      redirect: "/verifyemail",
-    });
+    gmailResult
+      ? res.status(200).json({
+          success: true,
+          msg: `OTP is send on ${email}.`,
+        })
+      : res.status(500).json({
+          success: false,
+          err_msg: `💩 Failed to send OTP email on the ${email}.`,
+        });
 
     console.log(`⚡ User ${data.email} verifying email.`);
   } catch (err) {

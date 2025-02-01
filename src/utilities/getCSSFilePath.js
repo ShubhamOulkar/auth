@@ -11,7 +11,9 @@ export default async function getCSSFilePath(componentName) {
       )
     );
 
-    return manifest[`views/${componentName}/entry-server.tsx`].css[0];
+    return `/server/${componentName}/${
+      manifest[`client/views/${componentName}/entry-server.tsx`].css[0]
+    }`;
   } catch (err) {
     console.error("Error in reading manifest.json: ", err.message);
   }

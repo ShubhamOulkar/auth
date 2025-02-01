@@ -5,7 +5,7 @@ import { build } from "vite";
  * @type {string[]}
  */
 
-const pages = ["root", "conf", "rsc", "error"];
+const pages = ["root", "login", "signup", "error", "forgotpassword", "profile"];
 
 /**
  * Builds server-side rendering bundles for specified pages
@@ -22,7 +22,7 @@ async function buildPages() {
         console.log(`📦 Building ${page} page...`);
         await build({
           build: {
-            ssr: `views/${page}/entry-server.tsx`,
+            ssr: `client/views/${page}/entry-server.tsx`,
             outDir: `dist/server/${page}`,
             emitAssets: page === "error" ? true : false,
             manifest: true,
@@ -40,7 +40,6 @@ async function buildPages() {
     console.log("✨ SSR build completed successfully");
   } catch (error) {
     console.error("🚨 Build failed:", error);
-    process.exit(1);
   }
 }
 

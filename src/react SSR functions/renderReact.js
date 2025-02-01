@@ -1,5 +1,5 @@
 import { streamReact, validatePath, handleError } from "./exportSSRFuctions.js";
-
+import viteDevServer from "../../viteDevServer.js";
 const isProduction = process.env.NODE_ENV === "production";
 
 /**
@@ -19,12 +19,7 @@ const isProduction = process.env.NODE_ENV === "production";
  * });
  */
 
-export default async function renderReact(
-  _req,
-  res,
-  componentName,
-  viteDevObj
-) {
+export default async function renderReact(_req, res, componentName) {
   try {
     // Validate pages before proceeding
     const { fullTemplatePath, fullEntryPath } = validatePath(componentName);
@@ -39,13 +34,12 @@ export default async function renderReact(
       : await renderModule.renderDevelopment(
           componentName,
           fullTemplatePath,
-          fullEntryPath,
-          viteDevObj
+          fullEntryPath
         );
 
     const abort = await streamReact(res, render, componentName, template);
   } catch (e) {
-    viteDevObj?.ssrFixStacktrace(e);
+    viteDevServer?.ssrFixStacktrace(e);
     handleError(e);
   }
 }

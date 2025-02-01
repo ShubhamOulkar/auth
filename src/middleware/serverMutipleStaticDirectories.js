@@ -13,9 +13,9 @@ const staticOptions = {
   gzip: true,
 };
 
-staticFilesRouter.use(sirv(path.resolve("./dist/client"), staticOptions));
+staticFilesRouter.use(sirv(path.resolve("./dist"), staticOptions));
 
-staticFilesRouter.use(sirv(path.resolve("./dist/server/error"), staticOptions));
+// staticFilesRouter.use(sirv(path.resolve("./dist/server/error"), staticOptions));
 
 export { staticFilesRouter };
 

@@ -8,9 +8,9 @@
     "dev": "cross-env NODE_ENV=development node --inspect src/server.js",
     "win-build": "pnpm clean && pnpm run build:client && pnpm run build:ssr",
     "build": "pnpm run build:client && pnpm run build:ssr",
-    "build:client": "vite build --outDir dist/client",
+    "build:client": "vite build --outDir dist",
     "build:ssr": "node script/build-server.js",
-    "preview": "cross-env NODE_ENV=production node server.js"
+    "preview": "cross-env NODE_ENV=production node src/server.js"
   },
   "keywords": [
     "jwt",
@@ -51,11 +51,14 @@
     "zod": "^3.24.1"
   },
   "devDependencies": {
+    "@types/cors": "^2.8.17",
     "@types/express": "^5.0.0",
+    "@types/morgan": "^1.9.9",
     "@types/node": "^22.10.8",
     "@types/react": "^19.0.7",
     "@types/react-dom": "^19.0.3",
     "@vitejs/plugin-react": "^4.3.4",
+    "tsx": "^4.19.2",
     "typescript": "~5.7.3",
     "vite": "^6.0.11",
     "vite-plugin-svgr": "^4.3.0"

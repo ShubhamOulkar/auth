@@ -1,11 +1,6 @@
 import express from "express";
 import verifySession from "../middleware/verifySession.js";
-import {
-  findUser,
-  verifyUser,
-  getVerificationCode,
-  deleteVerificationCode,
-} from "../db/dbUtils.js";
+import { findUser, verifyUser, getVerificationCode } from "../db/dbUtils.js";
 import {
   throwError,
   getAuthenticationKey,
@@ -14,7 +9,12 @@ import { config } from "dotenv";
 import bcrypt from "bcrypt";
 import { updateUserPassword } from "../db/dbUtils.js";
 import sendEmail from "../mailer/sendEmail.js";
-import { limiter2Fa, otpLimiter } from "../middleware/rateLimiter.js";
+import {
+  limiter2Fa,
+  otpLimiter,
+  newPasslimiter,
+} from "../middleware/rateLimiter.js";
+import sendActivity from "../mailer/sendActivity.js";
 config();
 
 const twoFa = express.Router();
@@ -22,6 +22,7 @@ const twoFa = express.Router();
 //verify cross site forgery request and session id
 twoFa.use(verifySession);
 
+// reset password response
 function sendResponseToClient(res, result, msg, redirect = null) {
   const jsonData = result
     ? {
@@ -38,12 +39,12 @@ function sendResponseToClient(res, result, msg, redirect = null) {
 
   // send response to the client
   res.setHeader("Content-Type", "application/json");
-
   res.status(200).json(jsonData);
 
   console.log(msg);
 }
 
+// login user response
 async function sendUserResponseToClient(res, email) {
   try {
     // get user data from server
@@ -84,7 +85,7 @@ async function sendUserResponseToClient(res, email) {
 }
 
 // reset password
-twoFa.post("/resetpassword", otpLimiter, async (req, res, next) => {
+twoFa.post("/resetpassword", newPasslimiter, async (req, res, next) => {
   try {
     // TODO validate form data
 
@@ -108,6 +109,8 @@ twoFa.post("/resetpassword", otpLimiter, async (req, res, next) => {
         `Password is reset for ${email}`,
         "/login"
       );
+      //send email to user about new password activity
+      await sendActivity(email, "has set new password.");
     } else {
       sendResponseToClient(
         res,
@@ -115,6 +118,8 @@ twoFa.post("/resetpassword", otpLimiter, async (req, res, next) => {
         `Failed to reset password, ${email} try again.`,
         "/login"
       );
+      // send email to user about new password activity
+      await sendActivity(email, "failed to set new password");
     }
   } catch (err) {
     next(err);
@@ -125,40 +130,41 @@ twoFa.post("/resetpassword", otpLimiter, async (req, res, next) => {
 twoFa.post("/verifyotp", limiter2Fa, async (req, res, next) => {
   try {
     // TODO VALIDATE FORM DATA
-    const { otp, email, twoFaContext } = res.locals.formData;
+    const { otp, email, next } = res.locals.formData;
 
-    if (!otp || !email || !twoFaContext)
+    if (!otp || !email || !next)
       throwError("Request do not contain valid request body.", 500);
 
     // Get OTP from cache
     const cachedOtp = await getVerificationCode(email);
 
-    // Compare OTP
+    // send invalid response
     if (cachedOtp !== otp) {
       sendResponseToClient(res, false, `Invalid OTP for ${email}`);
       return;
     }
 
-    // Handle 2FA verification
-    if (twoFaContext === "verify email") {
-      await sendUserResponseToClient(res, email);
-    } else {
+    // Handle verification
+    if (next === "reset password") {
+      // send response on  otp valid f while forgot password
       sendResponseToClient(
         res,
         true,
         `${email} OTP is verified.`,
-        "/newpassword"
+        "/forgotpassword/newpassword"
       );
     }
 
-    // Delete OTP from cache
-    await deleteVerificationCode(email);
+    if (next === "user login") {
+      //send response if otp valid while user login
+      await sendUserResponseToClient(res, email);
+    }
   } catch (err) {
     next(err);
   }
 });
 
-// verify email is present in DB before resetting new password
+// verify email is present in DB before resetting new password or login
 twoFa.post("/verifyemail", otpLimiter, async (req, res, next) => {
   try {
     //TODO validate form data

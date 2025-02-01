@@ -1,19 +1,23 @@
 import express from "express";
 import cors from "cors";
+import crypto from "crypto";
 import morgan from "morgan";
 import { config } from "dotenv";
 import { connectMongo } from "./db/dbUtils.js";
-import renderToString from "./SSG/renderToString.js";
 import {
   auth,
   googleAuth,
   twoFa,
   renderPages,
 } from "./routes/routesExporter.js";
-import { vite } from "./routes/renderPages.js";
 import { productionMiddlewares } from "./middleware/productionMiddlewares.js";
+import setSessionAndCsrfToken from "./middleware/setSessionAndCsrfToken.js";
+import errorHandler from "./middleware/errorHandler.js";
 config();
 
+const generateNonce = () => {
+  return crypto.hash("sha256", crypto.randomBytes(16).toString("base64"));
+};
 const port = process.env.PORT || 5500;
 const isProduction = process.env.NODE_ENV === "production";
 const ABORT_DELAY = 10000; //10 sec
@@ -23,13 +27,14 @@ const app = express();
 
 // cross platform settings
 const corsOptions = {
-  origin: "http://localhost:5173", // Allow requests from specific origin
-  methods: ["GET", "POST", "PUT", "DELETE"],
+  origin: " http://127.0.0.1:5500", // Allow requests from specific origin
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   allowedHeaders: [
     "Content-Type",
     "Authorization",
     "Cache-Control",
     "Set-Cookie",
+    "X-CSRF-Token",
   ],
   credentials: true,
   maxAge: 3600, // Specify maximum age of CORS configuration
@@ -39,23 +44,36 @@ const corsOptions = {
 await connectMongo();
 
 // middlewares
-app.use(morgan(isProduction ? "combined" : "dev"));
+app.use(morgan("dev"));
 app.use(cors(corsOptions));
-
-// Add request timeout middleware
+app.use(express.raw({ type: "text/plain" }));
+// Debug middleware
+// app.use((req, res, next) => {
+//   console.log("Content-Type:", req.get("Content-Type"));
+//   console.log("Body:", req.body);
+//   next();
+// });
+// basic security CSP middleware
 app.use((req, res, next) => {
-  const timeout = setTimeout(() => {
-    res.status(408);
-    res.set({
-      "Content-Type": "text/html",
-    });
-    res.send(`Request Timeout ${ABORT_DELAY}ms for ${req.originalUrl}`);
-  }, ABORT_DELAY);
-
-  res.on("finish", () => clearTimeout(timeout));
+  const nonce = generateNonce();
+  res.locals.nonce = nonce;
+  res.setHeader(
+    "Content-Security-Policy",
+    `script-src 'self' 'nonce-${nonce}'; style-src 'self' 'nonce-${nonce}';`
+  );
   next();
 });
 
+// Add request timeout middleware
+// app.use((req, res, next) => {
+//   const timeout = setTimeout(() => {
+//     res.status(408);
+//     res.send(`Request Timeout ${ABORT_DELAY}ms for ${req.originalUrl}`);
+//   }, ABORT_DELAY);
+
+//   res.on("finish", () => clearTimeout(timeout));
+//   next();
+// });
 // authontication and authorization routes
 app.use("/auth", auth);
 // authenticate by google indentity route
@@ -70,28 +88,31 @@ if (isProduction) {
 
 // set cookie for session ID and csrf token on page load only (page will reload after session expiration)
 // !  remove this middware in production, this middleware added for testing in development !
-// app.use(setSessionAndCsrfToken);
+app.use(setSessionAndCsrfToken);
+
+app.use(errorHandler);
 
 // react html pages rendering
 app.use(renderPages);
 
-// Error handling middleware
-app.use(async (err, req, res, next) => {
-  // log error on server
-  console.error(`${err.status} : `, err.message);
-  try {
-    const htmlData = await renderToString(err, "error", vite);
-    res.set({
-      "Content-Type": "text/html",
-    });
-    res.status(500).send(htmlData);
-  } catch (err) {
-    console.error("Error in rendering error page on server:", err.stack);
-    res
-      .status(500)
-      .send("Internal Server Error : Error rendering error page on the server");
-  }
-});
+// // Error handling middleware
+// app.use(async (err, req, res, next) => {
+//   // log error on server
+//   console.error(`${err.message} : ${err.status} : `, err.stack);
+//   try {
+//     const htmlData = await renderToString(err, "error", vite);
+//     res.set({
+//       "Content-Type": "text/html",
+//     });
+
+//     res.status(500).send(htmlData);
+//   } catch (err) {
+//     console.error("Error in rendering error page on server:", err.stack);
+//     res
+//       .status(500)
+//       .send("Internal Server Error : Error rendering error page on the server");
+//   }
+// });
 
 app.listen(port, () => {
   console.log(

@@ -6,6 +6,9 @@ import svgr from "vite-plugin-svgr";
 export default defineConfig({
   envPrefix: ["VITE_"],
   plugins: [svgr(), react()],
+  html: {
+    cspNonce: "nonce-value", // add nonce placeholder on scripts, links headers tags
+  },
   server: {
     headers: {
       "Strict-Transport-Security": "max-age=86400; includeSubDomains", // Adds HSTS options to your website, with a expiry time of 1 day
@@ -19,9 +22,11 @@ export default defineConfig({
       treeshake: true,
       input: {
         // build multiple page application
-        root: "./views/root/root.html",
-        conf: "./views/conf/conf.html",
-        rsc: "./views/rsc/rsc.html",
+        root: "./client/views/root/root.html",
+        login: "./client/views/login/login.html",
+        signup: "./client/views/signup/signup.html",
+        forgot: "./client/views/forgotpassword/forgotpassword.html",
+        profile: "./client/views/profile/profile.html",
       },
     },
     // manifest: true, // client asset mapping

@@ -32,21 +32,35 @@ async function verifySession(req, res, next) {
 
     const { cookieCsrf, cookieSession } = cookie;
 
-    // decrypt request body
-    const {
-      payload: {
-        payload: { csrfToken, formData, googleId, userData, authKey, btnName },
-      },
-      protectedHeader,
-    } = await decryptJwtToken(
+    // Decrypt and validate token
+    const decryptedToken = await decryptJwtToken(
       "form request body",
       req.body,
       secretKey,
       decryptOption
     );
 
-    !csrfToken &&
-      throwError("❌ Failed decrypting jwt request body token", 500);
+    if (!decryptedToken) {
+      throwError("❌ Invalid token structure", 400);
+    }
+
+    const {
+      payload: {
+        payload: {
+          csrfToken,
+          formData,
+          googleId,
+          userData,
+          authKey,
+          btnName,
+        } = {},
+      } = {},
+      protectedHeader,
+    } = decryptedToken;
+
+    if (!csrfToken) {
+      throwError("❌ Missing CSRF token in request", 400);
+    }
 
     // TODO check jwt request body headers
 

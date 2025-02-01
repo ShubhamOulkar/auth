@@ -2,7 +2,7 @@ import { createTransport } from "nodemailer";
 import generateOtp from "./code.js";
 import { config } from "dotenv";
 config();
-import { saveVerificationCode } from "../db/dbUtils.js";
+import { saveVerificationCode, deleteVerificationCode } from "../db/dbUtils.js";
 
 const fromEmail = {
   name: process.env.JWT_ISSURE,
@@ -46,6 +46,11 @@ async function sendEmail(recepientEmail) {
 
     //TODO store recepient email and code in cache memory
     await saveVerificationCode(recepientEmail, code);
+
+    //TODO delete email and otp from cache memory after 1min
+    setTimeout(async () => {
+      await deleteVerificationCode(recepientEmail);
+    }, 60000);
 
     console.log(`Email sent to ${recepientEmail}: `, result.response);
     return true;

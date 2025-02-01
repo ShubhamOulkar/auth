@@ -1,6 +1,6 @@
 import getCSSFilePath from "../utilities/getCSSFilePath.js";
 const isProduction = process.env.NODE_ENV === "production";
-
+import viteDevServer from "../../viteDevServer.js";
 /**
  * Renders a component to string with error handling
  * @param {ErrorState} err - ErrorState object
@@ -8,7 +8,7 @@ const isProduction = process.env.NODE_ENV === "production";
  * @param {import('vite').ViteDevServer} vite - Vite dev server instance
  * @returns {Promise<string>} Rendered HTML string
  */
-export default async function renderToString(err, componentName, vite) {
+export default async function renderToString(err = null, componentName) {
   try {
     if (!err || !componentName) {
       throw new Error("Missing required parameters");
@@ -20,13 +20,16 @@ export default async function renderToString(err, componentName, vite) {
 
     const cssFilePath = isProduction
       ? await getCSSFilePath("error")
-      : `./views/${componentName}/Error.css`;
+      : `/client/views/${componentName}/Error.css`;
 
     const render = isProduction
       ? (await import(`../../dist/server/${componentName}/entry-server.js`))
           .render
-      : (await vite.ssrLoadModule(`./views/${componentName}/entry-server.tsx`))
-          .render;
+      : (
+          await viteDevServer.ssrLoadModule(
+            `./client/views/${componentName}/entry-server.tsx`
+          )
+        ).render;
 
     // Render the component to string with error state ,status code and add css file path
     const { prelude } = cssFilePath && (await render(errorState, cssFilePath));

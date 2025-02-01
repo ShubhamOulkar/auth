@@ -29,10 +29,10 @@ function generatePaths(componentName) {
 
   let templatePath = isProduction
     ? `./dist/client/views/${componentName}/${componentName}.html`
-    : `./views/${componentName}/${componentName}.html`;
+    : `./client/views/${componentName}/${componentName}.html`;
 
   let entryPath = isProduction
     ? `./dist/server/${componentName}/entry-server.js`
-    : `./views/${componentName}/entry-server.tsx`;
+    : `./client/views/${componentName}/entry-server.tsx`;
   return { templatePath, entryPath };
 }

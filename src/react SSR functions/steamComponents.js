@@ -1,10 +1,12 @@
 import { Transform } from "node:stream";
 
 export async function streamReact(res, render, url, template) {
+  template = template.replaceAll("nonce-value", res.locals.nonce);
+
   let didError = false;
 
   const { pipe, abort } = render(url, {
-    nonce: res.locals.nonce, // nonce for CSP, used on script tags
+    nonce: res.locals.nonce, // nonce for CSP, used on script and link tags
     onShellError() {
       res.status(500);
       res.set({ "Content-Type": "text/html" });
@@ -24,10 +26,6 @@ export async function streamReact(res, render, url, template) {
       });
 
       let [htmlStart, htmlEnd] = template.split(`<!--app-html-->`);
-
-      if (url === "root") {
-        htmlStart = htmlStart.replace("nonce-value", res.locals.nonce);
-      }
 
       res.write(htmlStart);
 
