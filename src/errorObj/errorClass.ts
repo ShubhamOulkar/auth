@@ -1,5 +1,7 @@
 export default class ErrorResponse {
-  constructor(message, errorCode) {
+  message: string;
+  errorCode: number;
+  constructor(message: string, errorCode: number) {
     if (typeof message !== "string") {
       throw new Error("Error message must be a string");
     }

@@ -1,14 +1,15 @@
 import { MongoClient } from "mongodb";
-import ErrorResponse from "../errorObj/errorClass.js";
+import ErrorResponse from "../errorObj/errorClass.ts";
 import { config } from "dotenv";
-import { throwError } from "../utilities/utils.js";
+import { throwError } from "../utilities/utils.ts";
 config();
 
 const dbName = process.env.DB_NAME;
-const collName = process.env.COLL_NAME;
-const verificationCollection = process.env.VERIFICATION_CODE_COLLECTION_NAME;
+const collName = process.env.COLL_NAME || "";
+const verificationCollection =
+  process.env.VERIFICATION_CODE_COLLECTION_NAME || "";
 
-const client = new MongoClient(process.env.MONGO_CONNECT_STRING);
+const client = new MongoClient(process.env.MONGO_CONNECT_STRING || "");
 
 async function connectMongo() {
   try {
@@ -24,7 +25,11 @@ async function closeMongo() {
   console.log("Mongo atlas closed.");
 }
 
-async function createCollection(databaseName, collectionName, schema) {
+async function createCollection(
+  databaseName: string,
+  collectionName: string,
+  schema: Document
+) {
   try {
     await connectMongo();
     client.db(databaseName).createCollection(collectionName, {
@@ -39,7 +44,7 @@ async function createCollection(databaseName, collectionName, schema) {
   }
 }
 
-async function saveVerificationCode(email, code) {
+async function saveVerificationCode(email: string, code: string) {
   try {
     const result = await client
       .db(dbName)
@@ -49,12 +54,12 @@ async function saveVerificationCode(email, code) {
     console.log(`verification code is saved for user ${email}`, result);
     return;
   } catch (err) {
-    console.error("Error in storing varification code:", err.errmsg);
+    console.error("Error in storing varification code:", err);
     throw err;
   }
 }
 
-async function getVerificationCode(email) {
+async function getVerificationCode(email: string) {
   try {
     const user = await client
       .db(dbName)
@@ -72,7 +77,7 @@ async function getVerificationCode(email) {
   }
 }
 
-async function deleteVerificationCode(email) {
+async function deleteVerificationCode(email: string) {
   try {
     const deteleResult = await client
       .db(dbName)
@@ -86,7 +91,7 @@ async function deleteVerificationCode(email) {
   }
 }
 
-async function saveUser(formData) {
+async function saveUser(formData: Document) {
   try {
     const result = await client
       .db(dbName)
@@ -97,14 +102,15 @@ async function saveUser(formData) {
     return true;
   } catch (err) {
     // i dont want to send other database errors to the client
-    console.error("Error in storing new user:", err.errmsg);
+    console.error("Error in storing new user:", err);
 
     // only send user allready exist error tot client
+    //@ts-ignore
     if (err.code === 11000) throwError(`${formData.email} already exists`, 500);
   }
 }
 
-async function verifyUser(email) {
+async function verifyUser(email: string) {
   const filter = { email: email };
 
   try {
@@ -130,7 +136,7 @@ async function verifyUser(email) {
   }
 }
 
-async function findUser(email, context = "verify password") {
+async function findUser(email: string, context = "verify password") {
   const projection =
     context === "verify password"
       ? { _id: 0, email: 1, password: 1, googleVerified: 1 }
@@ -164,7 +170,11 @@ async function findUser(email, context = "verify password") {
   }
 }
 
-async function updateUserPassword(email, pass, verify) {
+async function updateUserPassword(
+  email: string,
+  pass: string,
+  verify: boolean
+) {
   try {
     const result = await client
       .db(dbName)
@@ -186,23 +196,26 @@ async function updateUserPassword(email, pass, verify) {
 }
 
 // following function will be replaced with redis db opeartions
-async function saveCsrf(collection, hash, jwt) {
+async function saveCsrf(collection: string, hash: string, jwt: string) {
   try {
     const csrfInstance = client.db(dbName).collection(collection);
+    //@ts-ignore
     const result = await csrfInstance.insertOne({ _id: hash, jwt: jwt });
     console.log("csrf hash is saved", result);
   } catch (err) {
     console.error(err);
+    //@ts-ignore
     if (err.code === 11000) throw new ErrorResponse("hash already exists", 500);
     throw err;
   }
 }
 
-async function findCsrfHash(collection, hash) {
+async function findCsrfHash(collection: string, hash: string) {
   try {
     const csrfToken = await client
       .db(dbName)
       .collection(collection)
+      //@ts-ignore
       .findOne({ _id: hash });
 
     if (!csrfToken) {
@@ -216,11 +229,12 @@ async function findCsrfHash(collection, hash) {
   }
 }
 
-async function deleteCsrfToken(collection, token) {
+async function deleteCsrfToken(collection: string, token: string) {
   try {
     const deteleResult = await client
       .db(dbName)
       .collection(collection)
+      //@ts-ignore
       .deleteOne({ _id: token });
 
     console.log(`csrf token deleted:`, deteleResult);
@@ -230,7 +244,7 @@ async function deleteCsrfToken(collection, token) {
   }
 }
 
-async function deleteUser(email) {
+async function deleteUser(email: string) {
   try {
     const deteleResult = await client
       .db(dbName)

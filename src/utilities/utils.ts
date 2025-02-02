@@ -1,6 +1,6 @@
-import ErrorResponse from "../errorObj/errorClass.js";
+import ErrorResponse from "../errorObj/errorClass.ts";
 
-function throwError(message, errorCode = 401) {
+function throwError(message: string, errorCode = 401) {
   throw new ErrorResponse(message, errorCode);
 }
 
@@ -10,7 +10,10 @@ function throwError(message, errorCode = 401) {
 //   });
 // }
 
-function checkKeyValues(object1, object2) {
+function checkKeyValues(
+  object1: { [x: string]: any },
+  object2: { [x: string]: any }
+) {
   return new Promise((resolve, reject) => {
     // Check if inputs are objects
     if (typeof object1 !== "object" || typeof object2 !== "object") {

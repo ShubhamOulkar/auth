@@ -1,8 +1,6 @@
 import { createTransport } from "nodemailer";
-import generateOtp from "./code.js";
 import { config } from "dotenv";
 config();
-import { saveVerificationCode, deleteVerificationCode } from "../db/dbUtils.js";
 
 const fromEmail = {
   name: process.env.JWT_ISSURE,
@@ -20,21 +18,19 @@ const transporter = createTransport({
   },
 });
 
-async function sendEmail(recepientEmail) {
+async function sendActivity(recepientEmail: string, msg: string) {
   try {
     if (!recepientEmail) {
       throw new Error(
-        "do not call sendEmail function without recepientEmail parameter"
+        "do not call sendActivity function without recepientEmail parameter"
       );
     }
-
-    const code = await generateOtp(5);
 
     const mailOptions = {
       from: fromEmail,
       to: recepientEmail,
-      subject: "Auth-SSR verification code",
-      html: `verification code: ${code}`,
+      subject: "⚡ Auth-SSR critical activity detected",
+      html: `${recepientEmail} ${msg}`,
     };
 
     // without callback following function returns promise object
@@ -44,20 +40,14 @@ async function sendEmail(recepientEmail) {
       throw new Error("Error in sending email");
     }
 
-    //TODO store recepient email and code in cache memory
-    await saveVerificationCode(recepientEmail, code);
-
-    //TODO delete email and otp from cache memory after 1min
-    setTimeout(async () => {
-      await deleteVerificationCode(recepientEmail);
-    }, 60000);
-
-    console.log(`Email sent to ${recepientEmail}: `, result.response);
-    return true;
+    console.log(`Activity Email sent to ${recepientEmail}: `, result.response);
   } catch (err) {
-    console.error(`Error in sending email to ${recepientEmail}: `, err);
+    console.error(
+      `Error in sending activity email to ${recepientEmail}: `,
+      err
+    );
     throw err;
   }
 }
 
-export default sendEmail;
+export default sendActivity;

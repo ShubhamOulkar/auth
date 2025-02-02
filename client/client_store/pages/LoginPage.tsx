@@ -110,7 +110,7 @@ function LoginPage() {
       )}
       <LoginBottomLinks />
       {isOtpEmailSend && <SendOTPForm next="user login" />}
-      {/* <GoogleBtn /> */}
+      <GoogleBtn />
     </div>
   );
 }

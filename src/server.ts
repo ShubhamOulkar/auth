@@ -3,7 +3,7 @@ import cors from "cors";
 import crypto from "crypto";
 import morgan from "morgan";
 import { config } from "dotenv";
-import { connectMongo } from "./db/dbUtils.js";
+import { connectMongo } from "./db/dbUtils.ts";
 import {
   auth,
   googleAuth,
@@ -86,33 +86,15 @@ if (isProduction) {
   app.use(productionMiddlewares);
 }
 
-// set cookie for session ID and csrf token on page load only (page will reload after session expiration)
-// !  remove this middware in production, this middleware added for testing in development !
-app.use(setSessionAndCsrfToken);
+if (!isProduction) {
+  // set cookie for session ID and csrf token on page load
+  app.use(setSessionAndCsrfToken);
+}
 
 app.use(errorHandler);
 
 // react html pages rendering
 app.use(renderPages);
-
-// // Error handling middleware
-// app.use(async (err, req, res, next) => {
-//   // log error on server
-//   console.error(`${err.message} : ${err.status} : `, err.stack);
-//   try {
-//     const htmlData = await renderToString(err, "error", vite);
-//     res.set({
-//       "Content-Type": "text/html",
-//     });
-
-//     res.status(500).send(htmlData);
-//   } catch (err) {
-//     console.error("Error in rendering error page on server:", err.stack);
-//     res
-//       .status(500)
-//       .send("Internal Server Error : Error rendering error page on the server");
-//   }
-// });
 
 app.listen(port, () => {
   console.log(
