@@ -1,7 +1,7 @@
 import { MongoClient } from "mongodb";
-import ErrorResponse from "../errorObj/errorClass.ts";
+import ErrorResponse from "../errorObj/errorClass.js";
 import { config } from "dotenv";
-import { throwError } from "../utilities/utils.ts";
+import { throwError } from "../utilities/utils.js";
 config();
 
 const dbName = process.env.DB_NAME;

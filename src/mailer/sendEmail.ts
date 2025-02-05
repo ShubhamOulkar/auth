@@ -1,8 +1,8 @@
 import { createTransport } from "nodemailer";
-import generateOtp from "./code.ts";
+import generateOtp from "./code.js";
 import { config } from "dotenv";
 config();
-import { saveVerificationCode, deleteVerificationCode } from "../db/dbUtils.ts";
+import { saveVerificationCode, deleteVerificationCode } from "../db/dbUtils.js";
 
 const fromEmail = {
   name: process.env.JWT_ISSURE,
@@ -10,6 +10,7 @@ const fromEmail = {
 };
 
 const transporter = createTransport({
+  //@ts-ignore
   service: "Gmail",
   host: process.env.EMAIL_HOST,
   port: process.env.EMAIL_PORT,
@@ -38,8 +39,9 @@ async function sendEmail(recepientEmail: string) {
     };
 
     // without callback following function returns promise object
+    //@ts-ignore
     const result = await transporter.sendMail(mailOptions);
-
+    //@ts-ignore
     if (!result.messageId) {
       throw new Error("Error in sending email");
     }
@@ -51,7 +53,7 @@ async function sendEmail(recepientEmail: string) {
     setTimeout(async () => {
       await deleteVerificationCode(recepientEmail);
     }, 60000);
-
+    //@ts-ignore
     console.log(`Email sent to ${recepientEmail}: `, result.response);
     return true;
   } catch (err) {

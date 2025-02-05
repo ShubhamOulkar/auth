@@ -1,4 +1,4 @@
-import ErrorResponse from "../errorObj/errorClass.ts";
+import ErrorResponse from "../errorObj/errorClass.js";
 
 function throwError(message: string, errorCode = 401) {
   throw new ErrorResponse(message, errorCode);

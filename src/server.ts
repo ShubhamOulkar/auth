@@ -3,7 +3,7 @@ import cors from "cors";
 import crypto from "crypto";
 import morgan from "morgan";
 import { config } from "dotenv";
-import { connectMongo } from "./db/dbUtils.ts";
+import { connectMongo } from "./db/dbUtils.js";
 import {
   auth,
   googleAuth,
@@ -12,7 +12,7 @@ import {
 } from "./routes/routesExporter.js";
 import { productionMiddlewares } from "./middleware/productionMiddlewares.js";
 import setSessionAndCsrfToken from "./middleware/setSessionAndCsrfToken.js";
-import errorHandler from "./middleware/errorHandler.js";
+import { Express } from "express";
 config();
 
 const generateNonce = () => {
@@ -20,10 +20,9 @@ const generateNonce = () => {
 };
 const port = process.env.PORT || 5500;
 const isProduction = process.env.NODE_ENV === "production";
-const ABORT_DELAY = 10000; //10 sec
 
 // http server applicaton
-const app = express();
+const app: Express = express();
 
 // cross platform settings
 const corsOptions = {
@@ -47,14 +46,16 @@ await connectMongo();
 app.use(morgan("dev"));
 app.use(cors(corsOptions));
 app.use(express.raw({ type: "text/plain" }));
-// Debug middleware
-// app.use((req, res, next) => {
-//   console.log("Content-Type:", req.get("Content-Type"));
-//   console.log("Body:", req.body);
-//   next();
-// });
+
+// production middlewares
+if (isProduction) {
+  app.use(productionMiddlewares);
+} else {
+  app.use(setSessionAndCsrfToken);
+}
+
 // basic security CSP middleware
-app.use((req, res, next) => {
+app.use((_req, res, next) => {
   const nonce = generateNonce();
   res.locals.nonce = nonce;
   res.setHeader(
@@ -64,34 +65,12 @@ app.use((req, res, next) => {
   next();
 });
 
-// Add request timeout middleware
-// app.use((req, res, next) => {
-//   const timeout = setTimeout(() => {
-//     res.status(408);
-//     res.send(`Request Timeout ${ABORT_DELAY}ms for ${req.originalUrl}`);
-//   }, ABORT_DELAY);
-
-//   res.on("finish", () => clearTimeout(timeout));
-//   next();
-// });
 // authontication and authorization routes
 app.use("/auth", auth);
 // authenticate by google indentity route
 app.use("/google", googleAuth);
 // two factor authentication routes
 app.use("/2fa", twoFa);
-
-// production middlewares
-if (isProduction) {
-  app.use(productionMiddlewares);
-}
-
-if (!isProduction) {
-  // set cookie for session ID and csrf token on page load
-  app.use(setSessionAndCsrfToken);
-}
-
-app.use(errorHandler);
 
 // react html pages rendering
 app.use(renderPages);

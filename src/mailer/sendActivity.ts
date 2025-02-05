@@ -8,6 +8,7 @@ const fromEmail = {
 };
 
 const transporter = createTransport({
+  //@ts-ignore
   service: "Gmail",
   host: process.env.EMAIL_HOST,
   port: process.env.EMAIL_PORT,
@@ -34,12 +35,13 @@ async function sendActivity(recepientEmail: string, msg: string) {
     };
 
     // without callback following function returns promise object
+    //@ts-ignore
     const result = await transporter.sendMail(mailOptions);
-
+    //@ts-ignore
     if (!result.messageId) {
       throw new Error("Error in sending email");
     }
-
+    //@ts-ignore
     console.log(`Activity Email sent to ${recepientEmail}: `, result.response);
   } catch (err) {
     console.error(
