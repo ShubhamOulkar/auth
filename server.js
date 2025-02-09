@@ -18,7 +18,7 @@ import {
 } from "./src/routes/routesExporter.js";
 config();
 
-const port = process.env.PORT || 5500;
+const port = process.env.PORT || 2500;
 const isProduction = process.env.NODE_ENV === "production";
 const clientFolderpath = "dist/client";
 
