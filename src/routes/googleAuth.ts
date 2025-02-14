@@ -73,10 +73,10 @@ googleAuth.post("/login", async (_req, res, next) => {
     };
 
     // check user is already in store as google verified user
-    let isGoogleVerify = await verifyUser(user.email || "");
+    let isGoogleVerify = await verifyUser(user.email ?? "");
 
     // generate auth token
-    const authKey = await getAuthenticationKay(user.email || "");
+    const authKey = await getAuthenticationKay(user.email ?? "");
 
     if (!isGoogleVerify) {
       // if not verified save user in database
@@ -84,7 +84,7 @@ googleAuth.post("/login", async (_req, res, next) => {
       await saveUser(user);
     }
     // verified then send response
-    sendResponse(res, user, authKey || "");
+    sendResponse(res, user, authKey ?? "");
   } catch (err) {
     next(err);
   }

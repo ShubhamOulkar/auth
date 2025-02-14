@@ -18,7 +18,7 @@ config();
 const generateNonce = () => {
   return crypto.hash("sha256", crypto.randomBytes(16).toString("base64"));
 };
-const port = process.env.PORT || 5500;
+const port = process.env.PORT ?? 5500;
 const isProduction = process.env.NODE_ENV === "production";
 
 // http server applicaton

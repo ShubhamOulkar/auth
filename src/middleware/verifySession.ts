@@ -1,4 +1,4 @@
-import { base64url } from "jose";
+??import { base64url } from "jose";
 import jwt from "jsonwebtoken";
 import { config } from "dotenv";
 import {
@@ -11,10 +11,10 @@ import { findCsrfHash } from "../db/dbUtils.js";
 import { NextFunction } from "express";
 config();
 
-const SECRET = process.env.VITE_POST_BODY_SECRET || "";
+const SECRET = process.env.VITE_POST_BODY_SECRET ?? "";
 const secretKey = base64url.decode(SECRET);
-const csrfColl = process.env.CSRF_COLLECTION || "";
-const CSRF_SECRET = process.env.CSRF_SECRET || "";
+const csrfColl = process.env.CSRF_COLLECTION ?? "";
+const CSRF_SECRET = process.env.CSRF_SECRET ?? "";
 const decryptOption = {
   issuer: process.env.VITE_ISSURE,
   audience: process.env.VITE_AUDIENCE,

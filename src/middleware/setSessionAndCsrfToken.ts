@@ -8,9 +8,9 @@ import { base64url } from "jose";
 import decryptJwtToken from "../utilities/decryptJwtToken.js";
 import { NextFunction } from "express";
 
-const csrfColl = process.env.CSRF_COLLECTION || "";
-const SESSION_SECRET = process.env.SESSION_SECRET || "";
-const cookieExpTime = process.env.VITE_COOKIE_EXP_TIME || "";
+const csrfColl = process.env.CSRF_COLLECTION ?? "";
+const SESSION_SECRET = process.env.SESSION_SECRET ?? "";
+const cookieExpTime = process.env.VITE_COOKIE_EXP_TIME ?? "";
 const sessionSecreteKey = base64url.decode(SESSION_SECRET);
 
 const cookieOption = {
@@ -79,7 +79,7 @@ async function setSessionAndCsrfToken(req: any, res: any, next: NextFunction) {
 
 export async function setSessionAndCsrf(_req: any, res: any) {
   // generate session id
-  const sessionId = (await generateSessionId()) || "";
+  const sessionId = (await generateSessionId()) ?? "";
 
   // generate csrf token using session id
   const { csrfHash: csrfToken, jwtCsrf } = (await generateCsrfToken(

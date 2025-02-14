@@ -3,7 +3,7 @@ import { config } from "dotenv";
 config();
 import { throwError, checkKeyValues } from "./utils.js";
 
-const SESSION_SECRET = process.env.SESSION_SECRET || "";
+const SESSION_SECRET = process.env.SESSION_SECRET ?? "";
 const sessionSecreteKey = base64url.decode(SESSION_SECRET);
 const decrytOption = {
   issuer: process.env.JWT_ISSURE,

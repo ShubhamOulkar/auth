@@ -13,7 +13,7 @@ async function generateOtp(lengthOfCode: number) {
     // }
 
     const otp: string[] = [];
-    const characters = process.env.OTP_CHARACTERS || "";
+    const characters = process.env.OTP_CHARACTERS ?? "";
     // random unsigned integer array of lengthOfCode
     const randomValueArray = crypto.getRandomValues(
       new Uint32Array(lengthOfCode)

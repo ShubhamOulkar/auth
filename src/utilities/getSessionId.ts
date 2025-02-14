@@ -3,7 +3,7 @@ import { config } from "dotenv";
 config();
 import getTokenPayload from "./getTokenPayload.js";
 
-const SECRET = process.env.SESSION_SECRET || "";
+const SECRET = process.env.SESSION_SECRET ?? "";
 const secreteKey = base64url.decode(SECRET);
 // Function to generate a CSRF token
 async function generateSessionId() {
@@ -26,10 +26,10 @@ async function generateSessionId() {
     const sessionId = await new EncryptJWT({ payload })
       .setProtectedHeader({ alg: "dir", enc: "A128CBC-HS256", typ: "jwt" })
       .setIssuedAt()
-      .setSubject(process.env.JWT_SUBJECT || "")
-      .setExpirationTime(process.env.JWT_EXP_TIME || "")
-      .setIssuer(process.env.JWT_ISSURE || "")
-      .setAudience(process.env.JWT_AUDIENCE || "")
+      .setSubject(process.env.JWT_SUBJECT ?? "")
+      .setExpirationTime(process.env.JWT_EXP_TIME ?? "")
+      .setIssuer(process.env.JWT_ISSURE ?? "")
+      .setAudience(process.env.JWT_AUDIENCE ?? "")
       .encrypt(secreteKey);
 
     return sessionId;

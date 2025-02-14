@@ -17,14 +17,14 @@ import { Router } from "express";
 config();
 
 const auth: Router = express.Router();
-const SECRET = process.env.AUTH_SECRET_KEY || "";
-const secreteKey = base64url.decode(SECRET) || "";
-const csrfColl = process.env.CSRF_COLLECTION || "";
+const SECRET = process.env.AUTH_SECRET_KEY ?? "";
+const secreteKey = base64url.decode(SECRET) ?? "";
+const csrfColl = process.env.CSRF_COLLECTION ?? "";
 
 const decryptOptions = {
-  issuer: process.env.JWT_ISSURE || "",
-  audience: process.env.JWT_AUDIENCE || "",
-  subject: process.env.JWT_SUBJECT || "",
+  issuer: process.env.JWT_ISSURE ?? "",
+  audience: process.env.JWT_AUDIENCE ?? "",
+  subject: process.env.JWT_SUBJECT ?? "",
 };
 
 //verify cross site forgery request and session id
@@ -69,7 +69,7 @@ auth.post("/delete", async (req, res, next) => {
     await setSessionAndCsrf(req, res);
 
     //  remove auth key
-    res.cookie(process.env.VITE_AUTH_KEY || "", "", {
+    res.cookie(process.env.VITE_AUTH_KEY ?? "", "", {
       maxAge: 0,
       secure: true,
       sameSite: "strict",
@@ -122,7 +122,7 @@ auth.post("/logout", async (req: any, res: any, next: NextFunction) => {
     await setSessionAndCsrf(req, res);
 
     //  remove auth key
-    res.cookie(process.env.VITE_AUTH_KEY || "", "", {
+    res.cookie(process.env.VITE_AUTH_KEY ?? "", "", {
       maxAge: 0,
       secure: true,
       sameSite: "strict",

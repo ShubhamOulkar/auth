@@ -5,11 +5,11 @@ import { throwError } from "../utilities/utils.js";
 config();
 
 const dbName = process.env.DB_NAME;
-const collName = process.env.COLL_NAME || "";
+const collName = process.env.COLL_NAME ?? "";
 const verificationCollection =
-  process.env.VERIFICATION_CODE_COLLECTION_NAME || "";
+  process.env.VERIFICATION_CODE_COLLECTION_NAME ?? "";
 
-const client = new MongoClient(process.env.MONGO_CONNECT_STRING || "");
+const client = new MongoClient(process.env.MONGO_CONNECT_STRING ?? "");
 
 async function connectMongo() {
   try {

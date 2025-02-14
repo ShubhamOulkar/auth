@@ -4,7 +4,7 @@ import { config } from "dotenv";
 config();
 import getTokenPayload from "./getTokenPayload.js";
 
-const SECRET = process.env.CSRF_SECRET || "";
+const SECRET = process.env.CSRF_SECRET ?? "";
 
 // Function to generate a CSRF token
 async function generateCsrfToken(
