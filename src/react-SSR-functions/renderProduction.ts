@@ -11,7 +11,7 @@ export async function renderProduction(
     const entryPath = path.resolve(fullEntryPath);
     const entryUrl = pathToFileURL(entryPath);
     const { render } = await import(entryUrl.href);
-    let template = await fs.readFile(fullTemplatePath, "utf-8");
+    const template = await fs.readFile(fullTemplatePath, "utf-8");
 
     return { template, render };
   } catch (err) {

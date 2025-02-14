@@ -73,7 +73,7 @@ googleAuth.post("/login", async (_req, res, next) => {
     };
 
     // check user is already in store as google verified user
-    let isGoogleVerify = await verifyUser(user.email ?? "");
+    const isGoogleVerify = await verifyUser(user.email ?? "");
 
     // generate auth token
     const authKey = await getAuthenticationKay(user.email ?? "");

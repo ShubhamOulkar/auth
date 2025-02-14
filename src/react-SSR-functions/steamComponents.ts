@@ -30,7 +30,7 @@ export async function streamReact(
         },
       });
 
-      let [htmlStart, htmlEnd] = template.split(`<!--app-html-->`);
+      const [htmlStart, htmlEnd] = template.split(`<!--app-html-->`);
 
       res.write(htmlStart);
 

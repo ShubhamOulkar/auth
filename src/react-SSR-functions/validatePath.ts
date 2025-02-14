@@ -27,11 +27,11 @@ function generatePaths(componentName: string) {
     throw new Error(`Invalid component name: ${componentName}`);
   }
 
-  let templatePath = isProduction
+  const templatePath = isProduction
     ? `./dist/ssr/client/views/${componentName}/${componentName}.html`
     : `./client/views/${componentName}/${componentName}.html`;
 
-  let entryPath = isProduction
+  const entryPath = isProduction
     ? `./dist/ssr/serverViews/${componentName}/entry-server.js`
     : `./client/views/${componentName}/entry-server.tsx`;
   return { templatePath, entryPath };

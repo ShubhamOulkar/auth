@@ -14,7 +14,7 @@ export async function renderDevelopment(
     // Always render fresh template in development .jsx
     template = await fs.readFile(fullTemplatePath, "utf-8");
     template = await vite.transformIndexHtml(url, template);
-    let render = (await vite.ssrLoadModule(fullEntryPath)).render;
+    const render = (await vite.ssrLoadModule(fullEntryPath)).render;
     return { template, render };
   } catch (err) {
     console.error("Error in SSR dev render:", err);
