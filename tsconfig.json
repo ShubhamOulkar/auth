@@ -22,7 +22,11 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true
   },
-  "include": ["src"],
-  "references": [{ "path": "./tsconfig.node.json" }],
+  "include": [
+    "src",
+    "vite.config.ts",
+    "eslint.config.js",
+    "./tsconfig.node.json"
+  ],
   "exclude": ["viteDevServer.ts"]
 }

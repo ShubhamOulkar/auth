@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "clean": "if exist dist rmdir /s /q dist",
+    "lint:src": "pnpm eslint",
     "dev": "cross-env NODE_ENV=development nodemon src/server.ts",
     "build": "npm run build:client-view && npm run build:server-view && npm run build:server",
     "build:client-view": "vite build --outDir dist/ssr",

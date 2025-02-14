@@ -134,8 +134,8 @@ importers:
         version: 4.3.0(rollup@4.34.2)(typescript@5.7.3)(vite@6.0.11(@types/node@22.13.1)(tsx@4.19.2))
     optionalDependencies:
       '@rollup/rollup-linux-x64-gnu':
-        specifier: 4.9.5
-        version: 4.9.5
+        specifier: 4.34.3
+        version: 4.34.3
 
 packages:
 
@@ -694,8 +694,8 @@ packages:
     cpu: [x64]
     os: [linux]
 
-  '@rollup/rollup-linux-x64-gnu@4.9.5':
-    resolution: {integrity: sha512-Dq1bqBdLaZ1Gb/l2e5/+o3B18+8TI9ANlA1SkejZqDgdU/jK/ThYaMPMJpVMMXy2uRHvGKbkz9vheVGdq3cJfA==}
+  '@rollup/rollup-linux-x64-gnu@4.34.3':
+    resolution: {integrity: sha512-lOyG3aF4FTKrhpzXfMmBXgeKUUXdAWmP2zSNf8HTAXPqZay6QYT26l64hVizBjq+hJx3pl0DTEyvPi9sTA6VGA==}
     cpu: [x64]
     os: [linux]
 
@@ -2697,7 +2697,7 @@ snapshots:
   '@rollup/rollup-linux-x64-gnu@4.34.2':
     optional: true
 
-  '@rollup/rollup-linux-x64-gnu@4.9.5':
+  '@rollup/rollup-linux-x64-gnu@4.34.3':
     optional: true
 
   '@rollup/rollup-linux-x64-musl@4.34.2':
