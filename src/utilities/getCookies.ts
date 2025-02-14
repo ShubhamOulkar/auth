@@ -7,7 +7,7 @@ const csrfCookieName = process.env.VITE_CSRF_COOKIE_NAME;
 const sessionCookieName = process.env.SESSION_COOKIE_NAME;
 
 function getCookies(req: { headers: { [x: string]: any } }) {
-  let cookie = req.headers["cookie"];
+  const cookie = req.headers["cookie"];
 
   // cookie is not present
   if (!cookie) {

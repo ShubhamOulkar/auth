@@ -1,4 +1,5 @@
 import ErrorResponse from "../errorObj/errorClass.js";
+import { CompactJWEHeaderParameters } from "jose";
 
 function throwError(message: string, errorCode = 401) {
   throw new ErrorResponse(message, errorCode);
@@ -11,8 +12,8 @@ function throwError(message: string, errorCode = 401) {
 // }
 
 function checkKeyValues(
-  object1: { [x: string]: any },
-  object2: { [x: string]: any }
+  object1: CompactJWEHeaderParameters,
+  object2: CompactJWEHeaderParameters
 ) {
   return new Promise((resolve, reject) => {
     // Check if inputs are objects
@@ -22,7 +23,7 @@ function checkKeyValues(
     }
 
     Object.keys(object1).forEach((key) => {
-      object1[key] !== object2[key] &&
+      if (object1[key] !== object2[key])
         reject(throwError(`Invalid key error: ${key}`));
     });
 
