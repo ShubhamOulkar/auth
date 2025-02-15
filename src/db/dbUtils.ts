@@ -1,7 +1,9 @@
-import { MongoClient } from "mongodb";
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+import { MongoClient, MongoServerError } from "mongodb";
 import ErrorResponse from "../errorObj/errorClass.js";
 import { config } from "dotenv";
 import { throwError } from "../utilities/utils.js";
+import { User } from "../type.js";
 config();
 
 const dbName = process.env.DB_NAME;
@@ -15,6 +17,7 @@ async function connectMongo() {
   try {
     await client.connect();
     console.log("MongoDB atlas connected.");
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (err) {
     console.error("MongoDB client connection error");
   }
@@ -60,6 +63,7 @@ async function saveVerificationCode(email: string, code: string) {
 }
 
 async function getVerificationCode(email: string) {
+  // eslint-disable-next-line no-useless-catch
   try {
     const user = await client
       .db(dbName)
@@ -91,7 +95,7 @@ async function deleteVerificationCode(email: string) {
   }
 }
 
-async function saveUser(formData: Document) {
+async function saveUser(formData: User) {
   try {
     const result = await client
       .db(dbName)
@@ -101,18 +105,18 @@ async function saveUser(formData: Document) {
     console.log("user is saved", result);
     return true;
   } catch (err) {
-    // i dont want to send other database errors to the client
+    // dont send other database errors to the client
     console.error("Error in storing new user:", err);
-
-    // only send user allready exist error tot client
-    //@ts-ignore
-    if (err.code === 11000) throwError(`${formData.email} already exists`, 500);
+    // send user all ready exist error
+    if (err instanceof MongoServerError && err.code === 11000)
+      throwError(`${formData.email} already exists`, 500);
   }
 }
 
 async function verifyUser(email: string) {
   const filter = { email: email };
 
+  // eslint-disable-next-line no-useless-catch
   try {
     const user = await client
       .db(dbName)
@@ -150,6 +154,7 @@ async function findUser(email: string, context = "verify password") {
           picture: 1,
           email_verified: 1,
         };
+  // eslint-disable-next-line no-useless-catch
   try {
     const user = await client.db(dbName).collection(collName).findOne(
       { email: email },
@@ -204,13 +209,14 @@ async function saveCsrf(collection: string, hash: string, jwt: string) {
     console.log("csrf hash is saved", result);
   } catch (err) {
     console.error(err);
-    //@ts-ignore
+    //@ts-expect-error
     if (err.code === 11000) throw new ErrorResponse("hash already exists", 500);
     throw err;
   }
 }
 
 async function findCsrfHash(collection: string, hash: string) {
+  // eslint-disable-next-line no-useless-catch
   try {
     const csrfToken = await client
       .db(dbName)

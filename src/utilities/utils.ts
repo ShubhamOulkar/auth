@@ -5,12 +5,6 @@ function throwError(message: string, errorCode = 401) {
   throw new ErrorResponse(message, errorCode);
 }
 
-// function checkKeyValues(object1, object2) {
-//   Object.keys(object1).forEach((key) => {
-//     object1[key] !== object2[key] && throwError(`Invalid key error: ${key}`);
-//   });
-// }
-
 function checkKeyValues(
   object1: CompactJWEHeaderParameters,
   object2: CompactJWEHeaderParameters

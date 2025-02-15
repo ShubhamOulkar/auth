@@ -1,4 +1,5 @@
 import express from "express";
+import { Express } from "express";
 import cors from "cors";
 import crypto from "crypto";
 import morgan from "morgan";
@@ -12,7 +13,6 @@ import {
 } from "./routes/routesExporter.js";
 import { productionMiddlewares } from "./middleware/productionMiddlewares.js";
 import setSessionAndCsrfToken from "./middleware/setSessionAndCsrfToken.js";
-import { Express } from "express";
 config();
 
 const generateNonce = () => {
@@ -71,6 +71,13 @@ app.use("/auth", auth);
 app.use("/google", googleAuth);
 // two factor authentication routes
 app.use("/2fa", twoFa);
+
+app.use((err, req, res, next) => {
+  res.status(err.status || 500).json({
+    err_msg: err.message,
+    status: false,
+  });
+});
 
 // react html pages rendering
 app.use(renderPages);

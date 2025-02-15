@@ -15,14 +15,6 @@
     "resolveJsonModule": true,
     "allowSyntheticDefaultImports": true
   },
-  "include": [
-    "src/**/*.ts",
-    "vite.config.ts",
-    "dist",
-    "eslint.config.js",
-    "script",
-    "api",
-    "client"
-  ],
+  "include": ["src/**/*.ts"],
   "exclude": ["node_modules", "viteDevServer.ts"]
 }

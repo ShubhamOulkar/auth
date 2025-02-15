@@ -1,13 +1,14 @@
 import { config } from "dotenv";
+import { Request } from "express";
 config();
 
 // this function explicitly return false on error
 // because error handling is done in middleware functions
-const csrfCookieName = process.env.VITE_CSRF_COOKIE_NAME;
-const sessionCookieName = process.env.SESSION_COOKIE_NAME;
+const csrfCookieName = process.env.VITE_CSRF_COOKIE_NAME ?? "";
+const sessionCookieName = process.env.SESSION_COOKIE_NAME ?? "";
 
-function getCookies(req: { headers: { [x: string]: any } }) {
-  const cookie = req.headers["cookie"];
+function getCookies(req: Request) {
+  const cookie = req.headers?.cookie;
 
   // cookie is not present
   if (!cookie) {
@@ -18,31 +19,35 @@ function getCookies(req: { headers: { [x: string]: any } }) {
   // get cookies array
   const cookieAarr = cookie.split(";");
 
+  //if env variables not set
+  if (!csrfCookieName || !sessionCookieName) {
+    console.error(
+      "please set env variables csrfCookieName or sessionCookieName"
+    );
+    return false;
+  }
+
   // get csrf cookie
-  const cookieCsrf: string = cookieAarr
-    .filter((cookie: (string | undefined)[]) =>
-      cookie.includes(csrfCookieName)
-    )[0]
+  const cookieCsrf: string | undefined = cookieAarr
+    .find((cookie: string) => cookie.includes(csrfCookieName))
     ?.replace(`${csrfCookieName}=`, "")
     .trim();
 
   // if csrf cookie not present
   if (!cookieCsrf) {
-    console.log("csrf cookie is not pressent");
+    console.error("csrf cookie is not pressent");
     return false;
   }
 
   // get session cookie
-  const cookieSession: string = cookieAarr
-    .filter((cookie: (string | undefined)[]) =>
-      cookie.includes(sessionCookieName)
-    )[0]
+  const cookieSession: string | undefined = cookieAarr
+    .find((cookie: string) => cookie.includes(sessionCookieName))
     ?.replace(`${sessionCookieName}=`, "")
     .trim();
 
   // if session cookie not present
   if (!cookieSession) {
-    console.log("session cookie is not pressent");
+    console.error("session cookie is not pressent");
     return false;
   }
 

@@ -1,5 +1,5 @@
 import { randomBytes } from "crypto";
-import { Payload } from "../type";
+import { Payload } from "../type.js";
 // generate 32 random bytes and return payload object
 function getTokenPayload(): Promise<Payload> {
   return new Promise((resolve, reject) => {

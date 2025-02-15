@@ -1,4 +1,4 @@
-import express, { NextFunction } from "express";
+import express, { NextFunction, Request, Response } from "express";
 import bcrypt from "bcrypt";
 import verifySession from "../middleware/verifySession.js";
 import { setSessionAndCsrf } from "../middleware/setSessionAndCsrfToken.js";
@@ -90,57 +90,60 @@ auth.post("/delete", async (req, res, next) => {
 });
 
 // user logout
-auth.post("/logout", async (req: any, res: any, next: NextFunction) => {
-  try {
-    // TODO decrypt auth token
-    const authKey = res.locals.authKey;
+auth.post(
+  "/logout",
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      // TODO decrypt auth token
+      const authKey = res.locals.authKey;
 
-    const authResult = await decryptJwtToken(
-      "auth key varification ",
-      authKey,
-      secreteKey,
-      decryptOptions
-    );
-
-    if (authResult instanceof Error) {
-      // log error on server
-      throwError(
-        `❌ Client sending Threat to the server: auth key is not matched. : ${authResult}`,
-        402
+      const authResult = await decryptJwtToken(
+        "auth key varification ",
+        authKey,
+        secreteKey,
+        decryptOptions
       );
+
+      if (authResult instanceof Error) {
+        // log error on server
+        throwError(
+          `❌ Client sending Threat to the server: auth key is not matched. : ${authResult}`,
+          402
+        );
+      }
+
+      // TODO validate data from client ()
+      const user = res.locals.userData;
+
+      // TODO delete auth key from cache
+
+      //  csrf and session cookie from cache
+      await deleteCsrfToken(csrfColl, res.locals.csrfToken);
+
+      //  set new session and csrf cookie
+      await setSessionAndCsrf(req, res);
+
+      //  remove auth key
+      res.cookie(process.env.VITE_AUTH_KEY ?? "", "", {
+        maxAge: 0,
+        secure: true,
+        sameSite: "strict",
+      });
+
+      //  send response to client (client delete local storage on success response and redirect to login page)
+      res.setHeader("Content-Type", "application/json");
+      res.status(200).json({
+        success: true,
+        msg: `User ${user.email} logout successfully.`,
+        redirect: "/login",
+      });
+
+      console.log(`${user.email} ${res.locals.btnName} successfull.`);
+    } catch (err) {
+      next(err);
     }
-
-    // TODO validate data from client ()
-    const user = res.locals.userData;
-
-    // TODO delete auth key from cache
-
-    //  csrf and session cookie from cache
-    await deleteCsrfToken(csrfColl, res.locals.csrfToken);
-
-    //  set new session and csrf cookie
-    await setSessionAndCsrf(req, res);
-
-    //  remove auth key
-    res.cookie(process.env.VITE_AUTH_KEY ?? "", "", {
-      maxAge: 0,
-      secure: true,
-      sameSite: "strict",
-    });
-
-    //  send response to client (client delete local storage on success response and redirect to login page)
-    res.setHeader("Content-Type", "application/json");
-    res.status(200).json({
-      success: true,
-      msg: `User ${user.email} logout successfully.`,
-      redirect: "/login",
-    });
-
-    console.log(`${user.email} ${res.locals.btnName} successfull.`);
-  } catch (err) {
-    next(err);
   }
-});
+);
 
 // user login
 auth.post("/login", async (_req, res, next) => {
@@ -149,7 +152,7 @@ auth.post("/login", async (_req, res, next) => {
 
     const { email, password } = res.locals.formData;
 
-    !email && throwError("Email in requested body is invalid", 500);
+    if (!email) throwError("Email in requested body is invalid", 500);
 
     const data = await findUser(email);
 
@@ -159,7 +162,7 @@ auth.post("/login", async (_req, res, next) => {
       // check password
       const passMatch = await bcrypt.compare(password, data?.password);
 
-      !passMatch && throwError("Authentication failed, password is wrong.");
+      if (!passMatch) throwError("Authentication failed, password is wrong.");
     }
 
     // send email otp for 2fa
@@ -168,18 +171,21 @@ auth.post("/login", async (_req, res, next) => {
     // send 2FA : verify email address response to the client
     res.setHeader("Content-Type", "application/json");
 
-    gmailResult
-      ? res.status(200).json({
-          success: true,
-          msg: `OTP is send on ${email}.`,
-        })
-      : res.status(500).json({
-          success: false,
-          err_msg: `💩 Failed to send OTP email on the ${email}.`,
-        });
+    if (gmailResult) {
+      res.status(200).json({
+        success: true,
+        msg: `OTP is send on ${email}.`,
+      });
+    } else {
+      res.status(500).json({
+        success: false,
+        err_msg: `💩 Failed to send OTP email on the ${email}.`,
+      });
+    }
 
     console.log(`⚡ User ${data?.email} verifying email.`);
   } catch (err) {
+    console.log("/register err: ", err);
     next(err);
   }
 });
@@ -188,10 +194,11 @@ auth.post("/login", async (_req, res, next) => {
 auth.post("/register", async (_req, res, next) => {
   try {
     const formData = res.locals.formData;
+    console.log(formData);
 
     //throw error on invalid form data
-    !formData.username ||
-      (!formData.password && throwError("Requested body is invalid", 500));
+    if (!formData.email || !formData.password)
+      throwError("Requested body is invalid", 500);
 
     // validate form data
 
@@ -205,10 +212,9 @@ auth.post("/register", async (_req, res, next) => {
 
     // save user into database
     const result = await saveUser(formData);
-
     // send response to the client
     res.setHeader("Content-Type", "application/json");
-    result &&
+    if (result)
       res.status(201).json({
         success: true,
         msg: `User ${formData.email} registred successfully. Please login using email.`,
@@ -217,6 +223,7 @@ auth.post("/register", async (_req, res, next) => {
 
     console.log(`${formData.email} registerd successfully.`);
   } catch (err) {
+    console.log("/register err: ", err);
     next(err);
   }
 });

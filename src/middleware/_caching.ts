@@ -1,8 +1,8 @@
-import { NextFunction } from "express";
+import { NextFunction, Request, Response } from "express";
 import getFileModifiedTime from "../utilities/getFileModifiedTime.js";
 
 function caching(filePath: string) {
-  return async (req: any, res: any, next: NextFunction) => {
+  return async (req: Request, res: Response, next: NextFunction) => {
     try {
       const fileModifiedTime = await getFileModifiedTime(filePath);
       const ifModifiedSince = req.headers["if-modified-since"];

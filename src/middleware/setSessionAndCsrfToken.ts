@@ -6,14 +6,14 @@ import { saveCsrf, deleteCsrfToken } from "../db/dbUtils.js";
 import getCookies from "../utilities/getCookies.js";
 import { base64url } from "jose";
 import decryptJwtToken from "../utilities/decryptJwtToken.js";
-import { NextFunction } from "express";
+import { CookieOptions, NextFunction, Request, Response } from "express";
 
 const csrfColl = process.env.CSRF_COLLECTION ?? "";
 const SESSION_SECRET = process.env.SESSION_SECRET ?? "";
 const cookieExpTime = process.env.VITE_COOKIE_EXP_TIME ?? "";
 const sessionSecreteKey = base64url.decode(SESSION_SECRET);
 
-const cookieOption = {
+const cookieOption: CookieOptions = {
   secure: true,
   path: "/",
   sameSite: "strict",
@@ -42,7 +42,11 @@ Setting session cookies
  *do not add Domain because without domain means cookie only send to server.
  */
 
-async function setSessionAndCsrfToken(req: any, res: any, next: NextFunction) {
+async function setSessionAndCsrfToken(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
   try {
     const cookie = getCookies(req);
 
@@ -77,25 +81,32 @@ async function setSessionAndCsrfToken(req: any, res: any, next: NextFunction) {
   }
 }
 
-export async function setSessionAndCsrf(_req: any, res: any) {
+export async function setSessionAndCsrf(_req: Request, res: Response) {
+  let csrfToken: string;
+  let jwtCsrf: string;
   // generate session id
   const sessionId = (await generateSessionId()) ?? "";
 
   // generate csrf token using session id
-  const { csrfHash: csrfToken, jwtCsrf } = (await generateCsrfToken(
-    sessionId
-  ))!;
+  const token = await generateCsrfToken(sessionId);
+
+  if (token) {
+    csrfToken = token.csrfHash;
+    jwtCsrf = token.jwtCsrf;
+  } else {
+    return;
+  }
 
   // set cookie for session id
   // following type assersions are not type safe and prone to runtime errors
-  (res as any).cookie(process.env.SESSION_COOKIE_NAME, sessionId, {
+  res.cookie(process.env.SESSION_COOKIE_NAME ?? "se-co-na", sessionId, {
     ...cookieOption,
     httpOnly: true,
   });
 
   // set csrf token
-  (res as any).cookie(
-    process.env.VITE_CSRF_COOKIE_NAME,
+  res.cookie(
+    process.env.VITE_CSRF_COOKIE_NAME ?? "cs-co-na",
     csrfToken,
     cookieOption
   );

@@ -1,11 +1,21 @@
+import { Response } from "express";
 import { Transform } from "node:stream";
+import {
+  PipeableStream,
+  RenderToPipeableStreamOptions,
+} from "react-dom/server";
 
 export async function streamReact(
-  res: any,
-  render: any,
+  res: Response,
+  render: (
+    url: string,
+    options?: RenderToPipeableStreamOptions
+  ) => PipeableStream,
   url: string,
   template: string
 ) {
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  //@ts-ignore
   template = template.replaceAll("nonce-value", res.locals.nonce);
 
   let didError = false;
@@ -40,7 +50,7 @@ export async function streamReact(
 
       pipe(transformStream);
     },
-    onError(error: any) {
+    onError(error: unknown) {
       didError = true;
       console.error(error);
     },

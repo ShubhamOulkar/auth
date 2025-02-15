@@ -1,4 +1,4 @@
-import db from "./dbUtils.js";
+// import db from "./dbUtils.js";
 import { config } from "dotenv";
 config();
 
@@ -44,4 +44,4 @@ const dbSchema = {
   },
 };
 
-db.createCollection(dbName, collName, dbSchema);
+// db.createCollection(dbName, collName, dbSchema);

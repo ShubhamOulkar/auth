@@ -1,12 +1,9 @@
+import { ErrorHandler } from "../type.js";
 import { throwError } from "../utilities/utils.js";
 
 const isProduction = process.env.NODE_ENV === "production";
 
-export const handleError = (error: {
-  message: string;
-  errorCode?: number;
-  stack: string;
-}) => {
+export const handleError = (error: ErrorHandler) => {
   if (isProduction) {
     // Generic error in production
     throwError(error.message, 500);

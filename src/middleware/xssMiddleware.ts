@@ -8,9 +8,9 @@ xss.use(
     contentSecurityPolicy: {
       directives: {
         defaultSrc: ["'self'"],
-        //@ts-ignore
+        //@ts-expect-error res.locals error
         scriptSrc: ["'self'", (req, res) => `'nonce-${res.locals.nonce}'`],
-        //@ts-ignore
+        //@ts-expect-error res.locals error
         styleSrc: ["'self'", (req, res) => `'nonce-${res.locals.nonce}'`],
         imgSrc: ["'self'", "data:", "blob:"],
         fontSrc: ["'self'", "data:"],

@@ -1,5 +1,5 @@
 import { jwtDecrypt, JWTDecryptResult } from "jose";
-import { SessionDecryptOptions } from "../type";
+import { SessionDecryptOptions } from "../type.js";
 async function decryptJwtToken(
   tokenName: string,
   token: string,

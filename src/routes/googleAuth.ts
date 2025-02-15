@@ -1,4 +1,4 @@
-import express, { Router } from "express";
+import express, { Response, Router } from "express";
 import { OAuth2Client } from "google-auth-library";
 import { config } from "dotenv";
 config();
@@ -6,8 +6,8 @@ import verifySession from "../middleware/verifySession.js";
 import { saveUser, verifyUser } from "../db/dbUtils.js";
 import getAuthenticationKay from "../utilities/getAuthenticationKey.js";
 import { limiter } from "../middleware/rateLimiter.js";
-
-const authKeyName = process.env.VITE_AUTH_KEY;
+import { User } from "../type.js";
+const authKeyName = process.env.VITE_AUTH_KEY ?? "";
 
 const googleClient = new OAuth2Client();
 const googleAuth: Router = express.Router();
@@ -18,14 +18,14 @@ googleAuth.use(verifySession);
 // Apply the rate limiting middleware to gooleAuth requests.
 googleAuth.use(limiter);
 
-function sendResponse(res: any, user: any, authKey: string) {
+function sendResponse(res: Response, user: User, authKey: string) {
   //TODO save key in cache for 1hr
 
   const clientUser = {
     first: user.firstName,
     last: user.lastName,
     email: user.email,
-    picture: user.picture,
+    picture: user.payload?.picture,
   };
 
   // set auth key for 1hr
@@ -61,7 +61,7 @@ googleAuth.post("/login", async (_req, res, next) => {
     // get user data
     const googlePayload = ticket.getPayload();
 
-    const user = {
+    const user: User = {
       googleVerified: true,
       firstName: googlePayload?.given_name,
       lastName: googlePayload?.family_name,
@@ -80,7 +80,6 @@ googleAuth.post("/login", async (_req, res, next) => {
 
     if (!isGoogleVerify) {
       // if not verified save user in database
-      //@ts-ignore
       await saveUser(user);
     }
     // verified then send response

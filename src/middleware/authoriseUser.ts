@@ -1,24 +1,18 @@
 import jwt from "jsonwebtoken";
 import ErrorResponse from "../errorObj/errorClass.js";
+import { NextFunction, Request, Response } from "express";
 
-function authoriseUser(
-  req: { header: (arg0: string) => any; user: any },
-  _res: any,
-  next: () => void
-) {
+function authoriseUser(req: Request, _res: Response, next: NextFunction) {
   const token = req.header("Authorization");
-
-  // if (!req.headers["cookie"]) throw new ErrorResponse("Access Forbidden", 403);
-  // const token = req.headers["cookie"].slice(6);
-  // console.log(req.headers["cookie"].slice(6));
 
   if (!token) throw new ErrorResponse("Access Denied", 401);
 
   try {
     const decode = jwt.verify(token, "my-secret-key");
-    //@ts-ignore
+    //@ts-expect-error user is not authorized
     req.user = decode.user;
     next();
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (err) {
     throw new ErrorResponse("Invalid token", 401);
   }

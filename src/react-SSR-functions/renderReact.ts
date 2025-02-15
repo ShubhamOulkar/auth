@@ -1,13 +1,13 @@
-import { ViteDevServer } from "vite";
+import { Request, Response } from "express";
+import viteDevServer from "../../viteDevServer.js";
 import { streamReact, validatePath, handleError } from "./exportSSRFuctions.js";
-// import viteDevServer from "../../viteDevServer.js";
+import { ErrorHandler } from "../type.js";
 const isProduction = process.env.NODE_ENV === "production";
 
 export default async function renderReact(
-  _req: any,
-  res: any,
-  componentName: string,
-  vite?: ViteDevServer
+  _req: Request,
+  res: Response,
+  componentName: string
 ) {
   try {
     // Validate pages before proceeding
@@ -23,15 +23,12 @@ export default async function renderReact(
       : await renderModule.renderDevelopment(
           componentName,
           fullTemplatePath,
-          fullEntryPath,
-          vite
+          fullEntryPath
         );
 
     await streamReact(res, render, componentName, template);
   } catch (e) {
-    //@ts-ignore
-    vite?.ssrFixStacktrace(e);
-    //@ts-ignore
-    handleError(e);
+    if (e instanceof Error) viteDevServer?.ssrFixStacktrace(e);
+    handleError(e as ErrorHandler);
   }
 }

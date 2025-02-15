@@ -8,7 +8,8 @@ import {
   decryptJwtToken,
 } from "../utilities/utilitiesExporter.js";
 import { findCsrfHash } from "../db/dbUtils.js";
-import { NextFunction } from "express";
+import { NextFunction, Request } from "express";
+import { User } from "../type.js";
 config();
 
 const SECRET = process.env.VITE_POST_BODY_SECRET ?? "";
@@ -22,30 +23,32 @@ const decryptOption = {
 };
 
 async function verifySession(
-  req: { body?: any; headers?: { [x: string]: any } },
+  req: Request,
   res: {
     locals: {
-      formData: any;
-      googleId: any;
-      userData: any;
-      authKey: any;
-      csrfToken: any;
-      btnName: any;
+      formData: FormData;
+      googleId: string;
+      userData: User;
+      authKey: string;
+      csrfToken: string;
+      btnName: string;
     };
   },
   next: NextFunction
 ) {
   try {
+    let cookieCsrf: string;
+    let cookieSession: string;
     // get csrf and session cookie
-    //@ts-ignore
     const cookie = getCookies(req);
 
     if (cookie === false) {
       throwError("❌ csrf token and session id required");
+      return;
+    } else {
+      cookieCsrf = cookie.cookieCsrf;
+      cookieSession = cookie.cookieSession;
     }
-
-    //@ts-ignore
-    const { cookieCsrf, cookieSession } = cookie;
 
     // Decrypt and validate token
     const decryptedToken = await decryptJwtToken(
@@ -60,18 +63,11 @@ async function verifySession(
     }
 
     const {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       //@ts-ignore
       payload: {
-        payload: {
-          csrfToken,
-          formData,
-          googleId,
-          userData,
-          authKey,
-          btnName,
-        } = {},
-      } = {}, //@ts-ignore
-      protectedHeader,
+        payload: { csrfToken, formData, googleId, userData, authKey, btnName },
+      },
     } = decryptedToken;
 
     if (!csrfToken) {
@@ -82,31 +78,34 @@ async function verifySession(
 
     // verify csrf token
     // check csrfCookieHeader === csrfBody
-    csrfToken !== cookieCsrf &&
+    if (csrfToken !== cookieCsrf)
       throwError("❌ Invalid csrf token and session id");
 
     // check csrf token is awailable in cache memory, this function throws error if not found
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     //@ts-ignore
-    let { _id: cacheCsrfHash, jwt: cacheCsrfJwt } = await findCsrfHash(
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { _id: cacheCsrfHash, jwt: cacheCsrfJwt } = await findCsrfHash(
       csrfColl,
       cookieCsrf
     );
 
-    // verify  session id in jwtCsrf payload
+    // verify  session id in jwtCsrf
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     //@ts-ignore
     jwt.verify(cacheCsrfJwt, CSRF_SECRET, (err, csrfPayload) => {
       // cached jwt csrf invalid error
-      err && throwError(err.name);
+      if (err) throwError(err.name);
 
       //check session id is present in csrf payload
-      csrfPayload.sessionId !== cookieSession &&
+      if (csrfPayload.sessionId !== cookieSession)
         throwError(
           "❌ confirmed client attack on server: invalid csrf token for given session id. ❌"
         );
 
       // verify session id
       verifySessionId(cookieSession, csrfPayload.sessionId)
-        .then((res: any) =>
+        .then((res) =>
           console.log("✔️ Session id verified successfully : ", res)
         )
         .catch((err: { message: string }) => {
@@ -114,7 +113,7 @@ async function verifySession(
         });
     });
 
-    // set formData/googleId local variable on current request (variable only available for current requwst/response cycle)
+    // set formData/googleId local variable on current request (variable only available for current request/response cycle)
     res.locals.formData = formData; // data from login/signup/2fa post request otherwise undefined
     res.locals.googleId = googleId; // googleId from login with google provider otherwise undefined
     res.locals.userData = userData;

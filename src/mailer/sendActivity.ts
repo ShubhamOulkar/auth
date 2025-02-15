@@ -1,13 +1,15 @@
 import { createTransport } from "nodemailer";
 import { config } from "dotenv";
+import { MailOptions } from "nodemailer/lib/json-transport";
 config();
 
 const fromEmail = {
-  name: process.env.JWT_ISSURE,
-  address: process.env.EMAIL_ISSURE_ADDRESS,
+  name: process.env.JWT_ISSURE ?? "no-mail",
+  address: process.env.EMAIL_ISSURE_ADDRESS ?? "no-address",
 };
 
 const transporter = createTransport({
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   //@ts-ignore
   service: "Gmail",
   host: process.env.EMAIL_HOST,
@@ -27,7 +29,7 @@ async function sendActivity(recepientEmail: string, msg: string) {
       );
     }
 
-    const mailOptions = {
+    const mailOptions: MailOptions = {
       from: fromEmail,
       to: recepientEmail,
       subject: "⚡ Auth-SSR critical activity detected",
@@ -35,13 +37,10 @@ async function sendActivity(recepientEmail: string, msg: string) {
     };
 
     // without callback following function returns promise object
-    //@ts-ignore
     const result = await transporter.sendMail(mailOptions);
-    //@ts-ignore
     if (!result.messageId) {
       throw new Error("Error in sending email");
     }
-    //@ts-ignore
     console.log(`Activity Email sent to ${recepientEmail}: `, result.response);
   } catch (err) {
     console.error(
