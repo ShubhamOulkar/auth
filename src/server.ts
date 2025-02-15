@@ -1,5 +1,5 @@
 import express from "express";
-import { Express } from "express";
+import { Express, Response, Request, NextFunction } from "express";
 import cors from "cors";
 import crypto from "crypto";
 import morgan from "morgan";
@@ -72,8 +72,8 @@ app.use("/google", googleAuth);
 // two factor authentication routes
 app.use("/2fa", twoFa);
 
-app.use((err, req, res, next) => {
-  res.status(err.status || 500).json({
+app.use((err: Error, _req: Request, res: Response, _next: NextFunction) => {
+  res.status(500).json({
     err_msg: err.message,
     status: false,
   });
