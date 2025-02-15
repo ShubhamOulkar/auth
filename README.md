@@ -82,10 +82,4 @@ pnpm clean
 
 ## Live Demo
 
-[vercel demo link](https://auth-9j6fnsj77-shubhamoulkars-projects.vercel.app)
-
-A live demo of the application is available at: https://auth-zu2a.onrender.com/
-
-```
-Note :- [Project free instance](https://auth-zu2a.onrender.com/) will spin down with inactivity, which can delay requests by 50 seconds or more.
-```
+[Auth-ssr live demo](https://auth-new.vercel.app/)

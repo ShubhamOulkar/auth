@@ -9,19 +9,11 @@ export default defineConfig({
   html: {
     cspNonce: "nonce-value", // add nonce placeholder on scripts, links headers tags
   },
-  server: {
-    headers: {
-      "Strict-Transport-Security": "max-age=86400; includeSubDomains", // Adds HSTS options to your website, with a expiry time of 1 day
-      "X-Content-Type-Options": "nosniff", // Protects from improper scripts runnings
-      "X-Frame-Options": "DENY", // Stops your site being used as an iframe
-      "X-XSS-Protection": "1; mode=block", // Gives XSS protection to legacy browsers
-    },
-  },
   build: {
     rollupOptions: {
       treeshake: true,
       input: {
-        // build multiple page application
+        //build multiple page application
         root: "./client/views/root/root.html",
         login: "./client/views/login/login.html",
         signup: "./client/views/signup/signup.html",
@@ -29,9 +21,5 @@ export default defineConfig({
         profile: "./client/views/profile/profile.html",
       },
     },
-    // manifest: true, // client asset mapping
-    // ssrManifest: true, // server asset mapping
-    // minify: "esbuild", // minify using esbuild
-    //minify: false, // disable minification in SSR, as it's done by the server
   },
 });

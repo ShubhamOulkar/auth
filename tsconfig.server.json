@@ -1,0 +1,20 @@
+{
+  "compilerOptions": {
+    /* Server-specific overrides */
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
+    "target": "ESNext",
+    "lib": ["ES2024", "DOM"],
+    "outDir": "dist",
+    "rootDir": ".",
+    "allowImportingTsExtensions": false,
+    "esModuleInterop": true,
+    "noEmit": false,
+    "strict": true,
+    "emitDeclarationOnly": false,
+    "resolveJsonModule": true,
+    "allowSyntheticDefaultImports": true
+  },
+  "include": ["src/**/*.ts"],
+  "exclude": ["node_modules", "viteDevServer.ts"]
+}
