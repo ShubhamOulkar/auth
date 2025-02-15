@@ -8,8 +8,8 @@ import {
   decryptJwtToken,
 } from "../utilities/utilitiesExporter.js";
 import { findCsrfHash } from "../db/dbUtils.js";
-import { NextFunction, Request } from "express";
-import { User } from "../type.js";
+import { NextFunction, Request, RequestHandler } from "express";
+import { CustomResponse } from "../type.js";
 config();
 
 const SECRET = process.env.VITE_POST_BODY_SECRET ?? "";
@@ -22,20 +22,12 @@ const decryptOption = {
   subject: process.env.VITE_SUBJECT,
 };
 
-async function verifySession(
+// Define `verifySession` as a RequestHandler
+const verifySession = async (
   req: Request,
-  res: {
-    locals: {
-      formData: FormData;
-      googleId: string;
-      userData: User;
-      authKey: string;
-      csrfToken: string;
-      btnName: string;
-    };
-  },
+  res: CustomResponse,
   next: NextFunction
-) {
+) => {
   try {
     let cookieCsrf: string;
     let cookieSession: string;
@@ -124,6 +116,6 @@ async function verifySession(
   } catch (err) {
     next(err);
   }
-}
+};
 
-export default verifySession;
+export default verifySession as RequestHandler;

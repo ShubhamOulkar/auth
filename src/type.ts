@@ -1,5 +1,7 @@
 import { TokenPayload } from "google-auth-library";
 import { RenderToPipeableStreamOptions } from "react-dom/server";
+import { Response } from "express";
+
 export interface Payload {
   id: string;
   iat: number;
@@ -37,4 +39,15 @@ export interface ErrorHandler {
 export interface Render {
   url: string;
   options: RenderToPipeableStreamOptions;
+}
+
+export interface CustomResponse extends Response {
+  locals: {
+    formData: FormData;
+    googleId: string;
+    userData: User;
+    authKey: string;
+    csrfToken: string;
+    btnName: string;
+  };
 }
