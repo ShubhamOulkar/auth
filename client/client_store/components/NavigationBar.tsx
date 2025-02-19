@@ -9,7 +9,7 @@ import MotherBtn from "./MotherBtn";
 const authKeyName = import.meta.env.VITE_AUTH_KEY;
 
 export default function NavBar() {
-  const nav = useRef<HTMLDivElement>(null);
+  const togglerBtn = useRef<HTMLLIElement>(null);
   const [auth, setAuth] = useState<boolean | undefined>();
   const [user, setUser] = useState<UserType>();
 
@@ -32,25 +32,20 @@ export default function NavBar() {
     }
   }, []);
 
-  function myFunction(nav: HTMLElement | null) {
-    if (nav) {
-      nav?.classList.toggle("responsive");
+  function toggleFunction() {
+    if (togglerBtn) {
+      togglerBtn.current?.closest("nav")?.classList.toggle("responsive");
     }
   }
 
   return (
-    <nav
-      className="topnav"
-      id="myTopnav"
-      ref={nav}
-      onClick={() => myFunction(nav.current)}
-    >
+    <nav className="topnav" id="myTopnav">
       <ul className="uList">
         <li>
           <a href="/">Home</a>
         </li>
         <li>
-          {auth === true && (
+          {auth === true ? (
             <a href="/profile">
               {user?.picture ? (
                 <img
@@ -63,16 +58,20 @@ export default function NavBar() {
               )}
               {user?.first}
             </a>
+          ) : (
+            <a href="/login">Login</a>
           )}
-          {auth === false && <a href="/login">Login</a>}
           {auth === undefined && <a id="ske-btn"></a>}
         </li>
         <li>
-          {auth === true && <MotherBtn btnName="Logout" />}
-          {auth === false && <a href="/signup">Signup</a>}
+          {auth === true ? (
+            <MotherBtn btnName="Logout" />
+          ) : (
+            <a href="/signup">Signup</a>
+          )}
           {auth === undefined && <a id="ske-btn"></a>}
         </li>
-        <li>
+        <li ref={togglerBtn} onClick={toggleFunction}>
           <a className="icon">
             <VscThreeBars />
           </a>
