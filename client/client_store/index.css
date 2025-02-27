@@ -13,53 +13,44 @@
   --outline-focus-style: white solid var(--border-size);
   --outline-invalid-style: var(--tooltip-color) solid var(--border-size);
   --tooltip-color: hsla(0, 97%, 57%, 0.737);
-
   line-height: 1.5;
   font-weight: 400;
   box-sizing: border-box;
-
   color-scheme: light dark;
   color: hsl(0, 0%, 100%, 0.87);
   background-color: var(--dark-blue-color);
   margin: 0;
   padding: 0;
-
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
 }
-
 @font-face {
   font-family: "Inconsolata";
   src: url("../assets/fonts/Inconsolata-VariableFont_wdth,wght.woff2");
   font-weight: 100 900;
   font-display: swap;
 }
-
 html {
   font-family: "Inconsolata", sans-serif;
 }
-
 .navprofile {
   border-radius: 50%;
   width: 35px;
   height: 35px;
 }
-
 .profile {
   border-radius: 50%;
   width: 70px;
   height: 70px;
 }
-
 input {
   border: none;
   appearance: none;
   background-color: black;
 }
-
 input,
 button {
   cursor: pointer;
@@ -72,52 +63,43 @@ button {
   width: -moz-available;
   transition: var(--transition-effect);
 }
-
 /* overwrite above button height */
 button {
   height: 2.5rem;
 }
-
 button:is(:active, :focus, :hover) {
   background-color: var(--button-background-color);
   color: var(--dark-blue-color);
   outline: var(--outline-focus-style);
 }
-
 button:disabled {
   background-color: var(--tooltip-color);
   color: white;
   cursor: not-allowed;
 }
-
 input:is(:active, :focus, :hover) {
   outline: var(--outline-focus-style);
 }
-
 input.invalid {
   outline: var(--outline-invalid-style);
   background-color: hsla(0, 79%, 78%, 0.584);
 }
-
 h1 {
   text-align: center;
   margin-block-start: 0;
   margin-block-end: var(--margin-block);
 }
-
 label {
   cursor: pointer;
   display: flex;
   width: inherit;
   position: relative;
 }
-
 form {
   width: 100%;
   display: flex;
   justify-content: center;
 }
-
 .error {
   position: absolute;
   top: 0;
@@ -130,7 +112,6 @@ form {
   border-radius: var(--border-radius);
   padding: var(--padding-block);
 }
-
 .error::after {
   content: "";
   position: absolute;
@@ -141,38 +122,31 @@ form {
   border-style: solid;
   border-color: var(--tooltip-color) transparent transparent transparent;
 }
-
 p {
   font-size: 1rem;
   margin-block: 0;
   margin-inline-start: 0;
 }
-
 @media screen and (max-width: 600px) {
   input {
     height: 1.5rem;
     font-size: smaller;
   }
-
   .error {
     left: 9rem;
   }
-
   h1 {
     font-size: x-large;
   }
-
   button {
     font-size: large;
     font-weight: 700;
   }
 }
-
 /* 
 camelCase class names are used in react components
-these classes are set by javascript code
+these classes are used by javascript code
  */
-
 .home {
   display: flex;
   flex-direction: column;
@@ -181,26 +155,23 @@ these classes are set by javascript code
   gap: 1.8rem;
   position: relative;
   background-color: inherit;
+  height: 80vh;
 }
-
 ul {
   list-style-type: none;
   margin-block: 0;
   padding-inline-start: 0;
   display: flex;
-
-  li:nth-child(2) {
+  > li:nth-child(2) {
     margin-left: auto;
-  }
-
-  > li:nth-child(2) > a {
-    display: flex;
-    padding-inline: 1.5rem;
-    flex-direction: row;
-    gap: 0.4rem;
+    > a {
+      display: flex;
+      padding-inline: 1.5rem;
+      flex-direction: row;
+      gap: 0.4rem;
+    }
   }
 }
-
 .topnav {
   width: 100%;
   background-color: var(--top-nav-background-color);
@@ -208,19 +179,16 @@ ul {
   border-radius: var(--border-radius);
   transition: var(--transition-effect);
 }
-
 .topnav-ske {
   width: 100%;
   border-radius: 0;
 }
-
 .topnav a,
 .logoutBtn {
   border: none;
   border-radius: 0;
   font-size: x-large;
   font-family: var(--font);
-  float: left;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -233,32 +201,26 @@ ul {
   padding: 5px;
   background-color: var(--top-nav-background-color);
 }
-
 #ske-btn {
   background-color: hsla(271, 27%, 82%, 0.529);
 }
-
 .logoutBtn:hover {
   font-weight: 100;
   outline: 0;
 }
-
 .topnav a:is(:active, :hover, :focus) {
   background-color: var(--button-background-color);
   color: black;
   transition: var(--transition-effect);
 }
-
 .topnav .icon {
   display: none;
 }
-
 .password-container {
   display: flex;
   width: 100%;
   position: relative;
 }
-
 .show-btn {
   appearance: none;
   border: none;
@@ -271,24 +233,20 @@ ul {
   right: 0;
   top: 8px;
   margin-right: 10px;
-
   &:is(:hover, :active, :focus) {
     background-color: inherit;
     border: none;
     outline: none;
   }
-
   > svg {
     fill: white;
     width: 1rem;
     height: 1rem;
-
     &:is(:hover, :focus) {
       fill: var(--button-background-color);
     }
   }
 }
-
 .card {
   display: flex;
   flex-direction: column;
@@ -299,8 +257,9 @@ ul {
   border-radius: var(--border-radius);
   padding: var(--padding-inline);
   gap: 1rem;
+  margin-block-start: auto;
+  margin-block-end: 6rem;
 }
-
 .card-ske {
   display: flex;
   flex-direction: column;
@@ -308,27 +267,22 @@ ul {
   width: 25rem;
   border-radius: var(--border-radius);
 }
-
 .profile-card {
   align-items: flex-start;
 }
-
 .login-bottom-link {
   width: 100%;
   display: flex;
   justify-content: space-between;
 }
-
 .card-link {
   font-size: 1rem;
   color: #f2f2f2;
   text-decoration: none;
 }
-
 .card-link:hover {
   color: var(--button-background-color);
 }
-
 /* login/signup form class */
 .form {
   display: flex;
@@ -336,12 +290,10 @@ ul {
   align-items: start;
   gap: 0.75rem;
   width: inherit;
-
   & > :last-child {
     margin-top: var(--padding-inline);
   }
 }
-
 /* notification */
 .notification {
   color: #f2f2f2;
@@ -358,89 +310,74 @@ ul {
   left: var(--border-radius);
   top: 10%;
 }
-
 .greenNote {
   background-color: rgb(43, 133, 43);
   display: block;
   opacity: 1;
 }
-
 /* class added by js */
 .redNote {
   background-color: var(--tooltip-color);
   display: block;
   opacity: 1;
 }
-
 .fa {
   margin: auto;
   margin-top: 10rem;
 }
-
 .otp-container {
   width: inherit;
 }
-
 .otp-form {
   display: flex;
   justify-content: space-between;
   margin-top: 1rem;
 }
-
 .otp-field {
   width: 1rem;
   margin: 3px;
   padding-left: 1.2rem;
 }
-
 .otp-field:disabled:hover {
   cursor: not-allowed;
   border: none;
   outline: none;
 }
-
 .otpInvalid {
   outline: var(--outline-invalid-style);
   background-color: hsla(0, 79%, 78%, 0.584);
 }
-
 .otpValid {
   outline: green;
   background-color: hsla(95, 79%, 78%, 0.584);
 }
-
 @media screen and (min-width: 600px) {
   .topnav a {
     height: 2.65rem;
   }
 }
-
 @media screen and (max-width: 600px) {
   ul {
     > li:nth-child(2) > a {
       justify-content: center;
     }
   }
-
   .show-btn {
     top: 4px;
   }
-
   .home {
     gap: 1rem;
+    height: 60vh;
   }
-
   .card {
     width: 20rem;
     padding: 0.5rem;
     border: none;
     gap: 1rem;
   }
-
   .form {
     gap: 0.5rem;
   }
-
   .topnav .uList :not(:first-child, :last-child) {
     display: none;
   }
@@ -455,16 +392,16 @@ ul {
     flex: 1 1 200px;
     padding-inline: 2rem;
   }
-
   .logoutBtn {
     flex: 1 1 200px;
     font-size: large;
     font-weight: 100;
   }
-
-  .topnav a.icon {
+  .topnav .icon {
     cursor: pointer;
-    float: right;
+    position: absolute;
+    top: 0;
+    right: 0;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -474,42 +411,28 @@ ul {
     border-top-right-radius: var(--border-radius);
     border-bottom-right-radius: var(--border-radius);
   }
-
-  .topnav.responsive a.icon {
+  .topnav.responsive .icon {
     border-bottom-right-radius: 0;
   }
-
   .topnav.responsive {
     position: relative;
     height: calc(3 * var(--nav-bar-height));
   }
-  .topnav.responsive .icon {
-    position: absolute;
-    right: 0;
-    top: 0;
-  }
-
   .uList {
     display: block;
   }
-
   .topnav.responsive .uList {
     li {
       display: flex;
       margin: 0;
     }
   }
-  .topnav.responsive .uList * {
-    text-align: left;
-  }
 }
-
 @media screen and (max-width: 350px) {
   .card {
     width: 17rem;
   }
 }
-
 @media screen and (max-width: 285px) {
   .card {
     width: 16rem;
