@@ -58,18 +58,20 @@ export default function NavBar() {
               )}
               {user?.first}
             </a>
+          ) : auth === undefined ? (
+            <a id="ske-btn"></a>
           ) : (
             <a href="/login">Login</a>
           )}
-          {auth === undefined && <a id="ske-btn"></a>}
         </li>
         <li>
           {auth === true ? (
             <MotherBtn btnName="Logout" />
+          ) : auth === undefined ? (
+            <a id="ske-btn"></a>
           ) : (
             <a href="/signup">Signup</a>
           )}
-          {auth === undefined && <a id="ske-btn"></a>}
         </li>
         <li ref={togglerBtn} onClick={toggleFunction}>
           <a className="icon">

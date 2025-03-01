@@ -2,36 +2,31 @@ import React, { PropsWithChildren, useEffect, useState } from "react";
 import AuthContext from "./CreateAuthContext";
 import getCookie from "../utilities/getCookie";
 import { UserType } from "../types/userType";
-import { authenticationKey, localStorageName } from "../env";
-
-// using three states of auth variable true, false, and null.
-// null state = on page load it is null by deafult, then render spinner
-//              behind the scene check auth cookie, if not present then set auth false
-// false state = auth cookie is not present in browser
-// true state = auth cookie is present in browser
+import { CLientErrorType } from "../types/notificationType";
+import { getLocalStorageData } from "../utilities/getLocalStorageData";
+const authKeyName = import.meta.env.VITE_AUTH_KEY;
 
 const AuthProvider = ({ children }: PropsWithChildren) => {
-  const [auth, setAuth] = useState<boolean | null>(null);
-  const [user, setUser] = useState<UserType>({});
+  const [auth, setAuth] = useState(false);
+  const [user, setUser] = useState<UserType>();
 
-  //this effect only happens on initial page load
   useEffect(() => {
-    // check client has auth cookie
-    const authKey = getCookie(authenticationKey);
+    let valid = false;
+    const authKey: string | CLientErrorType = getCookie(authKeyName);
+    //check authKey is not error object
+    if (typeof authKey === "string") {
+      // TODO validate auth key
+      valid = true;
+    } else {
+      setAuth(false);
+    }
 
-    // key is not present then set false else true
-    //@ts-ignore
-    typeof authKey === "object" && !authKey?.success
-      ? setAuth(false)
-      : setAuth(true);
-
-    // TODO decrypt cookie, if not valid then set false
-
-    // TODO get local storage data and validate
-    const storageString = localStorage.getItem(localStorageName) || "";
-    const userObject: UserType = storageString && JSON.parse(storageString);
-
-    typeof userObject === "object" ? setUser(userObject) : setAuth(false);
+    // if auth key is valid
+    if (valid) {
+      const user = getLocalStorageData();
+      setUser(user);
+      setAuth(true);
+    }
   }, [auth]);
 
   return (

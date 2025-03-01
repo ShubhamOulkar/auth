@@ -155,7 +155,6 @@ these classes are used by javascript code
   gap: 1.8rem;
   position: relative;
   background-color: inherit;
-  height: 80vh;
 }
 ul {
   list-style-type: none;
@@ -203,6 +202,7 @@ ul {
 }
 #ske-btn {
   background-color: hsla(271, 27%, 82%, 0.529);
+  outline: 1px solid black;
 }
 .logoutBtn:hover {
   font-weight: 100;
@@ -257,8 +257,6 @@ ul {
   border-radius: var(--border-radius);
   padding: var(--padding-inline);
   gap: 1rem;
-  margin-block-start: auto;
-  margin-block-end: 6rem;
 }
 .card-ske {
   display: flex;
@@ -266,6 +264,9 @@ ul {
   align-items: center;
   width: 25rem;
   border-radius: var(--border-radius);
+}
+.center-card {
+  margin-top: 10rem;
 }
 .profile-card {
   align-items: flex-start;
@@ -367,13 +368,15 @@ ul {
   }
   .home {
     gap: 1rem;
-    height: 60vh;
   }
   .card {
     width: 20rem;
     padding: 0.5rem;
     border: none;
     gap: 1rem;
+  }
+  .center-card {
+    margin-top: 5rem;
   }
   .form {
     gap: 0.5rem;

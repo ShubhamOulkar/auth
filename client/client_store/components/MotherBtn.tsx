@@ -12,20 +12,14 @@ function MotherBtn({ btnName }: { btnName: string }) {
   const { reset2FaContext } = use2FaContext();
 
   const onSubmit = async (e: { preventDefault: () => void }) => {
-    e.preventDefault();
-
     const response: LogoutHandlerType = await logoutHandler(btnName);
-
     // set notification
     setNotification(response);
-
     if (response.success) {
       // delete local storage
       localStorage.removeItem(localStorageName);
-
       // reset 2Fa context
       reset2FaContext();
-
       //navigate to redirect route provided by server
       //@ts-ignore
       window.location.assign(response?.redirect);
