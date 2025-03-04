@@ -10,7 +10,7 @@ export const PasswordInput = memo(function PasswordInput({
   fieldName: string;
   data: string;
   error: string;
-  disabled: boolean;
+  disabled?: boolean;
 }) {
   const [showPassword, setShowPassword] = useState(false);
 

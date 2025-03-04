@@ -1,4 +1,6 @@
+import React from "react";
 import use2FaContext from "../2fa context/use2FaContext";
+import { Trans } from "@lingui/react/macro";
 import Timer from "./Timer";
 function Label({
   label,
@@ -14,7 +16,8 @@ function Label({
   const id = `${labelFor}Err`;
   return (
     <label htmlFor={labelFor}>
-      {label} {timerStatus && !labels.includes(labelFor) ? <Timer /> : ""}
+      <Trans>{label}</Trans>{" "}
+      {timerStatus && !labels.includes(labelFor) ? <Timer /> : ""}
       {error && (
         <span className="error" id={id} aria-live="assertive">
           {error}

@@ -15,12 +15,7 @@ import loginAndSignupFormFieldsValidation from "../field validation handlers/log
 import { InitialStatus } from "../types/FormInitialStatus";
 import { FieldErrors } from "../types/FormFieldErrors";
 import loginAction from "../form actions/loginAction";
-
-/**
- * A login form page component.
- *
- * @returns {JSX.Element} A page containing login form
- */
+import { Trans } from "@lingui/react/macro";
 
 //initial form fields are empty
 export const emptyFields = { email: "", password: "" };
@@ -79,7 +74,9 @@ function LoginPage() {
 
   return (
     <div className="card">
-      <h1>User Login</h1>
+      <h1>
+        <Trans>User Login</Trans>
+      </h1>
       {isPending ? (
         <SkeForm />
       ) : (
@@ -104,7 +101,7 @@ function LoginPage() {
             type="submit"
             disabled={error !== undefined || isOtpEmailSend}
           >
-            Login
+            <Trans>Login</Trans>
           </button>
         </form>
       )}

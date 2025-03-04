@@ -6,6 +6,7 @@ import {
 
 import { LogoutHandlerType } from "../types/LogoutHandlerType";
 import { localStorageName } from "../env";
+import { Trans } from "@lingui/react/macro";
 
 function MotherBtn({ btnName }: { btnName: string }) {
   const { setNotification } = useNotificationContext();
@@ -29,7 +30,7 @@ function MotherBtn({ btnName }: { btnName: string }) {
   return (
     <form onSubmit={onSubmit}>
       <button className="logoutBtn" type="submit">
-        {btnName}
+        <Trans>{btnName}</Trans>
       </button>
     </form>
   );
