@@ -11,13 +11,7 @@ import { InitialStatus } from "../types/FormInitialStatus";
 import { FieldErrors } from "../types/FormFieldErrors";
 import signupAction from "../form actions/signupAction";
 import loginAndSignupFormFieldsValidation from "../field validation handlers/loginAndSignupFormFieldsValidation";
-
-/**
- * A logout form page component.
- *
- * @returns {JSX.Element} A page containing logout form
- */
-
+import { Trans } from "@lingui/react/macro";
 export const emptyFields = {
   firstName: "",
   lastName: "",
@@ -60,7 +54,9 @@ function SignupPage() {
 
   return (
     <div className="card">
-      <h1>User Signup</h1>
+      <h1>
+        <Trans>User Signup</Trans>
+      </h1>
       <form className="form" action={formAction} onChange={onChangeValidation}>
         <FirstNameInput
           data={formStatus.data?.firstName || ""}
@@ -86,7 +82,7 @@ function SignupPage() {
           data={formStatus.data?.confirmPassword || ""}
         />
         <button type="submit" disabled={errors !== undefined}>
-          Submit
+          <Trans>Create account</Trans>
         </button>
       </form>
     </div>

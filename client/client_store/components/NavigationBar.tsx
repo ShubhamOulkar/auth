@@ -6,6 +6,8 @@ import { CLientErrorType } from "../types/notificationType";
 import { getLocalStorageData } from "../utilities/getLocalStorageData";
 import getCookie from "../utilities/getCookie";
 import MotherBtn from "./MotherBtn";
+import { LocalSwitcher } from "./LocalSwitcher";
+import { Trans } from "@lingui/react/macro";
 const authKeyName = import.meta.env.VITE_AUTH_KEY;
 
 export default function NavBar() {
@@ -42,7 +44,9 @@ export default function NavBar() {
     <nav className="topnav" id="myTopnav">
       <ul className="uList">
         <li>
-          <a href="/">Home</a>
+          <a href="/">
+            <Trans>Home</Trans>
+          </a>
         </li>
         <li>
           {auth === true ? (
@@ -61,7 +65,9 @@ export default function NavBar() {
           ) : auth === undefined ? (
             <a id="ske-btn"></a>
           ) : (
-            <a href="/login">Login</a>
+            <a href="/login">
+              <Trans>Login</Trans>
+            </a>
           )}
         </li>
         <li>
@@ -70,8 +76,13 @@ export default function NavBar() {
           ) : auth === undefined ? (
             <a id="ske-btn"></a>
           ) : (
-            <a href="/signup">Signup</a>
+            <a href="/signup">
+              <Trans>Signup</Trans>
+            </a>
           )}
+        </li>
+        <li>
+          <LocalSwitcher />
         </li>
         <li ref={togglerBtn} onClick={toggleFunction}>
           <a className="icon">

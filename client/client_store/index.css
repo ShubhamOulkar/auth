@@ -13,6 +13,7 @@
   --outline-focus-style: white solid var(--border-size);
   --outline-invalid-style: var(--tooltip-color) solid var(--border-size);
   --tooltip-color: hsla(0, 97%, 57%, 0.737);
+  --nav-btn-width: 8rem;
   line-height: 1.5;
   font-weight: 400;
   box-sizing: border-box;
@@ -54,7 +55,7 @@ input {
 input,
 button {
   cursor: pointer;
-  height: 2rem;
+  height: 2.5rem;
   border-radius: var(--border-radius);
   padding-block: var(--padding-block);
   padding-inline: var(--padding-inline);
@@ -62,10 +63,6 @@ button {
   width: -webkit-fill-available;
   width: -moz-available;
   transition: var(--transition-effect);
-}
-/* overwrite above button height */
-button {
-  height: 2.5rem;
 }
 button:is(:active, :focus, :hover) {
   background-color: var(--button-background-color);
@@ -83,6 +80,47 @@ input:is(:active, :focus, :hover) {
 input.invalid {
   outline: var(--outline-invalid-style);
   background-color: hsla(0, 79%, 78%, 0.584);
+}
+div.lang-switcher-container {
+  > button {
+    width: var(--nav-btn-width);
+    border-radius: 0;
+    background-color: var(--top-nav-background-color);
+    outline: none;
+    border: none;
+    color: whitesmoke;
+    height: var(--nav-bar-height);
+    &:is(:active, :focus, :hover) {
+      background-color: var(--button-background-color);
+      color: var(--dark-blue-color);
+      & + ul {
+        display: block;
+        opacity: 1;
+      }
+    }
+  }
+  > ul {
+    display: none;
+    height: fit-content;
+    opacity: 0;
+    background-color: var(--top-nav-background-color);
+    border-bottom-right-radius: var(--border-radius);
+    border-bottom-left-radius: var(--border-radius);
+    &:hover {
+      display: block;
+      opacity: 1;
+    }
+    li {
+      cursor: pointer;
+      padding: 0.3rem;
+      text-align: center;
+      border-radius: var(--border-radius);
+      &:is(:hover, :focus) {
+        background-color: var(--button-background-color);
+        color: var(--dark-blue-color);
+      }
+    }
+  }
 }
 h1 {
   text-align: center;
@@ -196,7 +234,7 @@ ul {
   text-align: center;
   text-decoration: none;
   height: var(--nav-bar-height);
-  width: 8rem;
+  width: var(--nav-btn-width);
   padding: 5px;
   background-color: var(--top-nav-background-color);
 }
@@ -390,7 +428,6 @@ ul {
   .topnav a {
     padding: 0;
     width: 2rem;
-    font-size: larger;
     height: var(--nav-bar-height);
     flex: 1 1 200px;
     padding-inline: 2rem;
@@ -428,6 +465,18 @@ ul {
     li {
       display: flex;
       margin: 0;
+    }
+  }
+  div.lang-switcher-container {
+    width: 100%;
+    > button {
+      width: 100%;
+      font-weight: 300;
+    }
+    > ul {
+      position: absolute;
+      right: 0;
+      width: 20vw;
     }
   }
 }
