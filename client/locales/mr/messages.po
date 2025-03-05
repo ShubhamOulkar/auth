@@ -8,7 +8,7 @@ msgstr ""
 "Language: mr\n"
 "Project-Id-Version: auth-ssr\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2025-03-05 04:52\n"
+"PO-Revision-Date: 2025-03-05 05:34\n"
 "Last-Translator: \n"
 "Language-Team: Marathi\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -41,6 +41,10 @@ msgstr "मुख्य पृष्ठ"
 #: client/client_store/pages/ProjectInfoPage.tsx:9
 msgid "Identity and access management system"
 msgstr "ओळख आणि प्रवेश व्यवस्थापन प्रणाली"
+
+#: client/client_store/components/LocalSwitcher.tsx:18
+msgid "Language"
+msgstr "भाषा"
 
 #: client/client_store/pages/LoginPage.tsx:104
 #: client/client_store/components/NavigationBar.tsx:69
