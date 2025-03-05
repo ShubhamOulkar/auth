@@ -1,5 +1,6 @@
 import React from "react";
 import { loadCatalog } from "../../i18n";
+import { Trans } from "@lingui/react/macro";
 
 const lang = {
   English: "en",
@@ -13,11 +14,13 @@ const lang = {
 export function LocalSwitcher() {
   return (
     <div className="lang-switcher-container">
-      <button>Language</button>
+      <button>
+        <Trans>Language</Trans>
+      </button>
       <ul>
         {Object.keys(lang).map((key) => (
           <li onClick={() => loadCatalog(lang[key])} key={key}>
-            {key}
+            <Trans>{key}</Trans>
           </li>
         ))}
       </ul>
