@@ -8,7 +8,7 @@ msgstr ""
 "Language: ja\n"
 "Project-Id-Version: auth-ssr\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2025-03-05 04:52\n"
+"PO-Revision-Date: 2025-03-05 05:34\n"
 "Last-Translator: \n"
 "Language-Team: Japanese\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
@@ -41,6 +41,10 @@ msgstr "ホーム"
 #: client/client_store/pages/ProjectInfoPage.tsx:9
 msgid "Identity and access management system"
 msgstr "アイデンティティとアクセス管理システム"
+
+#: client/client_store/components/LocalSwitcher.tsx:18
+msgid "Language"
+msgstr "言語"
 
 #: client/client_store/pages/LoginPage.tsx:104
 #: client/client_store/components/NavigationBar.tsx:69
