@@ -37,6 +37,10 @@ msgstr ""
 msgid "Identity and access management system"
 msgstr ""
 
+#: client/client_store/components/LocalSwitcher.tsx:18
+msgid "Language"
+msgstr ""
+
 #: client/client_store/pages/LoginPage.tsx:104
 #: client/client_store/components/NavigationBar.tsx:69
 msgid "Login"
