@@ -20,7 +20,7 @@ export function LocalSwitcher() {
       <ul>
         {Object.keys(lang).map((key) => (
           <li onClick={() => loadCatalog(lang[key])} key={key}>
-            {key}
+            <Trans>{key}</Trans>
           </li>
         ))}
       </ul>
