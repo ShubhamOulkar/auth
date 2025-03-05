@@ -8,7 +8,7 @@ msgstr ""
 "Language: ko\n"
 "Project-Id-Version: auth-ssr\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2025-03-05 04:23\n"
+"PO-Revision-Date: 2025-03-05 04:52\n"
 "Last-Translator: \n"
 "Language-Team: Korean\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
@@ -20,42 +20,42 @@ msgstr ""
 
 #: client/client_store/components/MotherBtn.tsx:33
 msgid "{btnName}"
-msgstr ""
+msgstr "{btnName}"
 
 #: client/client_store/components/FieldLabel.tsx:19
 msgid "{label}"
-msgstr ""
+msgstr "{label}"
 
 #: client/client_store/pages/SignupPage.tsx:85
 msgid "Create account"
-msgstr ""
+msgstr "계정 만들기"
 
 #: client/client_store/pages/ProjectInfoPage.tsx:13
 msgid "Developer Shubham Oulkar"
-msgstr ""
+msgstr "개발자 Shubham oulkar"
 
 #: client/client_store/components/NavigationBar.tsx:48
 msgid "Home"
-msgstr ""
+msgstr "메인"
 
 #: client/client_store/pages/ProjectInfoPage.tsx:9
 msgid "Identity and access management system"
-msgstr ""
+msgstr "신원 및 접근 관리 시스템"
 
 #: client/client_store/pages/LoginPage.tsx:104
 #: client/client_store/components/NavigationBar.tsx:69
 msgid "Login"
-msgstr ""
+msgstr "로그인"
 
 #: client/client_store/components/NavigationBar.tsx:80
 msgid "Signup"
-msgstr ""
+msgstr "가입하기"
 
 #: client/client_store/pages/LoginPage.tsx:78
 msgid "User Login"
-msgstr ""
+msgstr "사용자 로그인"
 
 #: client/client_store/pages/SignupPage.tsx:58
 msgid "User Signup"
-msgstr ""
+msgstr "사용자 가입"
 
