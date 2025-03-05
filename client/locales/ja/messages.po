@@ -5,16 +5,16 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: @lingui/cli\n"
-"Language: ko\n"
+"Language: ja\n"
 "Project-Id-Version: auth-ssr\n"
 "Report-Msgid-Bugs-To: \n"
 "PO-Revision-Date: 2025-03-05 05:34\n"
 "Last-Translator: \n"
-"Language-Team: Korean\n"
+"Language-Team: Japanese\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Crowdin-Project: auth-ssr\n"
 "X-Crowdin-Project-ID: 768795\n"
-"X-Crowdin-Language: ko\n"
+"X-Crowdin-Language: ja\n"
 "X-Crowdin-File: /main/client/locales/en/messages.po\n"
 "X-Crowdin-File-ID: 13\n"
 
@@ -28,42 +28,38 @@ msgstr "{label}"
 
 #: client/client_store/pages/SignupPage.tsx:85
 msgid "Create account"
-msgstr "계정 만들기"
+msgstr "アカウントを作成"
 
 #: client/client_store/pages/ProjectInfoPage.tsx:13
 msgid "Developer Shubham Oulkar"
-msgstr "개발자 Shubham oulkar"
+msgstr "開発者Shubham Oulkar"
 
 #: client/client_store/components/NavigationBar.tsx:48
 msgid "Home"
-msgstr "메인"
+msgstr "ホーム"
 
 #: client/client_store/pages/ProjectInfoPage.tsx:9
 msgid "Identity and access management system"
-msgstr "신원 및 접근 관리 시스템"
+msgstr "アイデンティティとアクセス管理システム"
 
 #: client/client_store/components/LocalSwitcher.tsx:18
 msgid "Language"
-msgstr "언어"
-
-#: client/client_store/components/LocalSwitcher.tsx:18
-msgid "Language"
-msgstr ""
+msgstr "言語"
 
 #: client/client_store/pages/LoginPage.tsx:104
 #: client/client_store/components/NavigationBar.tsx:69
 msgid "Login"
-msgstr "로그인"
+msgstr "ログイン"
 
 #: client/client_store/components/NavigationBar.tsx:80
 msgid "Signup"
-msgstr "가입하기"
+msgstr "サインアップ"
 
 #: client/client_store/pages/LoginPage.tsx:78
 msgid "User Login"
-msgstr "사용자 로그인"
+msgstr "ユーザーログイン"
 
 #: client/client_store/pages/SignupPage.tsx:58
 msgid "User Signup"
-msgstr "사용자 가입"
+msgstr "ユーザーサインアップ"
 
