@@ -8,7 +8,7 @@ msgstr ""
 "Language: fr\n"
 "Project-Id-Version: auth-ssr\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2025-03-05 04:23\n"
+"PO-Revision-Date: 2025-03-05 04:52\n"
 "Last-Translator: \n"
 "Language-Team: French\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
@@ -20,42 +20,42 @@ msgstr ""
 
 #: client/client_store/components/MotherBtn.tsx:33
 msgid "{btnName}"
-msgstr ""
+msgstr "{btnName}"
 
 #: client/client_store/components/FieldLabel.tsx:19
 msgid "{label}"
-msgstr ""
+msgstr "{label}"
 
 #: client/client_store/pages/SignupPage.tsx:85
 msgid "Create account"
-msgstr ""
+msgstr "Créer un compte"
 
 #: client/client_store/pages/ProjectInfoPage.tsx:13
 msgid "Developer Shubham Oulkar"
-msgstr ""
+msgstr "Développement Shubham Oulkar"
 
 #: client/client_store/components/NavigationBar.tsx:48
 msgid "Home"
-msgstr ""
+msgstr "Homepage"
 
 #: client/client_store/pages/ProjectInfoPage.tsx:9
 msgid "Identity and access management system"
-msgstr ""
+msgstr "Système de gestion de l'identité et d'accès"
 
 #: client/client_store/pages/LoginPage.tsx:104
 #: client/client_store/components/NavigationBar.tsx:69
 msgid "Login"
-msgstr ""
+msgstr "Connexion"
 
 #: client/client_store/components/NavigationBar.tsx:80
 msgid "Signup"
-msgstr ""
+msgstr "Inscription"
 
 #: client/client_store/pages/LoginPage.tsx:78
 msgid "User Login"
-msgstr ""
+msgstr "Connexion de l'utilisateur"
 
 #: client/client_store/pages/SignupPage.tsx:58
 msgid "User Signup"
-msgstr ""
+msgstr "Inscription de l'utilisateur"
 
