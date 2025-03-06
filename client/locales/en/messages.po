@@ -17,6 +17,10 @@ msgstr ""
 msgid "{btnName}"
 msgstr "{btnName}"
 
+#: client/client_store/components/LocalSwitcher.tsx:23
+msgid "{key}"
+msgstr "{key}"
+
 #: client/client_store/components/FieldLabel.tsx:19
 msgid "{label}"
 msgstr "{label}"

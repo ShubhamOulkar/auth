@@ -1,0 +1,1 @@
+/*eslint-disable*/module.exports={messages:JSON.parse("{\"p+lqlv\":[[\"btnName\"]],\"qntz/2\":[[\"key\"]],\"w9dLMW\":[[\"label\"]],\"1hMWR6\":[\"アカウントを作成\"],\"QCV6Qo\":[\"開発者Shubham Oulkar\"],\"i0qMbr\":[\"ホーム\"],\"m2z7E4\":[\"アイデンティティとアクセス管理システム\"],\"vXIe7J\":[\"言語\"],\"z0t9bb\":[\"ログイン\"],\"mm7brI\":[\"サインアップ\"],\"kxMe5T\":[\"ユーザーログイン\"],\"7Wplo3\":[\"ユーザーサインアップ\"]}")};

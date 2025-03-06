@@ -22,6 +22,10 @@ msgstr ""
 msgid "{btnName}"
 msgstr "{btnName}"
 
+#: client/client_store/components/LocalSwitcher.tsx:23
+msgid "{key}"
+msgstr ""
+
 #: client/client_store/components/FieldLabel.tsx:19
 msgid "{label}"
 msgstr "{label}"
@@ -46,10 +50,6 @@ msgstr "ओळख आणि प्रवेश व्यवस्थापन �
 msgid "Language"
 msgstr "भाषा"
 
-#: client/client_store/components/LocalSwitcher.tsx:18
-msgid "Language"
-msgstr ""
-
 #: client/client_store/pages/LoginPage.tsx:104
 #: client/client_store/components/NavigationBar.tsx:69
 msgid "Login"
@@ -66,4 +66,3 @@ msgstr "वापरकर्ता लॉगिन"
 #: client/client_store/pages/SignupPage.tsx:58
 msgid "User Signup"
 msgstr "वापरकर्ता साइनअप"
-
