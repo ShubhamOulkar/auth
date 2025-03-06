@@ -81,6 +81,7 @@ input.invalid {
   outline: var(--outline-invalid-style);
   background-color: hsla(0, 79%, 78%, 0.584);
 }
+/* do not delete, custom lang selector */
 div.lang-switcher-container {
   > button {
     width: var(--nav-btn-width);
@@ -118,9 +119,63 @@ div.lang-switcher-container {
       &:is(:hover, :focus) {
         background-color: var(--button-background-color);
         color: var(--dark-blue-color);
+        outline: none;
       }
     }
   }
+}
+/* lang picker using select element */
+div.lang-container {
+  position: relative;
+  width: var(--nav-btn-width);
+  height: var(--nav-bar-height);
+  margin-left: auto;
+}
+select.lang-selector {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  border: none;
+  outline: none;
+  background-image: none;
+  width: var(--nav-btn-width);
+  height: var(--nav-bar-height);
+  font-family: inherit;
+  font-size: 1.3rem;
+  background-color: var(--top-nav-background-color);
+  color: whitesmoke;
+  cursor: pointer;
+  padding-inline: 0.5rem;
+  transition: var(--transition-effect);
+  border-radius: var(--border-radius);
+  &:is(:active, :focus, :hover) {
+    background-color: var(--button-background-color);
+    color: var(--dark-blue-color);
+    outline: var(--outline-focus-style);
+  }
+}
+div.lang-container::after {
+  content: "";
+  display: block;
+  width: 0.8em;
+  height: 0.5em;
+  background-color: whitesmoke;
+  clip-path: polygon(100% 0%, 0 0%, 50% 100%);
+  position: absolute;
+  top: 1.5rem;
+  right: 0.5rem;
+  cursor: pointer;
+  pointer-events: none;
+}
+select.lang-selector:open {
+  > option {
+    font-size: 1.3rem;
+    color: whitesmoke;
+    background-color: var(--top-nav-background-color);
+  }
+}
+div.lang-container:has(select:open)::after {
+  rotate: 180deg;
 }
 h1 {
   text-align: center;
@@ -194,19 +249,15 @@ these classes are used by javascript code
   position: relative;
   background-color: inherit;
 }
-ul {
+.uList {
   list-style-type: none;
   margin-block: 0;
   padding-inline-start: 0;
+  padding-inline-end: 0.3rem;
   display: flex;
+  width: 100%;
   > li:nth-child(2) {
     margin-left: auto;
-    > a {
-      display: flex;
-      padding-inline: 1.5rem;
-      flex-direction: row;
-      gap: 0.4rem;
-    }
   }
 }
 .topnav {
@@ -215,6 +266,7 @@ ul {
   height: var(--nav-bar-height);
   border-radius: var(--border-radius);
   transition: var(--transition-effect);
+  display: flex;
 }
 .topnav-ske {
   width: 100%;
@@ -224,7 +276,7 @@ ul {
 .logoutBtn {
   border: none;
   border-radius: 0;
-  font-size: x-large;
+  font-size: 1.3rem;
   font-family: var(--font);
   display: flex;
   flex-direction: column;
@@ -235,7 +287,6 @@ ul {
   text-decoration: none;
   height: var(--nav-bar-height);
   width: var(--nav-btn-width);
-  padding: 5px;
   background-color: var(--top-nav-background-color);
 }
 #ske-btn {
@@ -251,7 +302,7 @@ ul {
   color: black;
   transition: var(--transition-effect);
 }
-.topnav .icon {
+.mobile-nav-toggle {
   display: none;
 }
 .password-container {
@@ -390,17 +441,10 @@ ul {
   outline: green;
   background-color: hsla(95, 79%, 78%, 0.584);
 }
-@media screen and (min-width: 600px) {
-  .topnav a {
-    height: 2.65rem;
-  }
+.overlay {
+  display: none;
 }
 @media screen and (max-width: 600px) {
-  ul {
-    > li:nth-child(2) > a {
-      justify-content: center;
-    }
-  }
   .show-btn {
     top: 4px;
   }
@@ -419,54 +463,63 @@ ul {
   .form {
     gap: 0.5rem;
   }
-  .topnav .uList :not(:first-child, :last-child) {
+  .uList {
     display: none;
   }
   .topnav {
     height: var(--nav-bar-height);
-  }
-  .topnav a {
-    padding: 0;
-    width: 2rem;
-    height: var(--nav-bar-height);
-    flex: 1 1 200px;
-    padding-inline: 2rem;
   }
   .logoutBtn {
     flex: 1 1 200px;
     font-size: large;
     font-weight: 100;
   }
-  .topnav .icon {
+  .mobile-nav-toggle {
+    display: block;
     cursor: pointer;
     position: absolute;
     top: 0;
-    right: 0;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+    left: 0;
     background-color: var(--button-background-color);
-    width: 20px;
     height: var(--nav-bar-height);
+    width: 4rem;
+    border: none;
     border-top-right-radius: var(--border-radius);
     border-bottom-right-radius: var(--border-radius);
   }
-  .topnav.responsive .icon {
-    border-bottom-right-radius: 0;
-  }
   .topnav.responsive {
     position: relative;
-    height: calc(3 * var(--nav-bar-height));
-  }
-  .uList {
-    display: block;
   }
   .topnav.responsive .uList {
-    li {
-      display: flex;
-      margin: 0;
+    position: absolute;
+    top: calc(var(--nav-bar-height) + 2px);
+    left: 0;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    height: calc(3 * var(--nav-bar-height));
+    outline: var(--outline-focus-style);
+    border-radius: var(--border-radius);
+    > li {
+      height: var(--nav-bar-height);
+      > a {
+        width: 100%;
+      }
+    }
+    > li:nth-child(2) {
+      margin-left: 0;
     }
   }
+  .overlay.active {
+    display: block;
+    position: absolute;
+    top: var(--nav-bar-height);
+    z-index: 5;
+    min-height: 91vh;
+    width: 100%;
+    background-color: #69696983;
+  }
+  /* do not delete, this is custom lang selector */
   div.lang-switcher-container {
     width: 100%;
     > button {
