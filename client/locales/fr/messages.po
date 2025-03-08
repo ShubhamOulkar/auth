@@ -8,7 +8,7 @@ msgstr ""
 "Language: fr\n"
 "Project-Id-Version: auth-ssr\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2025-03-05 05:34\n"
+"PO-Revision-Date: 2025-03-08 05:23\n"
 "Last-Translator: \n"
 "Language-Team: French\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
@@ -61,11 +61,11 @@ msgstr ""
 
 #: client/client_store/pages/SignupPage.tsx:129
 msgid "Create account"
-msgstr ""
+msgstr "Créer un compte"
 
 #: client/client_store/pages/ProjectInfoPage.tsx:13
 msgid "Developer Shubham Oulkar"
-msgstr ""
+msgstr "Développement Shubham Oulkar"
 
 #: client/client_store/pages/SignupPage.tsx:87
 #: client/client_store/pages/LoginPage.tsx:95
@@ -157,3 +157,4 @@ msgstr ""
 #: client/client_store/pages/VerifyEmail.tsx:20
 msgid "Verify email"
 msgstr ""
+
