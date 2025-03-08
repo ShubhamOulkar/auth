@@ -8,7 +8,7 @@ msgstr ""
 "Language: ko\n"
 "Project-Id-Version: auth-ssr\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2025-03-05 05:34\n"
+"PO-Revision-Date: 2025-03-08 05:24\n"
 "Last-Translator: \n"
 "Language-Team: Korean\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
@@ -157,3 +157,4 @@ msgstr ""
 #: client/client_store/pages/VerifyEmail.tsx:20
 msgid "Verify email"
 msgstr ""
+
