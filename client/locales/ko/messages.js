@@ -1,1 +1,0 @@
-/*eslint-disable*/module.exports={messages:JSON.parse("{\"p+lqlv\":[[\"btnName\"]],\"qntz/2\":[[\"key\"]],\"w9dLMW\":[[\"label\"]],\"1hMWR6\":[\"계정 만들기\"],\"QCV6Qo\":[\"개발자 Shubham oulkar\"],\"i0qMbr\":[\"메인\"],\"m2z7E4\":[\"신원 및 접근 관리 시스템\"],\"vXIe7J\":[\"언어\"],\"z0t9bb\":[\"로그인\"],\"mm7brI\":[\"가입하기\"],\"kxMe5T\":[\"사용자 로그인\"],\"7Wplo3\":[\"사용자 가입\"]}")};

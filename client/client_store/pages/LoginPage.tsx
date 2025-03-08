@@ -6,6 +6,7 @@ import {
   PasswordInput,
   SkeForm,
   SendOTPForm,
+  Timer,
 } from "../components/ComponentExpoter";
 import {
   useNotificationContext,
@@ -28,8 +29,13 @@ const initialStatus: InitialStatus = {
 
 function LoginPage() {
   const { setNotification } = useNotificationContext();
-  const { isOtpEmailSend, setOtpEmailSend, setTimerStatus, setEmail } =
-    use2FaContext();
+  const {
+    isOtpEmailSend,
+    timerStatus,
+    setOtpEmailSend,
+    setTimerStatus,
+    setEmail,
+  } = use2FaContext();
   // react 19 hooks
   const [error, setError] = useState<FieldErrors>();
   const [formStatus, formAction, isPending] = useActionState(
@@ -85,16 +91,33 @@ function LoginPage() {
           action={formAction}
           onChange={onChangeValidation}
         >
+          <label htmlFor="email">
+            <Trans>Enter email address</Trans>
+            {timerStatus ? <Timer /> : ""}
+            {error?.email && (
+              <span className="error" id="emailErr" aria-live="assertive">
+                {error?.email[0]}
+              </span>
+            )}
+          </label>
           <EmailInput
             data={formStatus.data?.email || ""}
-            error={error?.email ? error?.email[0] : ""}
+            error={error?.email ? true : false}
             autofocus={true}
             disabled={isOtpEmailSend}
           />
+          <label htmlFor="password">
+            <Trans>Enter password</Trans>
+            {error?.password && (
+              <span className="error" id="passwordErr" aria-live="assertive">
+                {error?.password[0]}
+              </span>
+            )}
+          </label>
           <PasswordInput
             fieldName="password"
             data={formStatus.data?.password || ""}
-            error={error?.password ? error?.password[0] : ""}
+            error={error?.password ? true : false}
             disabled={isOtpEmailSend}
           />
           <button
@@ -107,7 +130,7 @@ function LoginPage() {
       )}
       <LoginBottomLinks />
       {isOtpEmailSend && <SendOTPForm next="user login" />}
-      <GoogleBtn />
+      {/* <GoogleBtn /> */}
     </div>
   );
 }

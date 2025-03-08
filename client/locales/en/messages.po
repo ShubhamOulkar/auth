@@ -13,19 +13,48 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 
+#: client/client_store/components/LangSelector.tsx:18
+msgid " English"
+msgstr " English"
+
+#: client/client_store/components/LangSelector.tsx:22
+msgid " French"
+msgstr " French"
+
+#: client/client_store/components/LangSelector.tsx:26
+msgid " Hindi"
+msgstr " Hindi"
+
+#: client/client_store/components/LangSelector.tsx:30
+msgid " Japanese"
+msgstr " Japanese"
+
+#: client/client_store/components/LangSelector.tsx:34
+msgid " Korean"
+msgstr " Korean"
+
+#: client/client_store/components/LangSelector.tsx:38
+msgid " Marathi"
+msgstr " Marathi"
+
 #: client/client_store/components/MotherBtn.tsx:33
 msgid "{btnName}"
 msgstr "{btnName}"
 
-#: client/client_store/components/LocalSwitcher.tsx:23
-msgid "{key}"
-msgstr "{key}"
+#. placeholder {0}: formStatus.data?.email
+#: client/client_store/components/VerifyEmailForm.tsx:80
+msgid "`A verification code has been send to ${0}.`"
+msgstr "`A verification code has been send to ${0}.`"
 
-#: client/client_store/components/FieldLabel.tsx:19
-msgid "{label}"
-msgstr "{label}"
+#: client/client_store/pages/VerifyEmail.tsx:25
+msgid "Cancel Email Verification"
+msgstr "Cancel Email Verification"
 
-#: client/client_store/pages/SignupPage.tsx:85
+#: client/client_store/pages/SetNewPassword.tsx:23
+msgid "Cancle Password reset"
+msgstr "Cancle Password reset"
+
+#: client/client_store/pages/SignupPage.tsx:129
 msgid "Create account"
 msgstr "Create account"
 
@@ -33,7 +62,47 @@ msgstr "Create account"
 msgid "Developer Shubham Oulkar"
 msgstr "Developer Shubham Oulkar"
 
-#: client/client_store/components/NavigationBar.tsx:48
+#: client/client_store/pages/SignupPage.tsx:87
+#: client/client_store/pages/LoginPage.tsx:95
+msgid "Enter email address"
+msgstr "Enter email address"
+
+#: client/client_store/components/VerifyEmailForm.tsx:54
+msgid "Enter email address "
+msgstr "Enter email address "
+
+#: client/client_store/pages/SignupPage.tsx:62
+msgid "Enter first name"
+msgstr "Enter first name"
+
+#: client/client_store/pages/SignupPage.tsx:75
+msgid "Enter last name "
+msgstr "Enter last name "
+
+#: client/client_store/pages/SignupPage.tsx:99
+#: client/client_store/pages/LoginPage.tsx:110
+msgid "Enter password"
+msgstr "Enter password"
+
+#: client/client_store/components/NewPasswordForm.tsx:43
+msgid "Enter password "
+msgstr "Enter password "
+
+#: client/client_store/pages/SignupPage.tsx:112
+#: client/client_store/components/NewPasswordForm.tsx:56
+msgid "Enter password to confirm"
+msgstr "Enter password to confirm"
+
+#. placeholder {0}: sending && <Trans>sending...</Trans>
+#: client/client_store/components/OTPComponent.tsx:117
+msgid "Enter the code to verify and continue to profile.{0}"
+msgstr "Enter the code to verify and continue to profile.{0}"
+
+#: client/client_store/components/LoginBottomLinks.tsx:6
+msgid "Forgot password"
+msgstr "Forgot password"
+
+#: client/client_store/components/NavigationBar.tsx:56
 msgid "Home"
 msgstr "Home"
 
@@ -41,23 +110,45 @@ msgstr "Home"
 msgid "Identity and access management system"
 msgstr "Identity and access management system"
 
-#: client/client_store/components/LocalSwitcher.tsx:18
-msgid "Language"
-msgstr "Language"
-
-#: client/client_store/pages/LoginPage.tsx:104
-#: client/client_store/components/NavigationBar.tsx:69
+#: client/client_store/pages/LoginPage.tsx:127
+#: client/client_store/components/NavigationBar.tsx:77
 msgid "Login"
 msgstr "Login"
 
-#: client/client_store/components/NavigationBar.tsx:80
+#: client/client_store/components/VerifyEmailForm.tsx:74
+msgid "Send verification code"
+msgstr "Send verification code"
+
+#: client/client_store/components/VerifyEmailForm.tsx:72
+msgid "Sending code..."
+msgstr "Sending code..."
+
+#: client/client_store/components/OTPComponent.tsx:119
+msgid "sending..."
+msgstr "sending..."
+
+#: client/client_store/pages/SetNewPassword.tsx:19
+#: client/client_store/components/NewPasswordForm.tsx:73
+msgid "Set new password"
+msgstr "Set new password"
+
+#: client/client_store/components/NavigationBar.tsx:88
+#: client/client_store/components/LoginBottomLinks.tsx:9
 msgid "Signup"
 msgstr "Signup"
 
-#: client/client_store/pages/LoginPage.tsx:78
+#: client/client_store/pages/LoginPage.tsx:84
 msgid "User Login"
 msgstr "User Login"
 
 #: client/client_store/pages/SignupPage.tsx:58
 msgid "User Signup"
 msgstr "User Signup"
+
+#: client/client_store/components/VerifyEmailForm.tsx:84
+msgid "Verification code is not send. Click on send verification code."
+msgstr "Verification code is not send. Click on send verification code."
+
+#: client/client_store/pages/VerifyEmail.tsx:20
+msgid "Verify email"
+msgstr "Verify email"

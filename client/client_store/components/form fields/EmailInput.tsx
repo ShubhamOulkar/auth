@@ -1,26 +1,24 @@
-import { memo } from "react";
-import { Label } from "../ComponentExpoter";
+import React, { memo } from "react";
 
 const EmailInput = memo(function EmailInput({
   data,
-  error,
   autofocus,
   disabled,
+  error,
   readOnly,
 }: {
   data: string;
-  error: string;
+  error:boolean;
   autofocus?: boolean;
   disabled?: boolean;
   readOnly?: boolean;
 }) {
   return (
     <>
-      <Label label="Enter email address" labelFor="email" error={error} />
       <input
         id="email"
         type="email"
-        className={error && "invalid"}
+        className={error ? "invalid" : ""}
         autoComplete="email webauthn"
         autoFocus={autofocus}
         disabled={disabled}
