@@ -8,7 +8,7 @@ msgstr ""
 "Language: mr\n"
 "Project-Id-Version: auth-ssr\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2025-03-05 05:34\n"
+"PO-Revision-Date: 2025-03-08 06:11\n"
 "Last-Translator: \n"
 "Language-Team: Marathi\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -20,44 +20,44 @@ msgstr ""
 
 #: client/client_store/components/LangSelector.tsx:18
 msgid " English"
-msgstr ""
+msgstr " इंग्रजी"
 
 #: client/client_store/components/LangSelector.tsx:22
 msgid " French"
-msgstr ""
+msgstr " फ्रेंच"
 
 #: client/client_store/components/LangSelector.tsx:26
 msgid " Hindi"
-msgstr ""
+msgstr " हिंदी"
 
 #: client/client_store/components/LangSelector.tsx:30
 msgid " Japanese"
-msgstr ""
+msgstr " जपानी"
 
 #: client/client_store/components/LangSelector.tsx:34
 msgid " Korean"
-msgstr ""
+msgstr " कोरियन"
 
 #: client/client_store/components/LangSelector.tsx:38
 msgid " Marathi"
-msgstr ""
+msgstr " मराठी"
 
 #: client/client_store/components/MotherBtn.tsx:33
 msgid "{btnName}"
-msgstr ""
+msgstr "{btnName}"
 
 #. placeholder {0}: formStatus.data?.email
 #: client/client_store/components/VerifyEmailForm.tsx:80
 msgid "`A verification code has been send to ${0}.`"
-msgstr ""
+msgstr "`${0} एक पडताळणी कोड पाठवण्यात आला आहे.`"
 
 #: client/client_store/pages/VerifyEmail.tsx:25
 msgid "Cancel Email Verification"
-msgstr ""
+msgstr "ईमेल पडताळणी रद्द करा"
 
 #: client/client_store/pages/SetNewPassword.tsx:23
 msgid "Cancle Password reset"
-msgstr ""
+msgstr "पासवर्ड रीसेट रद्द करा"
 
 #: client/client_store/pages/SignupPage.tsx:129
 msgid "Create account"
@@ -65,47 +65,47 @@ msgstr "खाते निर्माण करा"
 
 #: client/client_store/pages/ProjectInfoPage.tsx:13
 msgid "Developer Shubham Oulkar"
-msgstr "विकासक शुभम औळकर"
+msgstr "विकासक शुभम ओऊळकर"
 
 #: client/client_store/pages/SignupPage.tsx:87
 #: client/client_store/pages/LoginPage.tsx:95
 msgid "Enter email address"
-msgstr ""
+msgstr "ईमेल पत्ता प्रविष्ट करा"
 
 #: client/client_store/components/VerifyEmailForm.tsx:54
 msgid "Enter email address "
-msgstr ""
+msgstr "ईमेल पत्ता प्रविष्ट करा "
 
 #: client/client_store/pages/SignupPage.tsx:62
 msgid "Enter first name"
-msgstr ""
+msgstr "प्रथम नाव प्रविष्ट करा"
 
 #: client/client_store/pages/SignupPage.tsx:75
 msgid "Enter last name "
-msgstr ""
+msgstr "आडनाव प्रविष्ट करा "
 
 #: client/client_store/pages/SignupPage.tsx:99
 #: client/client_store/pages/LoginPage.tsx:110
 msgid "Enter password"
-msgstr ""
+msgstr "पासवर्ड प्रविष्ट करा"
 
 #: client/client_store/components/NewPasswordForm.tsx:43
 msgid "Enter password "
-msgstr ""
+msgstr "पासवर्ड प्रविष्ट करा "
 
 #: client/client_store/pages/SignupPage.tsx:112
 #: client/client_store/components/NewPasswordForm.tsx:56
 msgid "Enter password to confirm"
-msgstr ""
+msgstr "पुष्टी करण्यासाठी पासवर्ड प्रविष्ट करा"
 
 #. placeholder {0}: sending && <Trans>sending...</Trans>
 #: client/client_store/components/OTPComponent.tsx:117
 msgid "Enter the code to verify and continue to profile.{0}"
-msgstr ""
+msgstr "पडताळणी करण्यासाठी कोड एंटर करा आणि प्रोफाइलवर पुढे जा. {0}"
 
 #: client/client_store/components/LoginBottomLinks.tsx:6
 msgid "Forgot password"
-msgstr ""
+msgstr "वापरकर्ता पासवर्ड विसरला"
 
 #: client/client_store/components/NavigationBar.tsx:56
 msgid "Home"
@@ -113,7 +113,7 @@ msgstr "मुख्य पृष्ठ"
 
 #: client/client_store/pages/ProjectInfoPage.tsx:9
 msgid "Identity and access management system"
-msgstr ""
+msgstr "ओळख आणि प्रवेश व्यवस्थापन प्रणाली"
 
 #: client/client_store/pages/LoginPage.tsx:127
 #: client/client_store/components/NavigationBar.tsx:77
@@ -122,20 +122,20 @@ msgstr "लॉगिन करा"
 
 #: client/client_store/components/VerifyEmailForm.tsx:74
 msgid "Send verification code"
-msgstr ""
+msgstr "पडताळणी कोड पाठवा"
 
 #: client/client_store/components/VerifyEmailForm.tsx:72
 msgid "Sending code..."
-msgstr ""
+msgstr "पडताळणी कोड पाठवत आहे..."
 
 #: client/client_store/components/OTPComponent.tsx:119
 msgid "sending..."
-msgstr ""
+msgstr "पाठवत आहे..."
 
 #: client/client_store/pages/SetNewPassword.tsx:19
 #: client/client_store/components/NewPasswordForm.tsx:73
 msgid "Set new password"
-msgstr ""
+msgstr "नवीन पासवर्ड सेट करा"
 
 #: client/client_store/components/NavigationBar.tsx:88
 #: client/client_store/components/LoginBottomLinks.tsx:9
@@ -152,8 +152,9 @@ msgstr "वापरकर्ता साइनअप"
 
 #: client/client_store/components/VerifyEmailForm.tsx:84
 msgid "Verification code is not send. Click on send verification code."
-msgstr ""
+msgstr "पडताळणी कोड पाठवला नाही. पडताळणी कोड पाठवा वर क्लिक करा."
 
 #: client/client_store/pages/VerifyEmail.tsx:20
 msgid "Verify email"
-msgstr ""
+msgstr "ईमेल सत्यापित करा"
+

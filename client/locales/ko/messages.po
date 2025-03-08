@@ -8,7 +8,7 @@ msgstr ""
 "Language: ko\n"
 "Project-Id-Version: auth-ssr\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2025-03-05 05:34\n"
+"PO-Revision-Date: 2025-03-08 06:43\n"
 "Last-Translator: \n"
 "Language-Team: Korean\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
@@ -20,27 +20,27 @@ msgstr ""
 
 #: client/client_store/components/LangSelector.tsx:18
 msgid " English"
-msgstr ""
+msgstr " 영어"
 
 #: client/client_store/components/LangSelector.tsx:22
 msgid " French"
-msgstr ""
+msgstr " 프랑스 국민"
 
 #: client/client_store/components/LangSelector.tsx:26
 msgid " Hindi"
-msgstr ""
+msgstr " 힌디 어"
 
 #: client/client_store/components/LangSelector.tsx:30
 msgid " Japanese"
-msgstr ""
+msgstr " 일본어"
 
 #: client/client_store/components/LangSelector.tsx:34
 msgid " Korean"
-msgstr ""
+msgstr " 한국인"
 
 #: client/client_store/components/LangSelector.tsx:38
 msgid " Marathi"
-msgstr ""
+msgstr " 마라티어"
 
 #: client/client_store/components/MotherBtn.tsx:33
 msgid "{btnName}"
@@ -49,15 +49,15 @@ msgstr "{btnName}"
 #. placeholder {0}: formStatus.data?.email
 #: client/client_store/components/VerifyEmailForm.tsx:80
 msgid "`A verification code has been send to ${0}.`"
-msgstr ""
+msgstr "`${0} 인증코드가 전송되었습니다.`"
 
 #: client/client_store/pages/VerifyEmail.tsx:25
 msgid "Cancel Email Verification"
-msgstr ""
+msgstr "이메일 확인 취소"
 
 #: client/client_store/pages/SetNewPassword.tsx:23
 msgid "Cancle Password reset"
-msgstr ""
+msgstr "취소 비밀번호 재설정"
 
 #: client/client_store/pages/SignupPage.tsx:129
 msgid "Create account"
@@ -70,42 +70,42 @@ msgstr "개발자 Shubham oulkar"
 #: client/client_store/pages/SignupPage.tsx:87
 #: client/client_store/pages/LoginPage.tsx:95
 msgid "Enter email address"
-msgstr ""
+msgstr "이메일 주소 입력"
 
 #: client/client_store/components/VerifyEmailForm.tsx:54
 msgid "Enter email address "
-msgstr ""
+msgstr "이메일 주소 입력 "
 
 #: client/client_store/pages/SignupPage.tsx:62
 msgid "Enter first name"
-msgstr ""
+msgstr "이름을 입력하세요"
 
 #: client/client_store/pages/SignupPage.tsx:75
 msgid "Enter last name "
-msgstr ""
+msgstr "성을 입력하세요 "
 
 #: client/client_store/pages/SignupPage.tsx:99
 #: client/client_store/pages/LoginPage.tsx:110
 msgid "Enter password"
-msgstr ""
+msgstr "비밀번호를 입력하세요"
 
 #: client/client_store/components/NewPasswordForm.tsx:43
 msgid "Enter password "
-msgstr ""
+msgstr "비밀번호를 입력하세요 "
 
 #: client/client_store/pages/SignupPage.tsx:112
 #: client/client_store/components/NewPasswordForm.tsx:56
 msgid "Enter password to confirm"
-msgstr ""
+msgstr "확인을 위해 비밀번호를 입력하세요"
 
 #. placeholder {0}: sending && <Trans>sending...</Trans>
 #: client/client_store/components/OTPComponent.tsx:117
 msgid "Enter the code to verify and continue to profile.{0}"
-msgstr ""
+msgstr "코드를 입력하여 확인하고 프로파일링을 계속하세요.{0}"
 
 #: client/client_store/components/LoginBottomLinks.tsx:6
 msgid "Forgot password"
-msgstr ""
+msgstr "비밀번호를 잊으 셨나요"
 
 #: client/client_store/components/NavigationBar.tsx:56
 msgid "Home"
@@ -122,20 +122,20 @@ msgstr "로그인"
 
 #: client/client_store/components/VerifyEmailForm.tsx:74
 msgid "Send verification code"
-msgstr ""
+msgstr "인증코드 받기"
 
 #: client/client_store/components/VerifyEmailForm.tsx:72
 msgid "Sending code..."
-msgstr ""
+msgstr "코드를 보내는 중..."
 
 #: client/client_store/components/OTPComponent.tsx:119
 msgid "sending..."
-msgstr ""
+msgstr "보내는 중..."
 
 #: client/client_store/pages/SetNewPassword.tsx:19
 #: client/client_store/components/NewPasswordForm.tsx:73
 msgid "Set new password"
-msgstr ""
+msgstr "새 비밀번호 설정"
 
 #: client/client_store/components/NavigationBar.tsx:88
 #: client/client_store/components/LoginBottomLinks.tsx:9
@@ -152,8 +152,9 @@ msgstr "사용자 가입"
 
 #: client/client_store/components/VerifyEmailForm.tsx:84
 msgid "Verification code is not send. Click on send verification code."
-msgstr ""
+msgstr "인증코드가 전송되지 않습니다. 인증코드 전송을 클릭하세요."
 
 #: client/client_store/pages/VerifyEmail.tsx:20
 msgid "Verify email"
-msgstr ""
+msgstr "이메일 확인"
+
