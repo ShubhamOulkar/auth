@@ -8,7 +8,7 @@ msgstr ""
 "Language: fr\n"
 "Project-Id-Version: auth-ssr\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2025-03-08 05:23\n"
+"PO-Revision-Date: 2025-03-08 05:44\n"
 "Last-Translator: \n"
 "Language-Team: French\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
@@ -20,27 +20,27 @@ msgstr ""
 
 #: client/client_store/components/LangSelector.tsx:18
 msgid " English"
-msgstr ""
+msgstr " Anglais"
 
 #: client/client_store/components/LangSelector.tsx:22
 msgid " French"
-msgstr ""
+msgstr " Français"
 
 #: client/client_store/components/LangSelector.tsx:26
 msgid " Hindi"
-msgstr ""
+msgstr " Hindi"
 
 #: client/client_store/components/LangSelector.tsx:30
 msgid " Japanese"
-msgstr ""
+msgstr " Japonaise"
 
 #: client/client_store/components/LangSelector.tsx:34
 msgid " Korean"
-msgstr ""
+msgstr " Coréenne"
 
 #: client/client_store/components/LangSelector.tsx:38
 msgid " Marathi"
-msgstr ""
+msgstr " Marathi"
 
 #: client/client_store/components/MotherBtn.tsx:33
 msgid "{btnName}"
@@ -49,15 +49,15 @@ msgstr "{btnName}"
 #. placeholder {0}: formStatus.data?.email
 #: client/client_store/components/VerifyEmailForm.tsx:80
 msgid "`A verification code has been send to ${0}.`"
-msgstr ""
+msgstr "`Un code de vérification a été envoyé à ${0}.`"
 
 #: client/client_store/pages/VerifyEmail.tsx:25
 msgid "Cancel Email Verification"
-msgstr ""
+msgstr "Annuler la vérification de l'e-mail"
 
 #: client/client_store/pages/SetNewPassword.tsx:23
 msgid "Cancle Password reset"
-msgstr ""
+msgstr "Annuler la réinitialisation du mot de passe"
 
 #: client/client_store/pages/SignupPage.tsx:129
 msgid "Create account"
@@ -70,42 +70,42 @@ msgstr "Développement Shubham Oulkar"
 #: client/client_store/pages/SignupPage.tsx:87
 #: client/client_store/pages/LoginPage.tsx:95
 msgid "Enter email address"
-msgstr ""
+msgstr "Entrer l'adresse e-mail"
 
 #: client/client_store/components/VerifyEmailForm.tsx:54
 msgid "Enter email address "
-msgstr ""
+msgstr "Entrer l'adresse e-mail "
 
 #: client/client_store/pages/SignupPage.tsx:62
 msgid "Enter first name"
-msgstr ""
+msgstr "Entrez le prénom"
 
 #: client/client_store/pages/SignupPage.tsx:75
 msgid "Enter last name "
-msgstr ""
+msgstr "Entrez le nom de famille "
 
 #: client/client_store/pages/SignupPage.tsx:99
 #: client/client_store/pages/LoginPage.tsx:110
 msgid "Enter password"
-msgstr ""
+msgstr "Entrez le mot de passe"
 
 #: client/client_store/components/NewPasswordForm.tsx:43
 msgid "Enter password "
-msgstr ""
+msgstr "Entrez le mot de passe "
 
 #: client/client_store/pages/SignupPage.tsx:112
 #: client/client_store/components/NewPasswordForm.tsx:56
 msgid "Enter password to confirm"
-msgstr ""
+msgstr "Entrez le mot de passe pour confirmer"
 
 #. placeholder {0}: sending && <Trans>sending...</Trans>
 #: client/client_store/components/OTPComponent.tsx:117
 msgid "Enter the code to verify and continue to profile.{0}"
-msgstr ""
+msgstr "Entrez le code pour vérifier et continuer à vous projeter.{0}"
 
 #: client/client_store/components/LoginBottomLinks.tsx:6
 msgid "Forgot password"
-msgstr ""
+msgstr "Mot de passe oublié"
 
 #: client/client_store/components/NavigationBar.tsx:56
 msgid "Home"
@@ -122,20 +122,20 @@ msgstr "Connexion"
 
 #: client/client_store/components/VerifyEmailForm.tsx:74
 msgid "Send verification code"
-msgstr ""
+msgstr "Envoyer un code de validation"
 
 #: client/client_store/components/VerifyEmailForm.tsx:72
 msgid "Sending code..."
-msgstr ""
+msgstr "Envoi du code en cours..."
 
 #: client/client_store/components/OTPComponent.tsx:119
 msgid "sending..."
-msgstr ""
+msgstr "envoyer..."
 
 #: client/client_store/pages/SetNewPassword.tsx:19
 #: client/client_store/components/NewPasswordForm.tsx:73
 msgid "Set new password"
-msgstr ""
+msgstr "Définir un nouveau mot de passe"
 
 #: client/client_store/components/NavigationBar.tsx:88
 #: client/client_store/components/LoginBottomLinks.tsx:9
@@ -152,9 +152,9 @@ msgstr "Inscription de l'utilisateur"
 
 #: client/client_store/components/VerifyEmailForm.tsx:84
 msgid "Verification code is not send. Click on send verification code."
-msgstr ""
+msgstr "Le code de vérification n'est pas envoyé. Cliquez sur envoyer le code de vérification."
 
 #: client/client_store/pages/VerifyEmail.tsx:20
 msgid "Verify email"
-msgstr ""
+msgstr "Vérifier l'e-mail"
 
