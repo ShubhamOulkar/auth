@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from "react";
+import { Trans } from "@lingui/react/macro";
 import { NotificationType } from "../types/notificationType";
 export default function OTPComponent({
   setNotification,
@@ -113,7 +114,10 @@ export default function OTPComponent({
   return (
     <div className="otp-container">
       <p>
-        Enter the code to continue and be redirected. {sending && "sending..."}
+        <Trans>
+          Enter the code to verify and continue to profile.
+          {sending && <Trans>sending...</Trans>}
+        </Trans>
       </p>
 
       <form className="otp-form">

@@ -1,4 +1,4 @@
-import Label from "../components/FieldLabel";
+import Label from "../components/_FieldLabel";
 import GoogleBtn from "../components/GoogleBtn";
 import MotherBtn from "../components/MotherBtn";
 import NavigationBar from "../components/NavigationBar";
@@ -13,10 +13,11 @@ import FirstNameInput from "./form fields/FirstNameInput";
 import LastNameInput from "./form fields/LastNameInput";
 import EmailInput from "./form fields/EmailInput";
 import PasswordInput from "./form fields/PasswordInput";
-import { CancelAuthenticationButton } from "./CancelAuthenticationButton";
+import { CancelAuthenticationButton } from "./_CancelAuthenticationButton";
 import SkeNav from "./skeleton/SkeNav";
 import SkeForm from "./skeleton/SkeForm";
 import InvalidReq from "./InvalidReq";
+import Timer from "./Timer";
 
 export {
   Label,
@@ -38,4 +39,5 @@ export {
   SkeNav,
   SkeForm,
   InvalidReq,
+  Timer,
 };

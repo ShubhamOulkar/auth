@@ -1,5 +1,5 @@
-import { useActionState, useCallback, useState, useEffect } from "react";
-import { EmailInput } from "../components/ComponentExpoter";
+import React, { useActionState, useCallback, useState, useEffect } from "react";
+import { EmailInput, Timer } from "../components/ComponentExpoter";
 import {
   useNotificationContext,
   use2FaContext,
@@ -8,6 +8,7 @@ import verifyEmailFormFieldValidation from "../field validation handlers/verifyE
 import { InitialStatus } from "../types/FormInitialStatus";
 import { FieldErrors } from "../types/FormFieldErrors";
 import verifyEmailAction from "../form actions/verifyEmailAction";
+import { Trans } from "@lingui/react/macro";
 
 function EmailForm() {
   const { setNotification } = useNotificationContext();
@@ -49,22 +50,41 @@ function EmailForm() {
   return (
     <>
       <form className="form" action={formAction} onChange={onChangeValidation}>
+        <label htmlFor="email">
+          <Trans>Enter email address </Trans>
+          {timerStatus ? <Timer /> : ""}
+          {error?.email && (
+            <span className="error" id="emailErr" aria-live="assertive">
+              {error?.email[0]}
+            </span>
+          )}
+        </label>
         <EmailInput
           data={formStatus.data?.email || ""}
-          error={error?.email ? error.email[0] : ""}
+          error={error?.email ? true : false}
           disabled={timerStatus}
         />
         <button
           type="submit"
           disabled={error !== undefined || (formStatus.success && timerStatus)}
         >
-          {isPending ? "Sending code..." : "Send verification code"}
+          {isPending ? (
+            <Trans>Sending code...</Trans>
+          ) : (
+            <Trans>Send verification code</Trans>
+          )}
         </button>
       </form>
       <p className="card-link">
-        {timerStatus
-          ? `A verification code has been send to ${formStatus.data?.email}. `
-          : "Verification code is not send. Click on send verification code."}
+        {timerStatus ? (
+          <Trans>
+            `A verification code has been send to ${formStatus.data?.email}.`
+          </Trans>
+        ) : (
+          <Trans>
+            Verification code is not send. Click on send verification code.
+          </Trans>
+        )}
       </p>
     </>
   );

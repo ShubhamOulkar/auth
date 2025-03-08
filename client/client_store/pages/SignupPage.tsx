@@ -58,27 +58,71 @@ function SignupPage() {
         <Trans>User Signup</Trans>
       </h1>
       <form className="form" action={formAction} onChange={onChangeValidation}>
+        <label htmlFor="firstName">
+          <Trans>Enter first name</Trans>
+          {errors?.firstName && (
+            <span className="error" id="firstNameErr" aria-live="assertive">
+              {errors?.firstName[0]}
+            </span>
+          )}
+        </label>
         <FirstNameInput
           data={formStatus.data?.firstName || ""}
-          error={errors?.firstName ? errors?.firstName[0] : ""}
+          error={errors?.firstName ? true : false}
           autofocus={true}
         />
+        <label htmlFor="lastName">
+          <Trans>Enter last name </Trans>
+          {errors?.lastName && (
+            <span className="error" id="lastNameErr" aria-live="assertive">
+              {errors?.lastName[0]}
+            </span>
+          )}
+        </label>
         <LastNameInput
           data={formStatus.data?.lastName || ""}
-          error={errors?.lastName ? errors?.lastName[0] : ""}
+          error={errors?.lastName ? true : false}
         />
+        <label htmlFor="email">
+          <Trans>Enter email address</Trans>
+          {errors?.email && (
+            <span className="error" id="emailErr" aria-live="assertive">
+              {errors?.email[0]}
+            </span>
+          )}
+        </label>
         <EmailInput
           data={formStatus.data?.email || ""}
-          error={errors?.email ? errors.email[0] : ""}
+          error={errors?.email ? true : false}
         />
+        <label htmlFor="password">
+          <Trans>Enter password</Trans>
+          {errors?.password && (
+            <span className="error" id="passwordErr" aria-live="assertive">
+              {errors?.password[0]}
+            </span>
+          )}
+        </label>
         <PasswordInput
           fieldName="password"
-          error={errors?.password ? errors.password[0] : ""}
+          error={errors?.password ? true : false}
           data={formStatus.data?.password || ""}
         />
+        <label htmlFor="confirmPassword">
+          <Trans>Enter password to confirm</Trans>
+          {errors?.confirmPassword && (
+            <span
+              className="error"
+              id="confirmPasswordErr"
+              aria-live="assertive"
+            >
+              {errors?.confirmPassword[0]}
+            </span>
+          )}
+        </label>
         <PasswordInput
           fieldName="confirmPassword"
-          error={errors?.confirmPassword ? errors.confirmPassword[0] : ""}
+          error={errors?.confirmPassword ? true : false}
           data={formStatus.data?.confirmPassword || ""}
         />
         <button type="submit" disabled={errors !== undefined}>

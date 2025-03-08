@@ -1,11 +1,12 @@
+import { Trans } from "@lingui/react/macro";
 function LoginBottomLinks() {
   return (
     <div className="login-bottom-link">
       <a className="card-link" href="/forgotpassword">
-        Forgot password
+        <Trans>Forgot password</Trans>
       </a>
       <a className="card-link" href="/signup">
-        Signup
+        <Trans>Signup</Trans>
       </a>
     </div>
   );

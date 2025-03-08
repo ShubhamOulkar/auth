@@ -1,5 +1,5 @@
-import { memo, useState } from "react";
-import { Label, TogglePasswordBtn } from "../ComponentExpoter";
+import React,{ memo, useState } from "react";
+import TogglePasswordBtn from "../ShowPassword";
 
 export const PasswordInput = memo(function PasswordInput({
   fieldName,
@@ -9,25 +9,18 @@ export const PasswordInput = memo(function PasswordInput({
 }: {
   fieldName: string;
   data: string;
-  error: string;
+  error: boolean;
   disabled?: boolean;
 }) {
   const [showPassword, setShowPassword] = useState(false);
 
   return (
     <>
-      <Label
-        label={`Enter ${
-          fieldName === "confirmPassword" ? "Confirm password" : fieldName
-        }`}
-        labelFor={fieldName}
-        error={error}
-      />
       <div className="password-container">
         <input
           id={fieldName}
           type={showPassword ? "text" : "password"}
-          className={error && "invalid"}
+          className={error ? "invalid" : ""}
           autoComplete={
             fieldName === "password"
               ? "current-password webauthn"

@@ -8,18 +8,16 @@ const FirstNameInput = memo(
     autofocus,
   }: {
     data: string;
-    error: string;
+    error: boolean;
     autofocus?: boolean;
   }) => {
     return (
       <>
-        <Label label="User first name" labelFor="firstName" error={error} />
-
         <input
           name="firstName"
           id="firstName"
           type="text"
-          className={error && "invalid"}
+          className={error ? "invalid" : ""}
           autoFocus={autofocus}
           aria-describedby="firstNameErr"
           defaultValue={data}

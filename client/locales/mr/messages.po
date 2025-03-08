@@ -18,19 +18,48 @@ msgstr ""
 "X-Crowdin-File: /main/client/locales/en/messages.po\n"
 "X-Crowdin-File-ID: 13\n"
 
-#: client/client_store/components/MotherBtn.tsx:33
-msgid "{btnName}"
-msgstr "{btnName}"
-
-#: client/client_store/components/LocalSwitcher.tsx:23
-msgid "{key}"
+#: client/client_store/components/LangSelector.tsx:18
+msgid " English"
 msgstr ""
 
-#: client/client_store/components/FieldLabel.tsx:19
-msgid "{label}"
-msgstr "{label}"
+#: client/client_store/components/LangSelector.tsx:22
+msgid " French"
+msgstr ""
 
-#: client/client_store/pages/SignupPage.tsx:85
+#: client/client_store/components/LangSelector.tsx:26
+msgid " Hindi"
+msgstr ""
+
+#: client/client_store/components/LangSelector.tsx:30
+msgid " Japanese"
+msgstr ""
+
+#: client/client_store/components/LangSelector.tsx:34
+msgid " Korean"
+msgstr ""
+
+#: client/client_store/components/LangSelector.tsx:38
+msgid " Marathi"
+msgstr ""
+
+#: client/client_store/components/MotherBtn.tsx:33
+msgid "{btnName}"
+msgstr ""
+
+#. placeholder {0}: formStatus.data?.email
+#: client/client_store/components/VerifyEmailForm.tsx:80
+msgid "`A verification code has been send to ${0}.`"
+msgstr ""
+
+#: client/client_store/pages/VerifyEmail.tsx:25
+msgid "Cancel Email Verification"
+msgstr ""
+
+#: client/client_store/pages/SetNewPassword.tsx:23
+msgid "Cancle Password reset"
+msgstr ""
+
+#: client/client_store/pages/SignupPage.tsx:129
 msgid "Create account"
 msgstr "खाते निर्माण करा"
 
@@ -38,31 +67,93 @@ msgstr "खाते निर्माण करा"
 msgid "Developer Shubham Oulkar"
 msgstr "विकासक शुभम औळकर"
 
-#: client/client_store/components/NavigationBar.tsx:48
+#: client/client_store/pages/SignupPage.tsx:87
+#: client/client_store/pages/LoginPage.tsx:95
+msgid "Enter email address"
+msgstr ""
+
+#: client/client_store/components/VerifyEmailForm.tsx:54
+msgid "Enter email address "
+msgstr ""
+
+#: client/client_store/pages/SignupPage.tsx:62
+msgid "Enter first name"
+msgstr ""
+
+#: client/client_store/pages/SignupPage.tsx:75
+msgid "Enter last name "
+msgstr ""
+
+#: client/client_store/pages/SignupPage.tsx:99
+#: client/client_store/pages/LoginPage.tsx:110
+msgid "Enter password"
+msgstr ""
+
+#: client/client_store/components/NewPasswordForm.tsx:43
+msgid "Enter password "
+msgstr ""
+
+#: client/client_store/pages/SignupPage.tsx:112
+#: client/client_store/components/NewPasswordForm.tsx:56
+msgid "Enter password to confirm"
+msgstr ""
+
+#. placeholder {0}: sending && <Trans>sending...</Trans>
+#: client/client_store/components/OTPComponent.tsx:117
+msgid "Enter the code to verify and continue to profile.{0}"
+msgstr ""
+
+#: client/client_store/components/LoginBottomLinks.tsx:6
+msgid "Forgot password"
+msgstr ""
+
+#: client/client_store/components/NavigationBar.tsx:56
 msgid "Home"
 msgstr "मुख्य पृष्ठ"
 
 #: client/client_store/pages/ProjectInfoPage.tsx:9
 msgid "Identity and access management system"
-msgstr "ओळख आणि प्रवेश व्यवस्थापन प्रणाली"
+msgstr ""
 
-#: client/client_store/components/LocalSwitcher.tsx:18
-msgid "Language"
-msgstr "भाषा"
-
-#: client/client_store/pages/LoginPage.tsx:104
-#: client/client_store/components/NavigationBar.tsx:69
+#: client/client_store/pages/LoginPage.tsx:127
+#: client/client_store/components/NavigationBar.tsx:77
 msgid "Login"
 msgstr "लॉगिन करा"
 
-#: client/client_store/components/NavigationBar.tsx:80
+#: client/client_store/components/VerifyEmailForm.tsx:74
+msgid "Send verification code"
+msgstr ""
+
+#: client/client_store/components/VerifyEmailForm.tsx:72
+msgid "Sending code..."
+msgstr ""
+
+#: client/client_store/components/OTPComponent.tsx:119
+msgid "sending..."
+msgstr ""
+
+#: client/client_store/pages/SetNewPassword.tsx:19
+#: client/client_store/components/NewPasswordForm.tsx:73
+msgid "Set new password"
+msgstr ""
+
+#: client/client_store/components/NavigationBar.tsx:88
+#: client/client_store/components/LoginBottomLinks.tsx:9
 msgid "Signup"
 msgstr "साइनअप करा"
 
-#: client/client_store/pages/LoginPage.tsx:78
+#: client/client_store/pages/LoginPage.tsx:84
 msgid "User Login"
 msgstr "वापरकर्ता लॉगिन"
 
 #: client/client_store/pages/SignupPage.tsx:58
 msgid "User Signup"
 msgstr "वापरकर्ता साइनअप"
+
+#: client/client_store/components/VerifyEmailForm.tsx:84
+msgid "Verification code is not send. Click on send verification code."
+msgstr ""
+
+#: client/client_store/pages/VerifyEmail.tsx:20
+msgid "Verify email"
+msgstr ""
