@@ -34,6 +34,13 @@
   font-weight: 100 900;
   font-display: swap;
 }
+/* @font-face {
+  font-family: "emoji";
+  src: url("../assets/fonts/NotoColorEmoji-Regular.woff2");
+  font-display: swap;
+  font-weight: 400;
+  font-style: normal;
+} */
 html {
   font-family: "Inconsolata", sans-serif;
 }
@@ -126,10 +133,14 @@ div.lang-switcher-container {
 }
 /* lang picker using select element */
 div.lang-container {
-  position: relative;
-  width: calc(var(--nav-btn-width) + 10px);
-  height: var(--nav-bar-height);
+  /* position: relative; */
+  display: grid;
+  grid-template-areas: "select";
+  align-items: center;
   margin-left: auto;
+}
+select::-ms-expand {
+  display: none;
 }
 select.lang-selector {
   -webkit-appearance: none;
@@ -140,7 +151,7 @@ select.lang-selector {
   background-image: none;
   width: calc(var(--nav-btn-width) + 10px);
   height: var(--nav-bar-height);
-  font-family: inherit;
+  font-family: "Noto Color Emoji", sans-serif;
   font-size: 1.3rem;
   background-color: var(--top-nav-background-color);
   color: whitesmoke;
@@ -161,11 +172,17 @@ div.lang-container::after {
   height: 0.5em;
   background-color: whitesmoke;
   clip-path: polygon(100% 0%, 0 0%, 50% 100%);
-  position: absolute;
+  /* position: absolute;
   top: 1.5rem;
-  right: 0.5rem;
+  right: 0.5rem; */
   cursor: pointer;
   pointer-events: none;
+  margin-right: 0.5rem;
+}
+select,
+div.lang-container:after {
+  grid-area: select;
+  justify-self: end;
 }
 select.lang-selector:open {
   > option {
@@ -177,6 +194,7 @@ select.lang-selector:open {
 div.lang-container:has(select:open)::after {
   rotate: 180deg;
 }
+/* ------- */
 h1 {
   text-align: center;
   margin-block-start: 0;
@@ -441,6 +459,10 @@ these classes are used by javascript code
 }
 .overlay {
   display: none;
+}
+svg.flag {
+  width: 1.5rem;
+  height: 0.6rem;
 }
 @media screen and (max-width: 600px) {
   .show-btn {

@@ -20,7 +20,7 @@ function SetNewPassword() {
           </h1>
           <NewPasswordForm />
           <a className="card-link" href="/login">
-            <Trans>Cancle Password reset</Trans>
+            <Trans>Cancel Password reset</Trans>
           </a>
         </div>
       </I18nProvider>
