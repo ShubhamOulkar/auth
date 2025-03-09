@@ -118,7 +118,7 @@ msgstr "ओळख आणि प्रवेश व्यवस्थापन �
 #: client/client_store/pages/LoginPage.tsx:127
 #: client/client_store/components/NavigationBar.tsx:77
 msgid "Login"
-msgstr "लॉगिन करा"
+msgstr "लॉगिन"
 
 #: client/client_store/components/VerifyEmailForm.tsx:74
 msgid "Send verification code"
