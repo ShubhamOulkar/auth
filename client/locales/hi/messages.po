@@ -31,8 +31,8 @@ msgid " Hindi"
 msgstr " हिंदी"
 
 #: client/client_store/components/LangSelector.tsx:30
-msgid " Japanese"
-msgstr " जापानी"
+msgid "Japanese"
+msgstr "जापानी"
 
 #: client/client_store/components/LangSelector.tsx:34
 msgid " Korean"
@@ -56,7 +56,7 @@ msgid "Cancel Email Verification"
 msgstr "ईमेल सत्यापन रद्द करें"
 
 #: client/client_store/pages/SetNewPassword.tsx:23
-msgid "Cancle Password reset"
+msgid "Cancel Password reset"
 msgstr "पासवर्ड रीसेट रद्द करें"
 
 #: client/client_store/pages/SignupPage.tsx:129
@@ -118,7 +118,7 @@ msgstr "पहचान और पहुंच प्रबंधन प्र�
 #: client/client_store/pages/LoginPage.tsx:127
 #: client/client_store/components/NavigationBar.tsx:77
 msgid "Login"
-msgstr "लॉग इन करें"
+msgstr "लॉगइन"
 
 #: client/client_store/components/VerifyEmailForm.tsx:74
 msgid "Send verification code"
@@ -140,7 +140,7 @@ msgstr "नया पासवर्ड सेट करें"
 #: client/client_store/components/NavigationBar.tsx:88
 #: client/client_store/components/LoginBottomLinks.tsx:9
 msgid "Signup"
-msgstr "साइन अप करें"
+msgstr "साइनअप"
 
 #: client/client_store/pages/LoginPage.tsx:84
 msgid "User Login"

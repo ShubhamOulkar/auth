@@ -31,8 +31,8 @@ msgid " Hindi"
 msgstr " ヒンディー語"
 
 #: client/client_store/components/LangSelector.tsx:30
-msgid " Japanese"
-msgstr " 日本語"
+msgid "Japanese"
+msgstr "日本語"
 
 #: client/client_store/components/LangSelector.tsx:34
 msgid " Korean"
@@ -56,7 +56,7 @@ msgid "Cancel Email Verification"
 msgstr "メール確認をキャンセル"
 
 #: client/client_store/pages/SetNewPassword.tsx:23
-msgid "Cancle Password reset"
+msgid "Cancel Password reset"
 msgstr "パスワードのリセットをキャンセルする"
 
 #: client/client_store/pages/SignupPage.tsx:129
