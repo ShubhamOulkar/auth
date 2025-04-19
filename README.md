@@ -30,6 +30,7 @@ Auth is a robust user authentication and authorization server built with Express
 - Express.js: Node.js web framework
 - React: JavaScript library for building user interfaces
 - Server-side rendering (SSR): Rendering React components on the server
+- MongoDB non-relational database
 - pnpm: Package manager for efficient package installation
 
 ## Installation
@@ -39,8 +40,7 @@ To install the project dependencies, run the following command:
 ```bash
 pnpm install
 ```
-
-## Usage
+> setup `environment variables` from [variables file](/env_setup.md).
 
 ### Developemnt
 
