@@ -1,4 +1,4 @@
-# <h1><img src="./client/assets/favicon.svg" width="25" height="25"/> Auth</h1>
+# <p><img src="./client/assets/favicon.svg" width="25" height="25"/> Auth</p>
 
 User authentication and authorization server
 
