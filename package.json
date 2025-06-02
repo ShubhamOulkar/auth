@@ -33,7 +33,7 @@
     "@lingui/babel-plugin-lingui-macro": "^5.3.1",
     "@lingui/core": "^5.3.1",
     "@lingui/react": "^5.3.1",
-    "bcrypt": "^5.1.1",
+    "bcrypt": "^6.0.0",
     "compression": "^1.8.0",
     "cors": "^2.8.5",
     "country-flag-icons": "^1.5.18",
