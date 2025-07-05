@@ -82,4 +82,6 @@ pnpm clean
 
 ## Live Demo
 
-[Auth-ssr live demo](https://auth-new.vercel.app/)
+[Auth-ssr live demo]
+
+[Auth-ssr live demo] : https://auth-new.vercel.app/
