@@ -1,0 +1,105 @@
+name: Lighthouse 
+
+on:
+  pull_request_target:
+    branches:
+      - main
+    types:
+      - labeled
+
+defaults:
+  run:
+    working-directory: ./
+
+permissions:
+  contents: read
+  actions: read
+  pull-requests: write
+
+jobs:
+  get-vercel-preview:
+    if: |
+      startsWith(github.event.pull_request.head.ref, 'dependabot/') == false &&
+      github.event.label.name == 'github_actions:pull-request'
+    name: Get Vercel Preview
+    runs-on: ubuntu-latest
+    outputs:
+      deployment_found: ${{ steps.set_outputs.outputs.deployment_found }}
+      url: ${{ steps.set_outputs.outputs.url }}
+    steps:
+      - name: Capture Vercel Preview
+        id: check_deployment
+        uses: patrickedqvist/wait-for-vercel-preview@06c79330064b0e6ef7a2574603b62d3c98789125 # v1.3.2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          max_timeout: 300
+          check_interval: 10
+        continue-on-error: true
+
+      - name: Set Outputs
+        if: always()
+        id: set_outputs
+        run: |
+          if [[ -z "${{ steps.check_deployment.outputs.url }}" ]]; then
+            echo "deployment_found=false" >> $GITHUB_OUTPUT
+          else
+            echo "deployment_found=true" >> $GITHUB_OUTPUT
+            echo "url=${{ steps.check_deployment.outputs.url }}" >> $GITHUB_OUTPUT
+          fi
+
+  lighthouse-ci:
+    needs: get-vercel-preview
+    if: needs.get-vercel-preview.outputs.deployment_found == 'true'
+    name: Lighthouse Report
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@6c439dc8bdf85cadbbce9ed30d1c7b959517bc49 # v2.12.2
+        with:
+          egress-policy: audit
+
+      - name: Git Checkout
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          ref: ${{ github.event_name == 'pull_request_target' && github.event.pull_request.head.sha || github.ref }}
+          fetch-depth: 1
+
+      - name: Add Comment to PR
+        uses: thollander/actions-comment-pull-request@e2c37e53a7d2227b61585343765f73a9ca57eda9 # v3.0.0
+        with:
+          message: |
+            Running Lighthouse audit...
+          comment-tag: 'lighthouse_audit'
+
+      - name: Audit Preview URL with Lighthouse
+        id: lighthouse_audit
+        uses: treosh/lighthouse-ci-action@fcd65974f7c4c2bf0ee9d09b84d2489183c29726 # v12.6.1
+        with:
+          configPath: './.lighthouserc.json'
+          urls: |
+            ${{ needs.get-vercel-preview.outputs.url }}/
+            ${{ needs.get-vercel-preview.outputs.url }}/login
+            ${{ needs.get-vercel-preview.outputs.url }}/signup
+            ${{ needs.get-vercel-preview.outputs.url }}/forgotpassword
+          uploadArtifacts: true
+          temporaryPublicStorage: true
+
+      - name: Format Lighthouse Score
+        id: format_lighthouse_score
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v7.0.1
+        env:
+          LIGHTHOUSE_RESULT: ${{ steps.lighthouse_audit.outputs.manifest }}
+          LIGHTHOUSE_LINKS: ${{ steps.lighthouse_audit.outputs.links }}
+          VERCEL_PREVIEW_URL: ${{ needs.get-vercel-preview.outputs.url }}
+        with:
+          script: |
+            const { formatLighthouseResults } = await import('${{ github.workspace }}/apps/site/scripts/lighthouse/index.mjs');
+            await formatLighthouseResults({ core });
+
+      - name: Add Comment to PR
+        uses: thollander/actions-comment-pull-request@e2c37e53a7d2227b61585343765f73a9ca57eda9 # v3.0.0
+        with:
+          comment-tag: 'lighthouse_audit'
+          message: |
+            ${{ steps.format_lighthouse_score.outputs.comment }}
