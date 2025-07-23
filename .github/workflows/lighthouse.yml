@@ -20,17 +20,17 @@ jobs:
           ref: ${{ github.event.pull_request.head.ref }}
           repository: ${{ github.event.pull_request.head.repo.full_name }}
 
-      - name: ⏳ Wait for Netlify preview to be live
+      - name: ⏳ Wait for Vercel preview to be live
         run: |
           PREVIEW_URL="https://auth-new.vercel.app"
           echo "PREVIEW_URL=$PREVIEW_URL" >> "$GITHUB_ENV"
-          for i in {1..3}; do
+          for i in {1..2}; do
             if curl -s --head "$PREVIEW_URL" | grep "200 OK" > /dev/null; then
               echo "Preview is live!"
               break
             fi
-            echo "Waiting for Netlify to deploy... ($i/3)"
-            sleep 10
+            echo "Waiting for Netlify to deploy... ($i/2)"
+            sleep 5
           done
       - name: ⚙️ Install Lighthouse
         run: npm install -g lighthouse
