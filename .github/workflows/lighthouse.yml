@@ -39,10 +39,22 @@ jobs:
         run: |
           for device in mobile desktop; do
             echo "Running audit for: $device"
-            unlighthouse-ci --site "$PREVIEW_URL" --$device --urls /,/login,/signup --disable-dynamic-sampling --disable-sitemap --disable-robots-txt
+            
+            if [ "$device" = "mobile" ]; then
+              DEVICE_FLAG="--mobile"
+            else
+              DEVICE_FLAG="--desktop"
+            fi
+      
+            unlighthouse-ci --site "$PREVIEW_URL" $DEVICE_FLAG \
+              --urls /,/login,/signup \
+              --disable-dynamic-sampling \
+              --disable-sitemap \
+              --disable-robots-txt
+      
             mv ./.unlighthouse/ci-result.json "./.unlighthouse/ci-${device}.json"
           done
-          
+
       - name: 📄 Log formatted comment
         run: | 
           cat ./.unlighthouse/ci-mobile.json
