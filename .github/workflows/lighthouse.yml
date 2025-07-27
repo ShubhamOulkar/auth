@@ -32,70 +32,45 @@ jobs:
             echo "Waiting for Netlify to deploy... ($i/2)"
             sleep 5
           done
-      - name: ⚙️ Install Lighthouse
-        run: npm install -g lighthouse
+      - name: ⚙️ Install unlighthouse
+        run: npm install -g @unlighthouse/cli puppeteer
 
       - name: 📊 Run Lighthouse audits
-        run: |
-          mkdir -p lighthouse-report
-          URLS=(
-            "$PREVIEW_URL"
-            "$PREVIEW_URL/login"
-            "$PREVIEW_URL/signup"
-          )
-          echo "[" > lighthouse-report/manifest.json
-          for url in "${URLS[@]}"; do
-            name=$(echo "$url" | sed 's|https://||;s|[/.]|_|g')
-            path="./lighthouse-report/$name.report.json"
-            lighthouse "$url" \
-              --output json \
-              --output-path="$path" \
-              --chrome-flags="--headless"
-            jq -n --arg url "$url" \
-              --argjson summary "$(jq '.categories | {
-                performance: .performance.score,
-                accessibility: .accessibility.score,
-                "best-practices": .["best-practices"].score,
-                seo: .seo.score
-              }' "$path")" \
-              '{url: $url, summary: $summary}' >> lighthouse-report/manifest.json
-            echo "," >> lighthouse-report/manifest.json
-          done
-          sed -i '$ s/,$//' lighthouse-report/manifest.json
-          echo "]" >> lighthouse-report/manifest.json
-          # create dummy links file
-          jq -n '{ 
-            '"$(for url in "${URLS[@]}"; do echo "\"$url\": \"$url\","; done | sed '$ s/,$//')"'
-          }' > lighthouse-report/links.json
-      - name: 📝 Format comment
+        run: unlighthouse-ci --site "$PREVIEW_URL" --urls  /,/login,/signup --disable-dynamic-sampling --disable-sitemap --disable-robots-txt
+
+      - name: 🧾 Format Lighthouse results
         id: format
-        uses: actions/github-script@v7
-        with:
-          script: |
-            const fs = require('fs');
-            const stoplight = res => (res >= 90 ? '🟢' : res >= 75 ? '🟠' : '🔴');
-            const normalizeScore = res => Math.round(res * 100);
-            const formatScore = res => {
-              const s = normalizeScore(res);
-              return `${stoplight(s)} ${s}`;
-            };
-            const results = JSON.parse(fs.readFileSync('./lighthouse-report/manifest.json', 'utf8'));
-            const links = JSON.parse(fs.readFileSync('./lighthouse-report/links.json', 'utf8'));
-            const header = [
-              '## 🚦 Lighthouse Results',
-              '| URL | Perf | A11y | Best Practices | SEO | Report |',
-              '| --- | ---- | ---- | -------------- | --- | ------ |',
-            ];
-            const rows = results.map(({ url, summary }) => {
-              const short = `[${new URL(url).pathname}](${url})`;
-              const perf = formatScore(summary.performance);
-              const a11y = formatScore(summary.accessibility);
-              const bp = formatScore(summary['best-practices']);
-              const seo = formatScore(summary.seo);
-              return `${short} | ${perf} | ${a11y} | ${bp} | ${seo} | [🔗](${links[url]})`;
-            });
-            const comment = [...header, ...rows].join('\n');
-            core.setOutput('comment', comment);
+        run: |
+          echo '📊 **Lighthouse Audit Results**' > comment.md
+          echo '' >> comment.md
+          echo '| Page | Performance | Accessibility | Best Practices | SEO |' >> comment.md
+          echo '|------|-------------|---------------|----------------|-----|' >> comment.md
+
+          jq -c '.[]' ./.unlighthouse/ci-result.json | while read -r row; do
+            path=$(echo "$row" | jq -r '.path')
+
+            for field in performance accessibility "best-practices" seo; do
+              score=$(echo "$row" | jq -r ".\"$field\" * 100")
+              if (( $(echo "$score >= 90" | bc -l) )); then
+                emoji="🟢"
+              elif (( $(echo "$score >= 70" | bc -l) )); then
+                emoji="🟠"
+              else
+                emoji="🔴"
+              fi
+              declare "$field"="$emoji $score%"
+            done
+
+            echo "| \`$path\` | $performance | $accessibility | ${best-practices} | $seo |" >> comment.md
+          done
+
+          echo "comment<<EOF" >> $GITHUB_OUTPUT
+          cat comment.md >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      - name: 📄 Log formatted comment
+        run: cat comment.md
+
       - name: 💬 Comment on PR
         uses: actions/github-script@v7
         with:
@@ -104,5 +79,7 @@ jobs:
               issue_number: context.payload.pull_request.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: `${{ steps.format.outputs.comment }}`
-            });
+              body: process.env.comment
+            })
+        env:
+          comment: ${{ steps.format.outputs.comment }}
