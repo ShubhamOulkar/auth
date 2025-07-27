@@ -46,11 +46,7 @@ jobs:
               DEVICE_FLAG="--desktop"
             fi
       
-            unlighthouse-ci --site "$PREVIEW_URL" $DEVICE_FLAG \
-              --urls /,/login,/signup \
-              --disable-dynamic-sampling \
-              --disable-sitemap \
-              --disable-robots-txt
+            unlighthouse-ci --site "$PREVIEW_URL" "$DEVICE_FLAG" --urls /,/login,/signup --disable-dynamic-sampling --disable-sitemap --disable-robots-txt
       
             mv ./.unlighthouse/ci-result.json "./.unlighthouse/ci-${device}.json"
           done
