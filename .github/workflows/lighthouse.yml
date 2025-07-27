@@ -38,48 +38,55 @@ jobs:
       - name: 📊 Run Lighthouse audits
         run: unlighthouse-ci --site "$PREVIEW_URL" --urls  /,/login,/signup --disable-dynamic-sampling --disable-sitemap --disable-robots-txt
 
-      - name: 🧾 Format Lighthouse results
-        id: format
-        run: |
-          echo '📊 **Lighthouse Audit Results**' > comment.md
-          echo '' >> comment.md
-          echo '| Page | Performance | Accessibility | Best Practices | SEO |' >> comment.md
-          echo '|------|-------------|---------------|----------------|-----|' >> comment.md
-
-          jq -c '.[]' ./.unlighthouse/ci-result.json | while read -r row; do
-            path=$(echo "$row" | jq -r '.path')
-
-            for field in performance accessibility "best-practices" seo; do
-              score=$(echo "$row" | jq -r ".\"$field\" * 100")
-              if (( $(echo "$score >= 90" | bc -l) )); then
-                emoji="🟢"
-              elif (( $(echo "$score >= 70" | bc -l) )); then
-                emoji="🟠"
-              else
-                emoji="🔴"
-              fi
-              declare "$field"="$emoji $score%"
-            done
-
-            echo "| \`$path\` | $performance | $accessibility | ${best-practices} | $seo |" >> comment.md
-          done
-
-          echo "comment<<EOF" >> $GITHUB_OUTPUT
-          cat comment.md >> $GITHUB_OUTPUT
-          echo "EOF" >> $GITHUB_OUTPUT
-
       - name: 📄 Log formatted comment
-        run: cat comment.md
+        run: cat ./.unlighthouse/ci-result.json
+
+      - name: Upload Lighthouse reports as artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: lighthouse-reports
+          path: ./.unlighthouse/ci-result.json
 
       - name: 💬 Comment on PR
         uses: actions/github-script@v7
         with:
           script: |
+            const fs = require('fs');
+      
+            // Emoji based on score thresholds
+            const stoplight = res => (res >= 90 ? '🟢' : res >= 75 ? '🟠' : '🔴');
+            const normalizeScore = res => Math.round(res * 100);
+            const formatScore = res => {
+              const s = normalizeScore(res);
+              return `${stoplight(s)} ${s}%`;
+            };
+      
+            // Read Unlighthouse JSON
+            const results = JSON.parse(fs.readFileSync('./.unlighthouse/ci-result.json', 'utf8'));
+      
+            const header = [
+              '## 📊 Lighthouse Audit Results',
+              '',
+              '| Page | Performance | Accessibility | Best Practices | SEO |',
+              '|------|-------------|---------------|----------------|-----|',
+            ];
+      
+            const rows = results.map(result => {
+              const path = `\`${result.path}\``;
+              const perf = formatScore(result.performance);
+              const a11y = formatScore(result.accessibility);
+              const bp = formatScore(result['best-practices']);
+              const seo = formatScore(result.seo);
+      
+              return `| ${path} | ${perf} | ${a11y} | ${bp} | ${seo} |`;
+            });
+      
+            const comment = [...header, ...rows].join('\n');
+      
+            // Post comment to PR
             github.rest.issues.createComment({
               issue_number: context.payload.pull_request.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: process.env.comment
-            })
-        env:
-          comment: ${{ steps.format.outputs.comment }}
+              body: comment
+            });
