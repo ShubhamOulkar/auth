@@ -51,16 +51,16 @@ jobs:
           
       - name: 📄 Log formatted comment
         run: | 
-          cat ./.unlighthouse/ci-result-mobile.json
-          cat ./.unlighthouse/ci-result-desktop.json
+          cat ./.unlighthouse/ci-mobile.json
+          cat ./.unlighthouse/ci-desktop.json
 
       - name: Upload Lighthouse reports as artifacts
         uses: actions/upload-artifact@v4
         with:
           name: lighthouse-reports
           path: |
-            ./.unlighthouse/ci-result-mobile.json
-            ./.unlighthouse/ci-result-desktop.json
+            ./.unlighthouse/ci-mobile.json
+            ./.unlighthouse/ci-desktop.json
 
       - name: 💬 Comment on PR
         uses: actions/github-script@v7
