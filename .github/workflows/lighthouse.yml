@@ -46,7 +46,7 @@ jobs:
               --disable-sitemap \
               --disable-robots-txt
       
-            mv .unlighthouse/ci-result.json ".unlighthouse/ci-${device}.json"
+            mv ./.unlighthouse/ci-result.json "./.unlighthouse/ci-${device}.json"
           done
           
       - name: 📄 Log formatted comment
